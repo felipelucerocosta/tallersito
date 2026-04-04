@@ -593,7 +593,7 @@
       font-size: 11px;
     }
     /* --- PROMOTION OVERLAY --- */
-    #promotion-overlay {
+    #promotion-overlay, #victory-overlay {
       background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, rgba(0, 0, 0, 0.95) 100%);
       flex-direction: column;
       text-align: center;
@@ -963,6 +963,38 @@
         </div>
       </div>
     </details>
+
+    <!-- Group 7: TypeScript Avanzado -->
+    <details>
+      <summary><i data-lucide="cpu"></i> [TYPESCRIPT_AVANZADO]</summary>
+      <div class="folder-content">
+        <div class="manual-sec">
+          <h3>MOD 25: AS CONST (Petrificación)</h3>
+          <p>Congela un objeto por completo para que nunca pueda cambiar.</p>
+          <code>const SPECS = { min: 0 } as const;</code>
+        </div>
+        <div class="manual-sec">
+          <h3>MOD 26: KEYOF (Llaves Maestras)</h3>
+          <p>Extrae todos los nombres de las propiedades de un tipo.</p>
+          <code>type K = keyof Station; // 'name' | 'capacity'</code>
+        </div>
+        <div class="manual-sec">
+          <h3>MOD 27: PARTIAL & PICK</h3>
+          <p>Herramientas para adaptar tipos. Partial hace todo opcional, Pick extrae solo lo necesario.</p>
+          <code>type M = Pick&lt;Map, 'lat'&gt;;<br>type P = Partial&lt;Hull&gt;;</code>
+        </div>
+        <div class="manual-sec">
+          <h3>MOD 28: ENUM (Estados Fijos)</h3>
+          <p>Crea una lista estricta de opciones (ej. Niveles de Alerta).</p>
+          <code>enum Warning { LOW, CRITICAL }</code>
+        </div>
+        <div class="manual-sec">
+          <h3>MOD 29: OMIT & RECORD</h3>
+          <p>Omit borra propiedades de un tipo. Record crea diccionarios rápidos.</p>
+          <code>type SafeUser = Omit&lt;User, 'pass'&gt;;<br>let dict: Record&lt;string, number&gt;;</code>
+        </div>
+      </div>
+    </details>
   </div>
 
   <!-- Mission Hub -->
@@ -990,6 +1022,19 @@
         ¡EXCELENTE TRABAJO, SOLDADO! Has demostrado una competencia técnica excepcional. El mando central de la Estación Hércules te otorga oficialmente este nuevo rango.
       </p>
       <button class="promotion-btn" onclick="closePromotion()">CONTINUAR OPERACIÓN</button>
+    </div>
+  </div>
+
+  <!-- Victory Overlay (Jubilación) -->
+  <div id="victory-overlay" class="overlay hidden">
+    <div class="promotion-card">
+      <div style="position:absolute; top: -2px; left: 0; width: 100%; height: 2px; background: var(--success); box-shadow: 0 0 20px var(--success);"></div>
+      <img src="sarge.png" class="promotion-sarge" style="border-color: var(--success); box-shadow: 0 0 30px var(--success);">
+      <h2 class="promotion-title" style="color: var(--success);">¡JUBILACIÓN CONCEDIDA!</h2>
+      <p style="color:var(--text); font-size:16px; margin-bottom:40px; line-height:1.6; max-width:600px;">
+        ¡BIEN HECHO SOLDADO! Has completado el 100% de los protocolos estelares. Ya te podes jubilar en paz. Chau, considerate un héroe nacional. ¡Misión Hércules Superada!
+      </p>
+      <button class="promotion-btn" style="background-color: var(--success); color: black;" onclick="returnToStart()">FINALIZAR JUEGO</button>
     </div>
   </div>
 

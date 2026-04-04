@@ -551,7 +551,11 @@ const missions = [
       "Usa ': number' para val."
     ],
     "solution": "let id: string = 'SEC-01';\nlet val: number = 100;",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes(': string') && code.includes(': number'); }
+    "validate": () => { 
+      const code = STATE.editor.getValue(); 
+      // Validamos que existan los tipos en el código fuente
+      return code.includes('id: string') && code.includes('val: number'); 
+    }
   },
   {
     "id": 37,
@@ -566,7 +570,10 @@ const missions = [
       "Las interfaces no se terminan con igual (=)."
     ],
     "solution": "interface Station {\n  name: string;\n  capacity: number;\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('interface') && code.includes('name: string'); }
+    "validate": () => { 
+      const code = STATE.editor.getValue().replace(/\s+/g, ''); 
+      return code.includes('interface') && code.includes('name:string'); 
+    }
   },
   {
     "id": 38,
@@ -716,7 +723,10 @@ const missions = [
       "Esto asegura que el objeto tenga al menos esa propiedad id."
     ],
     "solution": "function sync<T extends {id: number}>(obj: T) {\n  return obj.id;\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('extends') && code.includes('id: number'); }
+    "validate": () => { 
+      const code = STATE.editor.getValue().replace(/\s+/g, ''); 
+      return code.includes('extends') && code.includes('id:number'); 
+    }
   },
   {
     "id": 48,
@@ -776,7 +786,10 @@ const missions = [
       "Ideal para parches y actualizaciones parciales de estado."
     ],
     "solution": "function updateHull(p: Partial<Hull>) {\n  // Actualización parcial...\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('Partial<'); }
+    "validate": () => { 
+      const code = STATE.editor.getValue().replace(/\s+/g, ''); 
+      return code.includes('Partial<'); 
+    }
   },
   {
     "id": 52,
@@ -1184,16 +1197,30 @@ const missions = [
         let executableCode = code;
 
         // TRANSPILACIÓN SUCRASE SI ES TYPESCRIPT
-        if (m.type === 'TS' && typeof sucrase !== 'undefined') {
-          try {
-            executableCode = sucrase.transform(code, { transforms: ["typescript"] }).code;
-          } catch (te) {
-            console.error("Transpilation Error:", te);
+        if (m.type === 'TS') {
+          const transpiler = (typeof sucrase !== 'undefined') ? sucrase : (typeof Sucrase !== 'undefined' ? Sucrase : null);
+          
+          if (transpiler) {
+            try {
+              executableCode = transpiler.transform(code, { transforms: ["typescript"] }).code;
+            } catch (te) {
+              log(`<span style="color:var(--error)">¡ERROR DE TRANSPILACIÓN! El kernel no puede procesar el código TS.</span>`);
+              console.error("Transpilation Error:", te);
+            }
+          } else {
+            // FALLBACK DE EMERGENCIA: Intenta remover tipos básicos si el transpiler falla
+            log(`<span style="color:#eab308">>>> [AVISO] Transpilador externo no detectado. Usando motor de respaldo StarkEngage v1.0...</span>`);
+            executableCode = code.replace(/:\s*(string|number|boolean|any|void|unknown|never|Object|Array<.*>|\[.*\])\b/g, '');
           }
         }
 
-        const fn = new Function('console', 'activarAlerta', 'CODE', executableCode);
-        fn({ log: (msg) => log(`<span style="color:#a7f3d0">OUT: ${msg}</span>`) }, activarAlerta, code);
+        try {
+          const fn = new Function('console', 'activarAlerta', 'CODE', executableCode);
+          fn({ log: (msg) => log(`<span style="color:#a7f3d0">OUT: ${msg}</span>`) }, activarAlerta, code);
+        } catch (execErr) {
+          if (m.type !== 'TS') throw execErr;
+          log(`<span style="color:#eab308">>>> [AVISO] Sintaxis de TypeScript estricta detectada. Omitiendo ejecución, procediendo a validación estática...</span>`);
+        }
 
         const isSolved = (typeof m.validate === 'function') ? m.validate() : eval(m.validate);
         
@@ -1209,7 +1236,11 @@ const missions = [
                 "DATOS ENVIADOS. Siguiente sector desbloqueado.",
                 "¡EXCELENTE TRABAJO! Has demostrado patriotismo estelar."
             ];
-            const msg = congrats[Math.floor(Math.random() * congrats.length)];
+            let msg = congrats[Math.floor(Math.random() * congrats.length)];
+            
+            if (STATE.level === 60) {
+                msg = "¡BIEN HECHO SOLDADO! HAS SALVADO LA ESTACIÓN Y A LA HUMANIDAD. YA PUEDES JUBILARTE EN PAZ. OPERACIÓN HÉRCULES COMPLETADA.";
+            }
             
             const oldRank = STATE.rank;
             let isPromoted = false;
@@ -1234,8 +1265,11 @@ const missions = [
             setSargePose('pose-radio');
             typeWriter(`>>> [GENERAL STARK]: ${msg}`, 'sarge-text', 15, () => {
                 setTimeout(() => {
-                    if (!isPromoted) {
-                      document.getElementById('success-overlay').classList.remove('hidden');
+                    if (STATE.level === 60) {
+                        document.getElementById('victory-overlay').classList.remove('hidden');
+                        setSargePose('pose-point');
+                    } else if (!isPromoted) {
+                        document.getElementById('success-overlay').classList.remove('hidden');
                     } else {
                         // CEREMONIA DE ASCENSO VISUAL
                         document.getElementById('new-rank-display').innerText = STATE.rank;
@@ -1243,7 +1277,7 @@ const missions = [
                         setSargePose('pose-point');
                         document.getElementById('terminal').innerHTML += `<br><span style="color:var(--success); font-size:14px; font-weight:800;">>>> [ALERTA DE SISTEMA]: ¡FELICITACIONES, PILOTO! HAS ASCENDIDO A ${STATE.rank}! <<<</span><br>`;
                     }
-                    setSargePose('pose-idle');
+                    if (STATE.level !== 60 && !isPromoted) setSargePose('pose-idle');
                 }, 1000);
             });
         } else {
@@ -1269,6 +1303,23 @@ const missions = [
       const prevLevel = Math.max(1, STATE.level - 1);
       document.getElementById('game-over-overlay').classList.add('hidden');
       loadLevel(prevLevel);
+    }
+    
+    function returnToStart() {
+        document.getElementById('victory-overlay').classList.add('hidden');
+        document.getElementById('welcome-overlay').classList.remove('hidden');
+        document.getElementById('id-input-area').style.display = 'block';
+        document.getElementById('user-name-input').value = '';
+        document.getElementById('user-name-display').innerText = '...';
+        document.getElementById('user-rank').innerText = 'RECLUTA';
+        document.getElementById('hud-fuel').innerText = '100%';
+        document.getElementById('hud-fuel').style.width = '100%';
+        document.getElementById('welcome-text').innerHTML = '';
+        STATE = {
+            name: '', level: 1, unlocked: 1, completed: [],
+            energy: 100, rank: 'RECLUTA',
+            rankProgress: ['RECLUTA', 'CABO', 'SARGENTO', 'TENIENTE', 'CAPITÁN', 'COMANDANTE', 'GENERAL', 'ALMIRANTE']
+        };
     }
 
     function renderMissions() {
