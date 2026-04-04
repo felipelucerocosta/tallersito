@@ -1,0 +1,319 @@
+﻿      function step() { if (i < t.length) { el.innerHTML = t.substring(0, i + 1); i++; STATE.typewriterTimer = setTimeout(step, speed); } else if (callback) callback(); }
+      step();
+    }
+
+    function handlePresentation() {
+        const name = document.getElementById('user-name-input').value;
+        if (!name) return alert("Â¡ID Piloto!");
+        STATE.name = name;
+        document.getElementById('user-name-display').innerText = name.toUpperCase();
+        document.getElementById('id-input-area').style.display = 'none';
+        
+        const lines = [
+            `INICIALIZANDO PROTOCOLOS ESTELARES...`,
+            `PILOTO ${name.toUpperCase()} RECONOCIDO POR EL GENERAL STARK.`, 
+            "ESTADO: ENTRENAMIENTO DE Ã‰LITE ACTIVO.", 
+            "60 PROTOCOLOS DE SEGURIDAD CARGADOS EN EL KERNEL.",
+            "Â¡RECUERDA: CADA Ã‰XITO RECARGA TU ENERGÃA!"
+        ];
+        
+        let lineIdx = 0;
+        function nextLine() {
+            if (lineIdx < lines.length) {
+                typeWriter(lines[lineIdx], 'welcome-text', 15, () => {
+                    setTimeout(() => {
+                        lineIdx++;
+                        nextLine();
+                    }, 1200);
+                });
+            } else {
+                setTimeout(() => {
+                    document.getElementById('welcome-overlay').classList.add('hidden');
+                    loadLevel(1);
+                }, 1000);
+            }
+        }
+        nextLine();
+    }
+
+    function showHint() {
+      if (STATE.energy < 5) return triggerFailUI("Â¡ERROR! ENERGÃA INSUFICIENTE PARA AUXILIO TÃCTICO.");
+      
+      const m = missions.find(x => x.id === STATE.level);
+      if (!m || !m.hints || m.hints.length === 0) return;
+
+      STATE.energy -= 5;
+      document.getElementById('hud-fuel').innerText = STATE.energy + "%";
+
+      STATE.hintCount = (STATE.hintCount || 0) + 1;
+      const maxIdx = m.hints.length - 1;
+      const idx = Math.min(STATE.hintCount - 1, maxIdx);
+      
+      const isLast = idx === maxIdx;
+      const hintPrefix = isLast ? ">>> [GENERAL] TRANSMISIÃ“N FINAL: " : `>>> [GENERAL] PISTA TÃCTICA ${idx + 1}/${m.hints.length}: `;
+      
+      setSargePose('pose-radio');
+      typeWriter(hintPrefix + m.hints[idx], 'sarge-text', 15, () => {
+        setTimeout(() => setSargePose('pose-idle'), 4000);
+      });
+    }
+
+    function stopTimer() {
+      if (STATE.timerInterval) clearInterval(STATE.timerInterval);
+      const timerEl = document.getElementById('mission-timer');
+      const alarm = document.getElementById('alarm-overlay');
+      const body = document.getElementById('app-body');
+      if (timerEl) timerEl.style.display = 'none';
+      if (alarm) alarm.classList.remove('active');
+      if (body) body.classList.remove('alarm-active');
+    }
+
+    function initEditor() {
+      require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' } });
+      require(['vs/editor/editor.main'], function () {
+        monaco.editor.defineTheme('greenPhosphor', {
+          base: 'vs-dark', inherit: true,
+          rules: [
+            { token: '', foreground: '22c55e', background: '010409' },
+            { token: 'comment', foreground: '166534', fontStyle: 'italic' },
+            { token: 'keyword', foreground: '4ade80', fontStyle: 'bold' },
+            { token: 'string', foreground: 'a7f3d0' },
+            { token: 'number', foreground: 'fbbf24' },
+          ],
+          colors: {
+            'editor.background': '#010409',
+            'editor.foreground': '#22c55e',
+            'editorCursor.foreground': '#22c55e',
+            'editor.lineHighlightBackground': '#0d1117',
+            'editorLineNumber.foreground': '#166534',
+            'editorIndentGuide.background': '#0d1117',
+          }
+        });
+
+        STATE.editor = monaco.editor.create(document.getElementById('editor'), {
+          value: missions[0].starter,
+          language: 'javascript',
+          theme: 'greenPhosphor',
+          fontSize: 14,
+          fontFamily: 'JetBrains Mono',
+          minimap: { enabled: false },
+          automaticLayout: true,
+          padding: { top: 10 },
+          lineNumbersMinChars: 3,
+          cursorBlinking: "smooth",
+          scrollBeyondLastLine: false,
+          scrollbar: { vertical: "visible", horizontal: "hidden" }
+        });
+
+        document.getElementById('btn-next-level').onclick = () => {
+            document.getElementById('success-overlay').classList.add('hidden');
+            document.getElementById('success-pulse').classList.remove('active');
+            document.getElementById('app-body').classList.remove('success-alarm-active');
+            if (STATE.level < missions.length) {
+                loadLevel(STATE.level + 1);
+            }
+        };
+
+        loadLevel(1);
+      });
+    }
+
+    function setSargePose(id) {
+      document.querySelectorAll('.sarge-visor img').forEach(img => img.classList.remove('active'));
+      const t = document.getElementById(id);
+      if (t) t.classList.add('active');
+    }
+
+    function loadLevel(id) {
+      const m = missions.find(x => x.id === id);
+      if (!m) return;
+      STATE.level = id;
+      STATE.hintCount = 0;
+      
+      if (STATE.editor) {
+        const editorModel = STATE.editor.getModel();
+        monaco.editor.setModelLanguage(editorModel, m.type === 'TS' ? 'typescript' : 'javascript');
+        STATE.editor.setValue(m.starter || '');
+      }
+      
+      document.getElementById('current-file').innerText = m.title.toUpperCase();
+      document.getElementById('terminal').innerHTML = `<span style="color:var(--accent)">> CARGANDO PROTOCOLO: ${m.title}...</span><br>> STATUS: PENDIENTE INTERVENCIÃ“N...<br>`;
+      
+      if (m.timer) startTimer(m.timer); else stopTimer();
+
+      typeWriter(m.sarge, 'sarge-text', 20);
+      renderMissions();
+    }
+
+    function startTimer(sec) {
+      stopTimer();
+      if (!sec) return;
+      STATE.timerVal = sec;
+      const timerEl = document.getElementById('mission-timer');
+      timerEl.style.display = 'block';
+      document.getElementById('alarm-overlay').classList.add('active');
+      document.getElementById('app-body').classList.add('alarm-active');
+      
+      STATE.timerInterval = setInterval(() => {
+        STATE.timerVal--;
+        const mins = Math.floor(STATE.timerVal / 60);
+        const secs = STATE.timerVal % 60;
+        timerEl.innerText = `TIEMPO: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        
+        if (STATE.timerVal <= 0) {
+          stopTimer();
+          triggerFailUI("Â¡ERROR CRÃTICO! TIEMPO AGOTADO. EL GENERAL NO ESTÃ COMPLACIDO.");
+          STATE.editor.setValue("// Protocolo Reiniciado por Fallo CrÃ­tico...\n");
+        }
+      }, 1000);
+    }
+
+    function activarAlerta() {
+      const a = document.getElementById('alarm-overlay');
+      const b = document.getElementById('app-body');
+      if (a) {
+        a.classList.add('active');
+        b.classList.add('alarm-active');
+        setTimeout(() => { 
+          if (!STATE.timerInterval) {
+            a.classList.remove('active');
+            b.classList.remove('alarm-active');
+          }
+        }, 5000);
+      }
+    }
+
+    function runOperation() {
+      const log = (msg) => {
+        const t = document.getElementById('terminal');
+        t.innerHTML += `> ${msg}<br>`;
+        t.scrollTop = t.scrollHeight;
+      };
+
+      const m = missions.find(x => x.id === STATE.level);
+      log(`EJECUTANDO: ${m.title}...`);
+      
+      try {
+        let code = STATE.editor.getValue();
+        const fn = new Function('console', 'activarAlerta', 'CODE', code);
+        fn({ log: (msg) => log(`<span style="color:#a7f3d0">OUT: ${msg}</span>`) }, activarAlerta, code);
+
+        const isSolved = (typeof m.validate === 'function') ? m.validate() : eval(m.validate);
+        
+        if (isSolved) {
+            stopTimer();
+            document.getElementById('success-pulse').classList.add('active');
+            document.getElementById('app-body').classList.add('success-alarm-active');
+            
+            const congrats = [
+                "Â¡MISIÃ“N CUMPLIDA! El General Stark estÃ¡ impresionado.",
+                "SISTEMA NOMINAL. Has salvado la estaciÃ³n, Piloto.",
+                "CÃ“DIGO INTEGRADO. Recompensa de energÃ­a enviada.",
+                "DATOS ENVIADOS. Siguiente sector desbloqueado.",
+                "Â¡EXCELENTE TRABAJO! Has demostrado patriotismo estelar."
+            ];
+            const msg = congrats[Math.floor(Math.random() * congrats.length)];
+            
+            setSargePose('pose-radio');
+            typeWriter(`>>> [GENERAL STARK]: ${msg}`, 'sarge-text', 15, () => {
+                setTimeout(() => {
+                    document.getElementById('success-overlay').classList.remove('hidden');
+                    setSargePose('pose-idle');
+                }, 1000);
+            });
+
+            if (!STATE.completed.includes(STATE.level)) {
+                STATE.completed.push(STATE.level);
+                 STATE.unlocked = Math.max(STATE.unlocked, STATE.level + 1);
+                 
+                // RECOMPENSA DE ENERGÃA +10%
+                STATE.energy = Math.min(100, STATE.energy + 10);
+                document.getElementById('hud-fuel').innerText = STATE.energy + "%";
+
+                const rankIdx = Math.floor(STATE.completed.length / 5);
+                if (rankIdx < STATE.rankProgress.length) {
+                    STATE.rank = STATE.rankProgress[rankIdx];
+                    document.getElementById('user-rank').innerText = STATE.rank;
+                }
+            }
+        } else {
+            triggerFailUI("DIAGNÃ“STICO: RESULTADO INSUFICIENTE. Â¡ESFUÃ‰RZATE MÃS!");
+        }
+      } catch (e) {
+        triggerFailUI("FALLO DE NÃšCLEO: " + e.message);
+      }
+    }
+
+    function triggerFailUI(msg) {
+        document.getElementById('terminal').innerHTML += `<span style="color:var(--error)">> ERROR: ${msg}</span><br>`;
+        setSargePose('pose-point');
+        activarAlerta();
+        document.getElementById('app-body').classList.add('shaking');
+        setTimeout(() => {
+          setSargePose('pose-idle');
+          document.getElementById('app-body').classList.remove('shaking');
+        }, 2500);
+    }
+
+    function renderMissions() {
+      const jsList = document.getElementById('js-list');
+      const tsList = document.getElementById('ts-list');
+      if (!jsList || !tsList) return;
+      jsList.innerHTML = ''; tsList.innerHTML = '';
+      
+      missions.forEach(m => {
+        const item = document.createElement('div');
+        const locked = m.id > STATE.unlocked;
+        item.className = `mission-item ${locked ? 'locked' : ''} ${m.id === STATE.level ? 'active' : ''}`;
+        item.innerHTML = `${m.id}. ${m.title} ${STATE.completed.includes(m.id) ? 'âœ“' : ''}`;
+        if (!locked) item.onclick = () => loadLevel(m.id);
+        if (m.type === 'JS') jsList.appendChild(item); else tsList.appendChild(item);
+      });
+      renderMissionHub();
+    }
+
+    function toggleManual() { document.getElementById('tech-manual').classList.toggle('open'); }
+    function toggleMissionHub() {
+        const hub = document.getElementById('mission-hub');
+        hub.classList.toggle('hidden');
+        renderMissions();
+    }
+    
+    function renderMissionHub() {
+      const grid = document.getElementById('hub-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      const line = document.createElement('div');
+      line.className = 'timeline-line';
+      grid.appendChild(line);
+
+      const addHeader = (text) => {
+        const h = document.createElement('div');
+        h.style = "z-index:3; background:var(--accent); color:#000; padding:5px 20px; font-size:12px; font-weight:800; letter-spacing:3px; margin:20px 0;";
+        h.innerText = text;
+        grid.appendChild(h);
+      };
+
+      addHeader("FRENTE I: INGENIERÃA JS");
+
+      missions.forEach((m, idx) => {
+        if (m.id === 36) addHeader("FRENTE II: ARQUITECTURA TS");
+
+        const locked = m.id > STATE.unlocked;
+        const completed = STATE.completed.includes(m.id);
+        
+        const wrapper = document.createElement('div');
+        wrapper.className = `timeline-item-wrapper ${idx % 2 === 0 ? 'left' : 'right'}`;
+
+        const item = document.createElement('div');
+        item.className = `hub-item ${locked ? 'locked' : ''} ${completed ? 'completed' : ''}`;
+        item.innerHTML = `<div class="hub-badge">${m.id}</div><div class="hub-title">${m.title}</div>`;
+        if (!locked) item.onclick = () => { loadLevel(m.id); toggleMissionHub(); };
+        
+        wrapper.appendChild(item);
+        grid.appendChild(wrapper);
+      });
+    }
+
+    window.onload = () => { if (typeof lucide !== 'undefined') lucide.createIcons(); initEditor(); };

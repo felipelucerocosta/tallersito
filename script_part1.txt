@@ -1,0 +1,500 @@
+﻿
+    const STATE = {
+      name: 'Piloto', rank: 'RECLUTA',
+      level: 1, unlocked: 1, completed: [],
+      editor: null, typewriterTimer: null,
+      timerVal: 0, timerInterval: null,
+      hintCount: 0, energy: 100,
+      rankProgress: ['RECLUTA', 'CABO', 'SARGENTO', 'TENIENTE', 'CAPITÃN', 'COMANDANTE', 'GENERAL', 'ALMIRANTE']
+    };
+
+    function updateStatusVisuals(levelId, isSolved) {
+      console.log(`Level ${levelId} status: ${isSolved ? 'FIXED' : 'ISSUE'}`);
+    }
+
+const missions = [
+    { 
+        "id": 1, "type": "JS", "timer": null, 
+        "title": "Protocolo: Despertar de la HÃ©rcules", 
+        "sarge": "Â¡PILOTO, SOMOS POLVO EN EL VACÃO SI NO REACCIONAS! La IA de la estaciÃ³n estÃ¡ en coma profundo. Inyecta vida en el kernel cambiando el 'innerHTML' de 'sarge-text' a '<b>ENLACE_ESTABLECIDO</b>'. Â¡Que la luz brille de nuevo!", 
+        "hints": ["Usa document.getElementById('sarge-text')", "Aplica .innerHTML", "Contenido: '<b>ENLACE_ESTABLECIDO</b>'"], 
+        "validate": () => document.getElementById('sarge-text').innerHTML.includes('ENLACE_ESTABLECIDO'), 
+        "starter": "const t = document.getElementById('sarge-text');\n// Tu cÃ³digo aquÃ­...\n" 
+    },
+    { 
+        "id": 2, "type": "JS", "timer": null, 
+        "title": "Velo de Plasma: Cortafuegos Solar", 
+        "sarge": "Â¡RADIACIÃ“N GAMMA DETECTADA! El escudo tÃ©rmico tiene una fisura. Marca el sector 'hud-fuel' con un 'borderColor' rojo para que el equipo de soldadura sepa dÃ³nde intervenir. Â¡Cierra esa brecha!", 
+        "hints": ["id 'hud-fuel'", "style.borderColor = 'red'"], 
+        "validate": () => document.getElementById('hud-fuel').style.borderColor === 'red', 
+        "starter": "// Protegiendo el combustible...\n" 
+    },
+    { 
+        "id": 3, "type": "JS", "timer": 120, 
+        "title": "Salto al VacÃ­o: Motor Warp", 
+        "sarge": "Â¡FLOTA ENEMIGA EN EL RADAR! Necesitamos saltar al Hiperespacio. Alinea el 'hud-warp' moviÃ©ndolo al '80%' de su eje lateral (left). Â¡Si fallas, seremos chatarra espacial!", 
+        "hints": ["style.left", "Valor: '80%'"], 
+        "validate": () => document.getElementById('hud-warp').style.left === '80%', 
+        "starter": "// Calculando trayectoria...\n" 
+    },
+    { 
+        "id": 4, "type": "JS", "timer": 120, 
+        "title": "Sigilo: Capa de Invisibilidad", 
+        "sarge": "Â¡NOS ESTÃN ESCANEANDO! Reduce la opacidad del 'user-rank' a un tenue 0.2. Debemos ser invisibles entre las estrellas para que no detecten nuestra jerarquÃ­a militar.", 
+        "hints": ["style.opacity", "Valor: 0.2"], 
+        "validate": () => document.getElementById('user-rank').style.opacity === '0.2', 
+        "starter": "// Disminuyendo firma visual...\n" 
+    },
+    { 
+        "id": 5, "type": "JS", "timer": 60, 
+        "title": "Alerta: Pulso de Materia Oscura", 
+        "sarge": "Â¡LA OSCURIDAD SE ACERCA! Un pulso de energÃ­a nos golpea. Ejecuta el protocolo 'activarAlerta()' y reduce el ancho ('width') de 'hud-fuel' a '50px' para concentrar energÃ­a en los escudos.", 
+        "hints": ["Llama a activarAlerta()", "style.width = '50px'"], 
+        "validate": () => document.getElementById('hud-fuel').style.width === '50px', 
+        "starter": "// GestiÃ³n de emergencia...\n" 
+    },
+    { 
+        "id": 6, "type": "JS", "timer": null, 
+        "title": "Impacto: Blindaje Bifronte", 
+        "sarge": "Â¡IMPACTO DE ASTEROIDES! Dos meteoros golpearon el casco: uno de 50 MJ y otro de 50 MJ. Suma ambos impactos y actualiza el 'innerText' del 'hud-hull' para que los ingenieros sepan la magnitud del daÃ±o total (100).", 
+        "hints": ["Suma: 50 + 50", "Usa innerText"], 
+        "validate": () => document.getElementById('hud-hull').innerText === '100', 
+        "starter": "// Informe de daÃ±os...\n" 
+    },
+    { 
+        "id": 7, "type": "JS", "timer": null, 
+        "title": "VisiÃ³n: Lente CuÃ¡ntica", 
+        "sarge": "Â¡EL VISOR ESTÃ DESACTUALIZADO! Para ver a travÃ©s de la Nebulosa de AndrÃ³meda necesitamos bordes curvos. Cambia el 'borderRadius' de 'sarge-wrapper' al '50%' para activar el Modo Lente.", 
+        "hints": ["style.borderRadius", "Valor: '50%'"], 
+        "validate": () => document.getElementById('sarge-wrapper').style.borderRadius === '50%', 
+        "starter": "// Mejorando visibilidad...\n" 
+    },
+    { 
+        "id": 8, "type": "JS", "timer": null, 
+        "title": "Protocolo: Soporte Vital LÃ­mite", 
+        "sarge": "Â¡FUGA EN EL SECTOR 7! El nivel de oxÃ­geno es crÃ­tico (30). Crea un sensor detecte si es menor a 50 y lo reasigne a 100 usando los tanques de reserva. Â¡Salva a la tripulaciÃ³n!", 
+        "hints": ["if (oxigeno < 50)", "oxigeno = 100"], 
+        "validate": () => { const c = STATE.editor.getValue(); return c.includes('if') && c.includes('oxigeno = 100'); }, 
+        "starter": "let oxigeno = 30;\n// Protocolo de emergencia...\n" 
+    },
+    { 
+        "id": 9, "type": "JS", "timer": null, 
+        "title": "MisiÃ³n: El Disparador Prohibido", 
+        "sarge": "Â¡CONFIGURACIÃ“N DE ATAQUE! Agrega un listener de 'click' al botÃ³n 'btn-next-level'. Cuando se pulse, debe imprimir 'SISTEMA_OK' en la consola. Â¡Es el botÃ³n de pÃ¡nico del General!", 
+        "hints": ["addEventListener('click', ...)", "console.log('SISTEMA_OK')"], 
+        "validate": () => STATE.editor.getValue().includes('addEventListener'), 
+        "starter": "// Conectando disparadores...\n" 
+    },
+    { 
+        "id": 10, "type": "JS", "timer": 45, 
+        "title": "CRÃTICO: Firewall de Canaveral", 
+        "sarge": "Â¡ATAQUE HACKER DETECTADO! Crea la funciÃ³n 'gestionarPermisos(usuario)'. Si el rol es 'ADMIN', retorna 'ACCESO_TOTAL', de lo contrario 'ACCESO_DENEGADO'. Â¡RÃ¡pido o perderemos el control!", 
+        "hints": ["if (usuario.rol === 'ADMIN')", "return 'ACCESO_TOTAL'"], 
+        "validate": () => { const c = STATE.editor.getValue(); return c.includes('if') && c.includes('ACCESO_TOTAL') && c.includes('ADMIN'); }, 
+        "starter": "function gestionarPermisos(usuario) {\n  // Â¡Defiende la red!\n}\n" 
+    },
+    { 
+        "id": 11, "type": "JS", "timer": null, 
+        "title": "Escaneo: CinturÃ³n de OriÃ³n", 
+        "sarge": "Â¡BARRIDO DE SENSORES! Recorre el array de 'sectores' con un bucle 'for' y muestra cada uno en la terminal. No podemos dejar ni un residuo sin detectar en el cinturÃ³n.", 
+        "hints": ["for (let i=0; i<sectores.length; i++)", "console.log(sectores[i])"], 
+        "validate": () => STATE.editor.getValue().includes('for'), 
+        "starter": "const sectores = ['NORTE', 'SUDOESTE', 'LIMBO'];\n// Escaneando...\n" 
+    },
+    { 
+        "id": 12, "type": "JS", "timer": null, 
+        "title": "Acceso: Firma de Comandante", 
+        "sarge": "Â¡PROTOCOLOS MULTILINEALES! Crea la funciÃ³n 'validarProtocolo(usuario)'. Si el nombre tiene mÃ¡s de 5 letras Y contiene 'ADMIN', retorna true. Â¡Quiero un cÃ³digo estructurado para el puente de mando!", 
+        "hints": ["u.length > 5 && u.includes('ADMIN')"], 
+        "validate": () => { const c = STATE.editor.getValue(); return c.split('\n').length > 3 && c.includes('ADMIN'); }, 
+        "starter": "function validarProtocolo(usuario) {\n  // Tu lÃ³gica multilÃ­nea aquÃ­...\n}\n" 
+    },
+    { 
+        "id": 13, "type": "JS", "timer": null, 
+        "title": "Filtro: Residuos de Supernova", 
+        "sarge": "Â¡DATOS CORRUPTOS! Filtra los 'logs' buscando solo los que tengan 'critico: true'. Por cada uno hallado, imprime 'Â¡PELIGRO!' en consola antes de devolverlo al nÃºcleo.", 
+        "hints": ["logs.filter(l => { ... })", "console.log('PELIGRO')"], 
+        "validate": () => { const c = STATE.editor.getValue(); return c.includes('filter') && c.includes('PELIGRO'); }, 
+        "starter": "const logs = [{id:1, critico:true}, {id:2, critico:false}];\n" 
+    },
+    { 
+        "id": 14, "type": "JS", "timer": null, 
+        "title": "MisiÃ³n: El VÃ³rtice de Datos", 
+        "sarge": "Â¡TRANSMISIÃ“N MULTIDIMENSIONAL! Filtra datos vÃ¡lidos y usa '.map' para sumarle 50 a cada valor 'v'. Â¡Cada unidad de energÃ­a cuenta para el salto hiperespacial!", 
+        "hints": ["filter(s => s.valid)", "map(s => s.v + 50)"], 
+        "validate": () => { const c = STATE.editor.getValue(); return c.includes('.map') && c.includes('+ 50'); }, 
+        "starter": "const stream = [{v:10, valid:true}, {v:30, valid:true}];\n" 
+    },
+    { 
+        "id": 15, "type": "JS", "timer": null, 
+        "title": "CÃ¡psula: La Caja de Pandora", 
+        "sarge": "Â¡DESCOMPRESIÃ“N DE DATOS! Desestructura 'lat' y 'long' del GPS. Si la latitud es menor a 0, estamos en el 'SECTOR_SUR'. Â¡InfÃ³rmalo a la flota estelar!", 
+        "hints": ["const {lat, long} = gps;", "if (lat < 0)"], 
+        "validate": () => { const c = STATE.editor.getValue(); return c.includes('{ lat, long }') && c.includes('lat < 0'); }, 
+        "starter": "const gps = { lat: -15, long: 20 };\n" 
+    },
+
+    { 
+        "id": 16, "type": "JS", "timer": null, 
+        "title": "MisiÃ³n: El Ãrbol de Decisiones", 
+        "sarge": "Â¡RUMBOS GALÃCTICOS! Crea un 'switch' para la 'prioridad'. Si es 'ALTA', llama a 'activarAlerta()'. Si es 'BAJA', imprime 'STATUS_VERDE'. Â¡Decide el destino de la flota!", 
+        "hints": ["switch(prioridad)", "case 'ALTA': activarAlerta();"], 
+        "validate": () => STATE.editor.getValue().includes('switch'), 
+        "starter": "let prioridad = 'ALTA';\n" 
+    },
+    { 
+        "id": 17, "type": "JS", "timer": null, 
+        "title": "Factory: Forja de Nanobots", 
+        "sarge": "Â¡REPARACIÃ“N AUTÃ“NOMA! Crea el constructor 'Modulo' con id y status. Incluye un mÃ©todo 'actualizar' que cambie su estado. Â¡La estaciÃ³n debe reconstruirse sola!", 
+        "hints": ["this.actualizar = (n) => ..."], 
+        "validate": () => STATE.editor.getValue().includes('this.status =') && STATE.editor.getValue().includes('id'), 
+        "starter": "function Modulo(id, status) {\n  // Construye la unidad...\n}\n" 
+    },
+    { 
+        "id": 18, "type": "JS", "timer": null, 
+        "title": "Mando: El Enjambre Spica", 
+        "sarge": "Â¡DRONES DE DEFENSA! Crea la 'class Dron' con un mÃ©todo 'autodestruccion' que llame a 'activarAlerta()'. Â¡Si los enemigos nos abordan, no dejaremos pruebas!", 
+        "hints": ["class Dron { ... }", "autodestruccion() { activarAlerta(); }"], 
+        "validate": () => STATE.editor.getValue().includes('class') && STATE.editor.getValue().includes('activarAlerta'), 
+        "starter": "// DiseÃ±ando el enjambre...\n" 
+    },
+    { 
+        "id": 19, "type": "JS", "timer": null, 
+        "title": "Sincro: El Eco de Europa", 
+        "sarge": "Â¡LLAMADA AL ABISMO! Conecta con la API de Stark. Procesa el JSON y usa '.catch' para reportar errores en la red interestelar. Â¡Que no se pierda la seÃ±al entre las lunas!", 
+        "hints": ["fetch(...).then(...).catch(...)"], 
+        "validate": () => STATE.editor.getValue().includes('.catch'), 
+        "starter": "fetch('https://api.stark.os')\n" 
+    },
+    { 
+        "id": 20, "type": "JS", "timer": 150, 
+        "title": "MisiÃ³n: El Aliento de Io", 
+        "sarge": "Â¡TIEMPO DE ESPERA! 'fetchStatus' debe ser asÃ­ncrona. Espera la respuesta y si los datos son vÃ¡lidos, retorna true. Â¡La latitud cero es inaceptable para el soporte vital!", 
+        "hints": ["async function", "await fetch"], 
+        "validate": () => STATE.editor.getValue().includes('async') && STATE.editor.getValue().includes('await'), 
+        "starter": "async function fetchStatus() {\n  // Consultando soporte...\n}\n" 
+    },
+    { 
+        "id": 21, "type": "JS", "timer": null, 
+        "title": "Evento: El Terminal de Phobos", 
+        "sarge": "Â¡INTERACCIÃ“N CRÃTICA! Escucha clicks en el terminal. Si el objetivo es un 'SPAN', pÃ­ntalo de verde esmeralda. Â¡Cada dato debe destacar en la oscuridad!", 
+        "hints": ["e.target.tagName === 'SPAN'", "style.color = 'green'"], 
+        "validate": () => STATE.editor.getValue().includes('tagName') && STATE.editor.getValue().includes('SPAN'), 
+        "starter": "document.getElementById('terminal').addEventListener('click', (e) => {\n  // Filtrando eventos...\n});\n" 
+    },
+    { 
+        "id": 22, "type": "JS", "timer": null, 
+        "title": "Persistencia: El Diario de Deimos", 
+        "sarge": "Â¡MEMORIA ETERNA! Guarda los datos del Oficial en localStorage. Usa JSON.stringify para que el kernel pueda leerlo tras un apagÃ³n de emergencia.", 
+        "hints": ["localStorage.setItem", "JSON.stringify"], 
+        "validate": () => STATE.editor.getValue().includes('localStorage'), 
+        "starter": "const oficial = { id: 1, rank: 'GENERAL' };\n" 
+    },
+    { 
+        "id": 23, "type": "JS", "timer": null, 
+        "title": "MisiÃ³n: El CÃ³digo Enigma", 
+        "sarge": "Â¡SEGURIDAD REGEX! El cÃ³digo de entrada debe empezar por 'STARK-', tener 4 dÃ­gitos y acabar en '!'. Â¡Si un solo bit falla, es un traidor infiltrado!", 
+        "hints": ["/^STARK-\\d{4}!$/"], 
+        "validate": () => STATE.editor.getValue().includes('.test'), 
+        "starter": "const r = /^STARK-\\d{4}!$/;\n" 
+    },
+    { 
+        "id": 24, "type": "JS", "timer": null, 
+        "title": "CÃ¡psula: El Secreto de Saturno", 
+        "sarge": "Â¡ENCAPSULAMIENTO TOTAL! Crea 'crearContador' usando Closures para proteger la variable 'count'. Â¡Nadie debe ver nuestros nÃºmeros internos de municiÃ³n!", 
+        "hints": ["return { sumar: ..., ver: ... }"], 
+        "validate": () => STATE.editor.getValue().includes('return {'), 
+        "starter": "function crearContador() {\n  let count = 0;\n}\n" 
+    },
+    { 
+        "id": 25, "type": "JS", "timer": 120, 
+        "title": "Pulsar: El Latido Infinito", 
+        "sarge": "Â¡GENERADORES ACTIVOS! Crea un generador que emita cÃ³digos 'X-0', 'X-1'... infinitamente. Â¡El flujo de energÃ­a de la estaciÃ³n no puede parar!", 
+        "hints": ["function* pulsar()", "yield 'X-' + i++"], 
+        "validate": () => STATE.editor.getValue().includes('yield'), 
+        "starter": "function* pulsarGenerator() {\n  // Generando energÃ­a...\n}\n" 
+    },
+    { 
+        "id": 26, "type": "JS", "timer": null, 
+        "title": "CachÃ©: El Eco de Neptuno", 
+        "sarge": "Â¡RECUPERACIÃ“N DE DATOS! Parsea la telemetrÃ­a de la cachÃ©. Si detectas un 'vortex' en los datos recuperados, activa la alarma de inmediato. Â¡RÃ¡pido!", 
+        "hints": ["JSON.parse", "activarAlerta()"], 
+        "validate": () => STATE.editor.getValue().includes('JSON.parse') && STATE.editor.getValue().includes('activarAlerta'), 
+        "starter": "const raw = localStorage.getItem('telemetry');\n" 
+    },
+    { 
+        "id": 27, "type": "JS", "timer": null, 
+        "title": "SesiÃ³n: El Token de Urano", 
+        "sarge": "Â¡SEGURIDAD VOLÃTIL! Guarda la clave de acceso en sessionStorage. Si el sistema se reinicia, este secreto debe desaparecer para siempre de la memoria.", 
+        "hints": ["sessionStorage.setItem"], 
+        "validate": () => STATE.editor.getValue().includes('sessionStorage'), 
+        "starter": "// Datos temporales...\n" 
+    },
+    { 
+        "id": 28, "type": "JS", "timer": null, 
+        "title": "Radar: El Ojo de TritÃ³n", 
+        "sarge": "Â¡VIGILANCIA ABSOLUTA! Usa IntersectionObserver. Si el visor estÃ¡ al 100% visible, imprime 'OBJETIVO_FIJADO'. Â¡No les quites el ojo de encima ni un segundo!", 
+        "hints": ["intersectionRatio === 1"], 
+        "validate": () => STATE.editor.getValue().includes('IntersectionObserver'), 
+        "starter": "const radar = new IntersectionObserver((entries) => {\n  // Vigilando...\n});\n" 
+    },
+    { 
+        "id": 29, "type": "JS", "timer": null, 
+        "title": "NavegaciÃ³n: El Mapa de PlutÃ³n", 
+        "sarge": "Â¡COORDENADAS OCULTAS! Extrae el parÃ¡metro 'coord' de la URL. Si existe, lÃ¡nzalo al terminal. Â¡Necesitamos saber nuestra posiciÃ³n exacta en el vacÃ­o!", 
+        "hints": ["URLSearchParams", "params.get('coord')"], 
+        "validate": () => STATE.editor.getValue().includes('URLSearchParams'), 
+        "starter": "const params = new URLSearchParams(window.location.search);\n" 
+    },
+    { 
+        "id": 30, "type": "JS", "timer": null, 
+        "title": "Proxy: El Escudo de Eris", 
+        "sarge": "Â¡INTERCEPCIÃ“N TÃCTICA! Usa un Proxy para que la potencia del escudo nunca baje de 50, sin importar quÃ© intente el sistema central. Â¡ProtecciÃ³n total inquebrantable!", 
+        "hints": ["set: (target, prop, value) => { if(value < 50) ... }"], 
+        "validate": () => STATE.editor.getValue().includes('Proxy'), 
+        "starter": "const target = { power: 100 };\n" 
+    },
+    { 
+        "id": 31, "type": "JS", "timer": null, 
+        "title": "Aborto: La SeÃ±al de Ceres", 
+        "sarge": "Â¡MISIÃ“N ABORTADA! Si la seÃ±al tarda mÃ¡s de 3 segundos, usa AbortController para cancelar la transmisiÃ³n. Â¡No arriesgues la integridad de la estaciÃ³n!", 
+        "hints": ["setTimeout(() => controller.abort(), 3000)"], 
+        "validate": () => STATE.editor.getValue().includes('AbortController'), 
+        "starter": "const controller = new AbortController();\n" 
+    },
+    { 
+        "id": 32, "type": "JS", "timer": null, 
+        "title": "Blob: El Manifiesto Haumea", 
+        "sarge": "Â¡LOGS FÃSICOS! Crea un Blob con los datos y genera una URL de descarga. Â¡Necesitamos un registro tangible de esta batalla estelar!", 
+        "hints": ["new Blob([data], {type: 'text/plain'})"], 
+        "validate": () => STATE.editor.getValue().includes('Blob'), 
+        "starter": "const logs = 'REPORTE_OFICIAL_STARK_OS';\n" 
+    },
+    { 
+        "id": 33, "type": "JS", "timer": null, 
+        "title": "EspÃ­a: El Sensor Makemake", 
+        "sarge": "Â¡ALERTA DE SEGURIDAD! MutationObserver detectarÃ¡ si alguien borra un log del terminal. Activa la alerta ante cualquier manipulaciÃ³n del registro histÃ³rico.", 
+        "hints": ["removedNodes.length > 0"], 
+        "validate": () => STATE.editor.getValue().includes('MutationObserver'), 
+        "starter": "const obs = new MutationObserver((list) => {\n  // Vigilando el DOM...\n});\n" 
+    },
+    { 
+        "id": 34, "type": "JS", "timer": null, 
+        "title": "Clon: El Espejo de Vega", 
+        "sarge": "Â¡REPLICACIÃ“N PERFECTA! Crea una copia profunda de los planos tÃ©cnicos usando 'structuredClone'. Â¡Un error de copia significa el fin de nuestro diseÃ±o!", 
+        "hints": ["structuredClone(blueprint)"], 
+        "validate": () => STATE.editor.getValue().includes('structuredClone'), 
+        "starter": "const blueprint = { core: 101, sub: { id: 2 } };\n" 
+    },
+    { 
+        "id": 35, "type": "JS", "timer": 300, 
+        "title": "CORE: El CorazÃ³n del HÃ©rcules", 
+        "sarge": "Â¡MULTITAREA GALÃCTICA! Despierta al Worker de seguridad y envÃ­ale el mensaje 'OPERAR'. Â¡Aprovecha cada ciclo de CPU de la estaciÃ³n!", 
+        "hints": ["new Worker('sec    { 
+        "id": 36, "type": "TS", "timer": null, 
+        "title": "TS: El Rigor de Sirio", 
+        "sarge": "Â¡BLINDAJE DE TIPOS! Asigna 'string' y 'number' a las constantes de acceso. En TypeScript, la disciplina es la Ãºnica salvaciÃ³n contra los errores de desbordamiento.", 
+        "hints": [": string", ": number"], 
+        "validate": () => STATE.editor.getValue().includes(': string') && STATE.editor.getValue().includes(': number'), 
+        "starter": "let id: string = 'SEC-01';\nlet val: number = 100;\n" 
+    },
+    { 
+        "id": 37, "type": "TS", "timer": null, 
+        "title": "TS: El Contrato de Vega", 
+        "sarge": "Â¡ESTRICTA INTERFAZ! Define 'Station' con nombre y capacidad. Todo componente de la flota debe cumplir este plano estructural o serÃ¡ desechado por seguridad.", 
+        "hints": ["interface Station { name: string; capacity: number; }"], 
+        "validate": () => STATE.editor.getValue().includes('interface') && STATE.editor.getValue().includes('name: string'), 
+        "starter": "interface Station {\n  // Planos estructurales...\n}\n" 
+    },
+    { 
+        "id": 38, "type": "TS", "timer": null, 
+        "title": "TS: El Sello de Betelgeuse", 
+        "sarge": "Â¡DATOS INAMOVIBLES! Usa 'readonly' en la temperatura del nÃºcleo. Ni el General puede cambiar lo que la telemetrÃ­a ya ha registrado como historia.", 
+        "hints": ["readonly temp: number"], 
+        "validate": () => STATE.editor.getValue().includes('readonly'), 
+        "starter": "interface CoreData {\n  readonly temp: number;\n}\n" 
+    },
+    { 
+        "id": 39, "type": "TS", "timer": null, 
+        "title": "TS: El CÃ³digo de Rigel", 
+        "sarge": "Â¡ENUMERACIÃ“N TÃCTICA! Define los niveles de alerta: LOW, MEDIUM, CRITICAL. Asigna CRITICAL a tu estado de Ã¡nimo actual. Â¡PrepÃ¡rate para lo peor!", 
+        "hints": ["enum Warning { LOW, MEDIUM, CRITICAL }"], 
+        "validate": () => STATE.editor.getValue().includes('enum') && STATE.editor.getValue().includes('Warning.CRITICAL'), 
+        "starter": "enum Warning { LOW, MEDIUM, CRITICAL }\n" 
+    },
+    { 
+        "id": 40, "type": "TS", "timer": 120, 
+        "title": "TS: La ConjunciÃ³n Deneb", 
+        "sarge": "Â¡INTERSECCIÃ“N DE PODER! Une Armor y Shield con el operador '&'. Juntos somos invulnerables ante cualquier ataque de materia oscura.", 
+        "hints": ["type FullDef = Armor & Shield"], 
+        "validate": () => STATE.editor.getValue().includes('&'), 
+        "starter": "type Armor = { v: number };\ntype Shield = { p: number };\n" 
+    },
+    { 
+        "id": 41, "type": "TS", "timer": null, 
+        "title": "TS: El Secreto de Arcturus", 
+        "sarge": "Â¡PRIVACIDAD ABSOLUTA! Clase RadioClient con propiedad 'private'. Si el enemigo descubre nuestra frecuencia de radio, la guerra habrÃ¡ terminado.", 
+        "hints": ["private key: string"], 
+        "validate": () => STATE.editor.getValue().includes('private'), 
+        "starter": "class RadioClient {\n  // Clave privada de radio...\n}\n" 
+    },
+    { 
+        "id": 42, "type": "TS", "timer": null, 
+        "title": "TS: El Recipiente Spica", 
+        "sarge": "Â¡INGENIERÃA ADAPTATIVA! Crea Interface 'Box<T>' que acepte cualquier componente de carga. La flexibilidad es nuestra mejor arma logÃ­stica.", 
+        "hints": ["interface Box<T> { data: T }"], 
+        "validate": () => STATE.editor.getValue().includes('<T>'), 
+        "starter": "// GenÃ©ricos de flota...\n" 
+    },
+    { 
+        "id": 43, "type": "TS", "timer": null, 
+        "title": "TS: El Linaje de Antares", 
+        "sarge": "Â¡HERENCIA DE FUERZA! PulseLaser extiende Laser y sobrecarga 'fire()' llamando a super.fire(). Â¡Concentra toda la potencia en un solo punto!", 
+        "hints": ["class PulseLaser extends Laser"], 
+        "validate": () => STATE.editor.getValue().includes('extends') && STATE.editor.getValue().includes('super'), 
+        "starter": "class Laser { fire() { console.log('PIU'); } }\n" 
+    },
+    { 
+        "id": 44, "type": "TS", "timer": null, 
+        "title": "TS: El Filtro de Fomalhaut", 
+        "sarge": "Â¡DISCRIMINACIÃ“N TÃCTICA! Usa Type Guard. Si el valor es number, retorna 'ES_NÃšMERO'. No dejes que el ruido estelar interfiera con los datos puros.", 
+        "hints": ["if (typeof arg === 'number')"], 
+        "validate": () => STATE.editor.getValue().includes('typeof'), 
+        "starter": "function verify(val: string | number) {\n  // Type Guard...\n}\n" 
+    },
+    { 
+        "id": 45, "type": "TS", "timer": 150, 
+        "title": "TS: El VÃ³rtice Pollux", 
+        "sarge": "Â¡RANGO DE COMANDO! FunciÃ³n que reciba (...args: string[]). Ãšnelos todos en la terminal de comunicaciones. Â¡Quiero unidad total en el frente!", 
+        "hints": ["(...args: string[])", "args.join()"], 
+        "validate": () => STATE.editor.getValue().includes('...'), 
+        "starter": "function processAll(...args: string[]) {\n  // Spread de comandos...\n}\n" 
+    },
+    { 
+        "id": 46, "type": "TS", "timer": null, 
+        "title": "TS: El MÃ³dulo Canopus", 
+        "sarge": "Â¡EXPORTACIÃ“N TÃCTICA! Exporta la clase 'Navigator' por defecto. Debemos compartir nuestras biblias de navegaciÃ³n con el resto de la flota.", 
+        "hints": ["export default class ..."], 
+        "validate": () => STATE.editor.getValue().includes('export default'), 
+        "starter": "// Compartiendo protocolos estelares...\n" 
+    },
+    { 
+        "id": 47, "type": "TS", "timer": null, 
+        "title": "TS: El LÃ­mite de Castor", 
+        "sarge": "Â¡GENÃ‰RICOS CONTROLADOS! Tu funciÃ³n solo debe aceptar tipos que tengan una propiedad 'id: number'. Â¡Garantiza el orden jerÃ¡rquico!", 
+        "hints": ["<T extends {id: number}>"], 
+        "validate": () => STATE.editor.getValue().includes('extends'), 
+        "starter": "// Constrained generics...\n" 
+    },
+    { 
+        "id": 48, "type": "TS", "timer": null, 
+        "title": "TS: El Seguro Procyon", 
+        "sarge": "Â¡BLOQUEO DE PARÃMETROS! Crea un Mapped Type que haga todas las propiedades de un objeto 'readonly'. Â¡Inmutabilidad absoluta en los planos de defensa!", 
+        "hints": ["{ readonly [P in keyof T]: T[P] }"], 
+        "validate": () => STATE.editor.getValue().includes('keyof') && STATE.editor.getValue().includes('readonly'), 
+        "starter": "// Mapeo de seguridad...\n" 
+    },
+    { 
+        "id": 49, "type": "TS", "timer": null, 
+        "title": "TS: El VigÃ­a de Capella", 
+        "sarge": "Â¡VIGILANCIA DECORADA! Usa el decorador @Log en la clase. Debe gritar 'INSTANCIADO' en la terminal central. Â¡Nada escapa a mi mando en esta estaciÃ³n!", 
+        "hints": ["function Log(target: any) { ... }", "@Log class x {}"], 
+        "validate": () => STATE.editor.getValue().includes('@'), 
+        "starter": "// Decoradores estelares...\n" 
+    },
+    { 
+        "id": 50, "type": "TS", "timer": 1200, 
+        "title": "TS: El NÃºcleo Unificado", 
+        "sarge": "Â¡ARQUITECTURA DE DIOS! Singleton MasterKernel. Instancia estÃ¡tica privada, constructor privado. Â¡Solo puede haber un Kernel para gobernarlos a todos!", 
+        "hints": ["private static instance", "private constructor()"], 
+        "validate": () => STATE.editor.getValue().includes('static instance') && STATE.editor.getValue().includes('constructor'), 
+        "starter": "class MasterKernel {\n  // Singleton del nÃºcleo...\n}\n" 
+    },
+    { 
+        "id": 51, "type": "TS", "timer": null, 
+        "title": "TS: El Parche Centauri", 
+        "sarge": "Â¡REPARACIÃ“N FRAGMENTADA! Usa Partial<T> para que la funciÃ³n acepte actualizaciones parciales del casco daÃ±ado. Â¡Agilidad en el frente de batalla!", 
+        "hints": ["update(p: Partial<Hull>)"], 
+        "validate": () => STATE.editor.getValue().includes('Partial'), 
+        "starter": "interface Hull { id: number; dmg: number; }\n" 
+    },
+    { 
+        "id": 52, "type": "TS", "timer": null, 
+        "title": "TS: El Filtro Bellatrix", 
+        "sarge": "Â¡EXTRACCIÃ“N TÃCTICA! Usa Pick para capturar solo 'lat' y 'long' de los planos terrestres complejos. Â¡No pierdas tiempo con datos innecesarios!", 
+        "hints": ["Pick<Map, 'lat' | 'long'>"], 
+        "validate": () => STATE.editor.getValue().includes('Pick'), 
+        "starter": "interface Map { lat: number; long: number; bio: string; }\n" 
+    },
+    { 
+        "id": 53, "type": "TS", "timer": null, 
+        "title": "TS: El Olvido de Polaris", 
+        "sarge": "Â¡BORRADO DE SEÃ‘AL! Usa Omit para remover 'password' de los datos pÃºblicos del usuario. El enemigo no debe sospechar cÃ³mo entramos.", 
+        "hints": ["Omit<User, 'password'>"], 
+        "validate": () => STATE.editor.getValue().includes('Omit'), 
+        "starter": "interface User { id: number; password: string; }\n" 
+    },
+    { 
+        "id": 54, "type": "TS", "timer": null, 
+        "title": "TS: El Diccionario Regulus", 
+        "sarge": "Â¡MAPEO DE PODER! Usa Record para asociar rangos (string) con niveles de mando (number). Â¡Quiero el organigrama militar completo ahora!", 
+        "hints": ["Record<string, number>"], 
+        "validate": () => STATE.editor.getValue().includes('Record'), 
+        "starter": "// Mapeo de rangos militares...\n" 
+    },
+    { 
+        "id": 55, "type": "TS", "timer": null, 
+        "title": "TS: La UniÃ³n Draco", 
+        "sarge": "Â¡IDENTIDADES COMPLEJAS! Define 'Resp' como Ã©xito {ok: true, data: string} o fallo {ok: false, error: string}. Â¡Flujos de combate sin fisuras!", 
+        "hints": ["{ok: true, data: string} | {ok: false, error: string}"], 
+        "validate": () => STATE.editor.getValue().includes('|'), 
+        "starter": "// Union Types estelares...\n" 
+    },
+    { 
+        "id": 56, "type": "TS", "timer": null, 
+        "title": "TS: Los Colores de Lyra", 
+        "sarge": "Â¡ESTANDARIZACIÃ“N VISUAL! Tipo literal que solo acepte strings que empiecen por '#HEX-'. Â¡Orden y estÃ©tica en la pintura de los cazas!", 
+        "hints": ["`#HEX-${string}`"], 
+        "validate": () => STATE.editor.getValue().includes('#HEX-'), 
+        "starter": "type ShipColor = `#HEX-${string}`;\n" 
+    },
+    { 
+        "id": 57, "type": "TS", "timer": null, 
+        "title": "TS: El Cristal de Aquila", 
+        "sarge": "Â¡ESTRUCTURAS PETRIFICADAS! Declara ENGINE_SPECS 'as const'. Que ni un Ã¡tomo del diseÃ±o del motor se mueva sin autorizaciÃ³n del General.", 
+        "hints": ["{ thrust: 9000 } as const"], 
+        "validate": () => STATE.editor.getValue().includes('as const'), 
+        "starter": "const ENGINE_SPECS = { id: 'MK-1', thrust: 9000 };\n" 
+    },
+    { 
+        "id": 58, "type": "TS", "timer": null, 
+        "title": "TS: El Ãndice Fomalhaut", 
+        "sarge": "Â¡DICCIONARIO DINÃMICO! Interface con Index Signature: cualquier clave string con valores booleanos. Â¡Captura todos los ecos del radar!", 
+        "hints": ["[key: string]: boolean"], 
+        "validate": () => STATE.editor.getValue().includes('[key:'), 
+        "starter": "interface SensorLog {\n  // Ãndice dinÃ¡mico...\n}\n" 
+    },
+    { 
+        "id": 59, "type": "TS", "timer": null, 
+        "title": "TS: La Llave Aquila", 
+        "sarge": "Â¡PRECISIÃ“N ABSOLUTA! FunciÃ³n genÃ©rica con <T, K extends keyof T>. Si accedes a los secretos de la nave, la clave debe ser real. Â¡Sin errores!", 
+        "hints": ["K extends keyof T"], 
+        "validate": () => STATE.editor.getValue().includes('keyof'), 
+        "starter": "function getParam<T, K extends keyof T>(o: T, k: K) {\n  return o[k];\n}\n" 
+    },
+    { 
+        "id": 60, "type": "TS", "timer": 1500, 
+        "title": "TS FINAL: EL ALFA Y EL OMEGA", 
+        "sarge": "Â¡PUESTO DE GENERAL! Singleton + Interface + GenÃ©ricos + Async. Crea el Kernel Supremo y lÃ¡nzanos a las estrellas de la eternidad. Â¡HAZLO POR EL HÃ‰RCULES!", 
+        "hints": ["implements Interface", "private static instance", "async init()"], 
+        "validate": () => { const c = STATE.editor.getValue(); return c.includes('implements') && c.includes('static instance') && c.includes('async'); }, 
+        "starter": "// EL FINAL DE TU ENTRENAMIENTO MILITAR SUPREMO...\n" 
+    }
+¡ctica, Piloto!", "hints": ["interface I; class K implements I; private static instance; <T> (state: T)"], "validate": () => { const c = STATE.editor.getValue(); return c.includes('class') && c.includes('interface') && c.includes('<T>'); }, "starter": "// EL FINAL DE TU ENTRENAMIENTO...\n" }
+];
+
+    function typeWriter(t, id, speed = 25, callback) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (STATE.typewriterTimer) clearTimeout(STATE.typewriterTimer);
+      el.innerHTML = ''; let i = 0;

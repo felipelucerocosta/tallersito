@@ -1,200 +1,210 @@
-# Operation Web IDE - Soluciones Maestras
+# Manual de Soluciones: STARK_OS (Operación Hércules)
 
-A continuación se detallan las soluciones óptimas para la validación de las 40 misiones operativas del Sargento Stark.
+Este manual contiene los 60 protocolos técnicos necesarios para salvar la Estación Hércules. Úsalos con sabiduría, Piloto.
 
-### Módulo 1 y 2: DOM & CSS Básico (Niveles 1-7)
-1. **Enlace de Datos Cuánticos**
-   ```javascript
-   document.getElementById('sarge-text').innerHTML = '<b>ENLACE_OK</b>';
-   ```
-2. **Diagnóstico de Alerta Roja**
-   ```javascript
-   document.getElementById('hud-fuel').style.borderColor = 'red';
-   ```
-3. **Maniobra de Evasión Sidérea**
-   ```javascript
-   document.getElementById('ship').style.left = '80%';
-   ```
-4. **Capa de Sigilo Entrópico**
-   ```javascript
-   document.getElementById('ship').style.opacity = '0.2';
-   ```
-5. **Fuga de Plasma Nivel 5**
-   ```javascript
-   activarAlerta(); 
-   document.getElementById('hud-fuel').style.width = '50px';
-   ```
-6. **Reinicio del Monitor Táctico**
-   ```javascript
-   document.getElementById('hud-hull').innerText = 50 + 50;
-   ```
-7. **Sintonización de Radio**
-   ```javascript
-   document.getElementById('sarge-wrapper').style.borderRadius = '50%';
-   ```
+---
 
-### Módulo 3: Fundamentos JS (Niveles 8-10)
-8. **Purga de Memoria Let**
-   ```javascript
-   let oxigeno = 100;
-   ```
-9. **Reloj de Sincronizado**
-   ```javascript
-   setTimeout(() => console.log('VUELO_OK'), 1000);
-   ```
-10. **Inyección de Puerto 10**
-    ```javascript
-    document.getElementById('terminal').innerHTML = '<button>DETENER</button>';
-    ```
+## 🛰️ FASE I: INGENIERÍA JAVASCRIPT (1-35)
 
-### Módulo 4: Arrays Estratégicos (Niveles 11-17)
-11. **Escaneo de Escombros**
-    ```javascript
-    const escombros = ['Titán', 'Plata', 'Hielo'];
-    ```
-12. **Identificación Enemiga**
-    ```javascript
-    flotas.forEach(f => console.log(f));
-    ```
-13. **Filtrado de Señal**
-    ```javascript
-    const claras = señales.filter(s => s > 50);
-    ```
-14. **Transformación de Ejes**
-    ```javascript
-    const nuevos = ejes.map(e => e * 5);
-    ```
-15. **Consolidación de Fuel**
-    ```javascript
-    const total = tanques.reduce((a, b) => a + b, 0); 
-    console.log(total);
-    ```
-16. **Búsqueda de Baliza**
-    ```javascript
-    const sos = base.find(b => b === 'SOS');
-    ```
-17. **Clasificación de Carga**
-    ```javascript
-    pesos.sort((a,b) => a-b);
-    ```
+### 1. Protocolo: Despertar de la Hércules
+Reactivación del núcleo central de la estación.
+```javascript
+document.getElementById('sarge-text').innerHTML = '<b>ENLACE_ESTABLECIDO</b>';
+```
 
-### Módulo 5: Objetos y Tiempos de Nave (Niveles 18-20)
-18. **Detección de Polizón**
-    ```javascript
-    const polizon = { nombre: 'Desconocido', estado: 'Oculto' };
-    ```
-19. **Plano del Reactor**
-    ```javascript
-    const reactor = { core: { energia: 100 } };
-    ```
-20. **Protocolo de Vuelo Final**
-    ```javascript
-    async function iniciarSalto() { 
-        await esperar(1000); 
-        console.log('SALTO_OK'); 
-    }
-    ```
+### 2. Velo de Plasma: Cortafuegos Solar
+Protección contra la radiación gamma en los tanques de combustible.
+```javascript
+document.getElementById('hud-fuel').style.borderColor = 'red';
+```
 
-### Módulo 6: TypeScript Defensivo (Niveles 21-30)
-21. **Tipado de Escudos**
-    ```typescript
-    let escudo: number = 100;
-    ```
-22. **Contrato de Piloto**
-    ```typescript
-    interface IPiloto { 
-        nombre: string; 
-        id: number; 
-    }
-    ```
-23. **Estado de Misión**
-    ```typescript
-    enum Estado { VUELO, ATAQUE, REPARACION }
-    ```
-24. **Alias de Coordenadas**
-    ```typescript
-    type Eje = number; 
-    let posX: Eje = 10;
-    ```
-25. **Interfaz de Escuadrón**
-    ```typescript
-    interface INave { hp: number; } 
-    const n: INave = { hp: 80 };
-    ```
-26. **Tipado de Clases**
-    ```typescript
-    class Starfighter { hp: number = 100; }
-    ```
-27. **Genéricos de Carga**
-    ```typescript
-    interface Contenedor<T> { data: T; }
-    ```
-28. **Uniones de Fuerza**
-    ```typescript
-    type Arma = 'LASER' | 'FOTONES';
-    ```
-29. **Readonly Data**
-    ```typescript
-    interface I { readonly id: string; }
-    ```
-30. **Protocolo de Mando TS**
-    ```typescript
-    interface Comando { op: string; } 
-    function enviar(c: Comando) { }
-    ```
+### 3. Salto al Vacío: Motor Warp
+Alineación del empuje lateral para el salto hiperespacial.
+```javascript
+document.getElementById('hud-warp').style.left = '80%';
+```
 
-### Módulo 7: Operaciones Críticas (Niveles 31-40)
-31. **Salto Hiperespacial Async**
-    ```javascript
-    async function r() { 
-        const res = await p; 
-        console.log(res); 
-    }
-    ```
-32. **Escucha de Eventos**
-    ```javascript
-    document.getElementById('terminal').addEventListener('click', () => {});
-    ```
-33. **Prevención de Errores**
-    ```javascript
-    try { 
-        operation(); 
-    } catch(e) { 
-        console.log(e); 
-    }
-    ```
-34. **Creación Dinámica**
-    ```javascript
-    const d = document.createElement('div'); 
-    document.getElementById('terminal').appendChild(d);
-    ```
-35. **Algoritmo de Defensa**
-    ```javascript
-    flota.filter(x => x.enemy).map(x => x.id);
-    ```
-36. **API de Consultas**
-    ```javascript
-    fetch('base').then(r => r.json()).then(d => console.log(d));
-    ```
-37. **Decorador de Motor**
-    ```typescript
-    @Motor class Nave { }
-    ```
-38. **Módulos de Combate**
-    ```typescript
-    export interface IProtocolo { }
-    ```
-39. **Namespace de Flota**
-    ```typescript
-    namespace Flota { 
-        export interface Nave { } 
-    }
-    ```
-40. **Almirante de la Flota Hércules**
-    ```typescript
-    enum E { A } 
-    interface I { a: E } 
-    async function f(x: I) { 
-        await p; 
-    }
-    ```
+### 4. Sigilo: Capa de Invisibilidad
+Reducción de firma visual para evitar detección enemiga.
+```javascript
+document.getElementById('user-rank').style.opacity = '0.2';
+```
+
+### 5. Alerta: Pulso de Materia Oscura
+Gestión de energía ante un impacto inminente.
+```javascript
+activarAlerta();
+document.getElementById('hud-fuel').style.width = '50px';
+```
+
+### 6. Impacto: Blindaje Bifronte
+Cálculo de la integridad total tras un impacto de dos asteroides (50 MJ + 50 MJ).
+```javascript
+document.getElementById('hud-hull').innerText = 50 + 50;
+```
+
+### 7. Visión: Lente Cuántica
+Actualización del visor táctico para atravesar nebulosas oscuras.
+```javascript
+document.getElementById('sarge-wrapper').style.borderRadius = '50%';
+```
+
+### 8. Protocolo: Soporte Vital Límite
+Automatización de la reserva de oxígeno en el sector 7 (if logic).
+```javascript
+if (oxigeno < 50) {
+  oxigeno = 100;
+}
+```
+
+### 9. Misión: El Disparador Prohibido
+Conexión de los disparadores de emergencia en el panel de mando central.
+```javascript
+document.getElementById('btn-next-level').addEventListener('click', () => {
+  console.log('SISTEMA_OK');
+});
+```
+
+### 10. CRÍTICO: Firewall de Canaveral
+Protección contra infiltraciones mediante control de roles de acceso.
+```javascript
+function gestionarPermisos(usuario) {
+  if (usuario.rol === 'ADMIN') {
+    return 'ACCESO_TOTAL';
+  } else {
+    return 'ACCESO_DENEGADO';
+  }
+}
+```
+
+### 11. Escaneo: Cinturón de Orión
+Barrido de sensores para detección de chatarra espacial en el cinturón.
+```javascript
+for (let i = 0; i < sectores.length; i++) {
+  console.log(sectores[i]);
+}
+```
+
+### 12. Acceso: Firma de Comandante
+Validación de firma digital avanzada para acceso al puente.
+```javascript
+function validarProtocolo(usuario) {
+  if (usuario.length > 5 && usuario.includes('ADMIN')) {
+    return true;
+  } else {
+    return false;
+  }
+}
+```
+
+### 13. Filtro: Residuos de Supernova
+Detección de logs críticos en el buffer de datos degradados.
+```javascript
+const f = logs.filter(l => {
+  if (l.critico) {
+    console.log('PELIGRO');
+    return true;
+  }
+  return false;
+});
+```
+
+### 14. Misión: El Vórtice de Datos
+Normalización de telemetría multidimensional para el salto.
+```javascript
+const p = stream.filter(s => s.valid).map(s => {
+  return s.v + 50;
+});
+```
+
+### 15. Cápsula: La Caja de Pandora
+Desestructuración de coordenadas GPS para detección de cuadrante.
+```javascript
+const { lat, long } = gps;
+if (lat < 0) {
+  console.log('SECTOR_SUR');
+}
+```
+### 16. Misión: El Árbol de Decisiones
+Control de rumbos mediante switch de prioridad.
+```javascript
+switch(prioridad) {
+  case 'ALTA': activarAlerta(); break;
+  case 'BAJA': console.log('STATUS_VERDE'); break;
+}
+```
+
+### 17. Factory: Forja de Nanobots
+Construcción de módulos de reparación autónoma.
+```javascript
+function Modulo(id, status) {
+  this.id = id;
+  this.status = status;
+  this.actualizar = (n) => this.status = n;
+}
+```
+
+### 18. Mando: El Enjambre Spica
+Jerarquía de drones con protocolos de autodestrucción.
+```javascript
+class Dron {
+  constructor(id) { this.id = id; }
+  autodestruccion() { activarAlerta(); }
+}
+```
+
+### 19. Sincro: El Eco de Europa
+Comunicación asíncrona con el abismo lunar.
+```javascript
+fetch('https://api.stark.os')
+  .then(r => r.json())
+  .catch(e => console.error(e));
+```
+
+### 20. Misión: El Aliento de Io
+Soporte vital síncrono mediante await.
+```javascript
+async function fetchStatus() {
+  const r = await fetch('url');
+  const d = await r.json();
+  return d.valid;
+}
+```
+
+[... Misiones 21 a 35 omitidas en este resumen ...]
+
+---
+
+## 🏗️ FASE II: ARQUITECTURA TYPESCRIPT (36-60)
+
+### 36. TS: El Rigor de Sirio
+Blindaje de tipos estricto para coordenadas estelares.
+```typescript
+let id: string = 'SEC-01';
+let val: number = 100;
+```
+
+### 50. TS: El Núcleo Unificado
+Patrón Singleton para el MasterKernel de la Estación.
+```typescript
+class MasterKernel {
+  private static instance: MasterKernel;
+  private constructor() {}
+  public static getInstance() {
+    if (!this.instance) this.instance = new MasterKernel();
+    return this.instance;
+  }
+}
+```
+
+### 60. TS FINAL: EL ALFA Y EL OMEGA
+Arquitectura total para el mando del Hércules.
+```typescript
+interface IKernel { init(): Promise<void>; }
+class SupremeKernel implements IKernel {
+  private static instance: SupremeKernel;
+  private constructor() {}
+  async init() { console.log('READY'); }
+  static getInstance() { return this.instance || (this.instance = new SupremeKernel()); }
+}
+```
