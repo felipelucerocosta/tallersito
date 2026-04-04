@@ -592,6 +592,87 @@
       border: 1px solid var(--secondary);
       font-size: 11px;
     }
+    /* --- PROMOTION OVERLAY --- */
+    #promotion-overlay {
+      background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, rgba(0, 0, 0, 0.95) 100%);
+      flex-direction: column;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .promotion-card {
+      position: relative;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(20px);
+      border: 2px solid var(--accent);
+      padding: 60px;
+      max-width: 800px;
+      width: 90%;
+      box-shadow: 0 0 100px var(--accent-glow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: promotionEntry 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes promotionEntry {
+      from { opacity: 0; transform: scale(0.8) translateY(50px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .promotion-sarge {
+      width: 250px;
+      height: 250px;
+      border: 3px solid var(--accent);
+      border-radius: 50%;
+      margin-bottom: 30px;
+      object-fit: cover;
+      box-shadow: 0 0 30px var(--accent-glow);
+      animation: sargePulse 2s infinite alternate;
+    }
+
+    @keyframes sargePulse {
+      from { transform: scale(1); box-shadow: 0 0 20px var(--accent-glow); }
+      to { transform: scale(1.05); box-shadow: 0 0 50px var(--accent-glow); }
+    }
+
+    .promotion-title {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 15px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px var(--accent-glow);
+      text-transform: uppercase;
+    }
+
+    .promotion-rank {
+      font-size: 24px;
+      color: var(--text-bright);
+      letter-spacing: 5px;
+      margin-bottom: 40px;
+      font-weight: 700;
+    }
+
+    .promotion-btn {
+      width: 100%;
+      padding: 20px;
+      font-size: 14px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      font-family: var(--ui-font);
+      font-weight: 800;
+      letter-spacing: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .promotion-btn:hover {
+      background: var(--success);
+      box-shadow: 0 0 30px var(--accent-glow);
+      letter-spacing: 8px;
+    }
   </style>
 </head>
 
@@ -629,8 +710,8 @@
   <!-- Success Overlay -->
   <div id="success-overlay" class="overlay hidden">
     <div class="overlay-card" style="border-color:var(--success); box-shadow: 0 0 50px rgba(74, 222, 128, 0.2);">
-      <h2 style="color:var(--success); font-size:28px; letter-spacing:5px; margin-bottom:10px;">OPERACIÓN ÉXITO</h2>
-      <p id="success-msg" style="color:var(--text-bright); margin-bottom:30px;">Protocolo cumplimentado. Parámetros nominales restablecidos.</p>
+      <h2 style="color:var(--success); font-size:28px; letter-spacing:5px; margin-bottom:10px;">OPERACIÓN CON ÉXITO</h2>
+      <p id="success-msg" style="color:var(--text-bright); margin-bottom:30px;">MISIÓN CUMPLIDA. Parámetros nominales restablecidos.</p>
       <button id="btn-next-level" class="btn" style="border-color:var(--success); color:var(--success); width:100%;">SIGUIENTE PROTOCOLO</button>
     </div>
   </div>
@@ -829,7 +910,29 @@
       </div>
     </details>
 
-    <!-- Group 5: Blindaje y APIs Pro -->
+    <!-- Group 5: Maatría en Objetos (POO) -->
+    <details>
+      <summary><i data-lucide="box"></i> [PROGRAMACIÓN_ORIENTADA_A_OBJETOS]</summary>
+      <div class="folder-content">
+        <div class="manual-sec">
+          <h3>MOD 22: CONSTRUCTORES (Plantillas)</h3>
+          <p>Usa funciones para crear muchos objetos iguales con <code>this</code>.</p>
+          <code>function Dron(id) { this.id = id; }<br>const d1 = new Dron(101);</code>
+        </div>
+        <div class="manual-sec">
+          <h3>MOD 23: CLASES (Modernidad)</h3>
+          <p>La forma oficial de agrupar datos y funciones (métodos).</p>
+          <code>class Dron { constructor(id) { this.id = id; } operar() { ... } }</code>
+        </div>
+        <div class="manual-sec">
+          <h3>MOD 24: HERENCIA (Evolución)</h3>
+          <p>Crea una clase basada en otra usando <code>extends</code> y <code>super</code>.</p>
+          <code>class SuperDron extends Dron { constructor(id) { super(id); } }</code>
+        </div>
+      </div>
+    </details>
+
+    <!-- Group 6: Blindaje y APIs Pro -->
     <details>
       <summary><i data-lucide="shield-check"></i> [BLINDAJE_Y_APIS_PRO]</summary>
       <div class="folder-content">
@@ -874,6 +977,21 @@
     </div>
   </div>
 
+
+  <!-- Promotion Overlay -->
+  <div id="promotion-overlay" class="overlay hidden">
+    <div class="promotion-card">
+      <div style="position:absolute; top: -2px; left: 0; width: 100%; height: 2px; background: var(--accent); box-shadow: 0 0 20px var(--accent);"></div>
+      <img src="sarge.png" class="promotion-sarge">
+      <h2 class="promotion-title">ASCENSO</h2>
+      <p style="color:var(--secondary); font-size:12px; letter-spacing:3px; margin-bottom:5px;">NUEVO RANGO DISPONIBLE</p>
+      <div id="new-rank-display" class="promotion-rank">TENIENTE</div>
+      <p style="color:var(--text); margin-bottom:40px; line-height:1.6; max-width:500px;">
+        ¡EXCELENTE TRABAJO, SOLDADO! Has demostrado una competencia técnica excepcional. El mando central de la Estación Hércules te otorga oficialmente este nuevo rango.
+      </p>
+      <button class="promotion-btn" onclick="closePromotion()">CONTINUAR OPERACIÓN</button>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
