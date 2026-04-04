@@ -783,15 +783,46 @@ const missions = [
     }
 
     function handlePresentation() {
-        const name = document.getElementById('user-name-input').value;
-        if (!name) return alert("¡ID Piloto!");
-        STATE.name = name;
-        document.getElementById('user-name-display').innerText = name.toUpperCase();
+        const nameInput = document.getElementById('user-name-input').value;
+        const tokenInput = document.getElementById('recovery-token-input').value;
+        
+        let startLevel = 1;
+        let isRecovery = false;
+        
+        if (tokenInput.trim() !== "") {
+            try {
+                const data = JSON.parse(atob(tokenInput));
+                STATE.name = data.n || "RECLUTA";
+                STATE.level = data.l || 1;
+                STATE.unlocked = data.u || 1;
+                STATE.completed = data.c || [];
+                STATE.energy = data.e || 100;
+                STATE.rank = data.r || "RECLUTA";
+                startLevel = STATE.level;
+                isRecovery = true;
+                
+                document.getElementById('user-name-display').innerText = STATE.name.toUpperCase();
+                document.getElementById('user-rank').innerText = STATE.rank;
+                document.getElementById('hud-fuel').innerText = STATE.energy + "%";
+            } catch (e) {
+                return alert("¡ERROR: TOKEN CORRUPTO O INVÁLIDO!");
+            }
+        } else {
+            if (!nameInput) return alert("¡ID Piloto!");
+            STATE.name = nameInput;
+            document.getElementById('user-name-display').innerText = STATE.name.toUpperCase();
+        }
+
         document.getElementById('id-input-area').style.display = 'none';
         
-        const lines = [
+        const lines = isRecovery ? [
+            `RECUPERANDO SESIÓN DEL PILOTO ${STATE.name.toUpperCase()}...`,
+            "SINCRONIZANDO DATOS CON EL NÚCLEO HÉRCULES...",
+            `PROTOCOLO ACTUAL: ${startLevel}`,
+            "STATUS: ACCESO CONCEDIDO."
+        ] : [
             `INICIALIZANDO PROTOCOLOS ESTELARES...`,
-            `PILOTO ${name.toUpperCase()} RECONOCIDO POR EL GENERAL STARK.`, 
+            `PILOTO ${STATE.name.toUpperCase()} RECONOCIDO POR EL GENERAL STARK.`, 
             "ESTADO: ENTRENAMIENTO DE ÉLITE ACTIVO.", 
             "60 PROTOCOLOS DE SEGURIDAD CARGADOS EN EL KERNEL.",
             "¡RECUERDA: CADA ÉXITO RECARGA TU ENERGÍA!"
@@ -809,7 +840,7 @@ const missions = [
             } else {
                 setTimeout(() => {
                     document.getElementById('welcome-overlay').classList.add('hidden');
-                    loadLevel(1);
+                    loadLevel(startLevel);
                 }, 1000);
             }
         }
@@ -1065,6 +1096,26 @@ const missions = [
         const hub = document.getElementById('mission-hub');
         hub.classList.toggle('hidden');
         renderMissions();
+    }
+
+    function copyRecoveryToken() {
+        const data = {
+            n: STATE.name,
+            l: STATE.level,
+            u: STATE.unlocked,
+            c: STATE.completed,
+            e: STATE.energy,
+            r: STATE.rank
+        };
+        const token = btoa(JSON.stringify(data));
+        navigator.clipboard.writeText(token).then(() => {
+            const term = document.getElementById('terminal');
+            term.innerHTML += `<span style="color:var(--success)">> [SISTEMA]: TOKEN DE ACCESO GENERADO Y COPIADO AL PORTAPAPELES.</span><br>`;
+            term.innerHTML += `<span style="color:var(--secondary)">> [!] Este código te permite retomar tus misiones en cualquier terminal.</span><br>`;
+            term.scrollTop = term.scrollHeight;
+        }).catch(err => {
+            alert("Error al copiar token: " + token);
+        });
     }
     
     function renderMissionHub() {

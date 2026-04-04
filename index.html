@@ -613,9 +613,15 @@
       </p>
       <div id="id-input-area">
         <input type="text" id="user-name-input"
-          style="width:100%; padding:15px; background:#000; border:1px solid var(--accent); color:var(--accent); text-align:center; margin-bottom:20px; font-family:inherit;"
+          style="width:100%; padding:15px; background:#000; border:1px solid var(--accent); color:var(--accent); text-align:center; margin-bottom:10px; font-family:inherit;"
           placeholder="ID DE PERSONAL MILITAR">
-        <button class="btn" style="width:100%;" onclick="handlePresentation()">INICIAR SISTEMA</button>
+        <div style="margin-bottom:20px;">
+          <p style="font-size:10px; color:var(--secondary); margin-bottom:5px;">O INGRESA TOKEN DE RECUPERACIÓN:</p>
+          <input type="text" id="recovery-token-input" 
+            style="width:100%; padding:10px; background:rgba(239, 68, 68, 0.05); border:1px solid var(--error); color:var(--error); text-align:center; font-family:inherit; font-size:11px;"
+            placeholder="[TOKEN_ALPHA_6]">
+        </div>
+        <button class="btn" style="width:100%;" onclick="handlePresentation()">INICIALIZAR SISTEMA</button>
       </div>
     </div>
   </div>
@@ -680,8 +686,9 @@
         <button class="btn-help" onclick="showHint()">AUXILIO DEL SARGENTO (-5% E)</button>
       </div>
 
-      <div style="padding:15px 20px;">
+      <div style="padding:15px 20px; display:flex; flex-direction:column; gap:10px;">
         <button class="btn" style="width:100%;" onclick="toggleMissionHub()">DASHBOARD_MISIONES</button>
+        <button class="btn" style="width:100%; font-size:9px; border-color:var(--secondary); color:var(--secondary);" onclick="copyRecoveryToken()">GENERAR_TOKEN_SALVADO</button>
       </div>
 
       <div class="mission-section-title">INGENIERÍA JS</div>
@@ -858,9 +865,12 @@
   <!-- Mission Hub -->
   <div id="mission-hub" class="overlay hidden">
     <div class="overlay-card" style="max-width:800px;">
-      <h2 style="color:var(--accent); letter-spacing:4px; margin-bottom:20px;">CENTRAL DE COMANDO</h2>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h2 style="color:var(--accent); letter-spacing:4px;">CENTRAL DE COMANDO</h2>
+        <button class="btn" style="font-size:10px; border-color:var(--secondary); color:var(--secondary);" onclick="copyRecoveryToken()">GENERAR_TOKEN_ACCESO</button>
+      </div>
       <div id="hub-grid" class="hub-grid"></div>
-      <button class="btn" onclick="toggleMissionHub()" style="margin-top:30px;">VOLVER_AL_PUESTO</button>
+      <button class="btn" onclick="toggleMissionHub()" style="margin-top:30px; width:100%;">VOLVER_AL_PUESTO</button>
     </div>
   </div>
 
