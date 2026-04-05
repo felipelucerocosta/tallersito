@@ -17,923 +17,663 @@ const missions = [
     "id": 1,
     "type": "JS",
     "timer": null,
-    "title": "Protocolo: Despertar de la Hércules",
-    "sarge": "¡RECLUTA! No te me duermas en la guardia. La IA de la estación está en coma profundo. Inyecta vida en el kernel cambiando el 'innerHTML' de 'sarge-text' a '<b>ENLACE_ESTABLECIDO</b>'. ¡QUE SE HAGA LA LUZ!",
-    "starter": "// Estableciendo conexión con el intercomunicador...\nconst t = document.getElementById('sarge-text');\n",
+    "phase": "BOOTCAMP",
+    "title": "Tu Primera Orden: ¡Habla!",
+    "sarge": "¡BIENVENIDO A BORDO, RECLUTA! Antes de tocar NADA en esta estación, necesito saber que podés comunicarte. Escribí 'console.log' seguido de paréntesis y adentro el texto 'RECLUTA_LISTO' entre comillas. Eso imprime un mensaje en la terminal de abajo. ¡ES TU PRIMER ORDEN, NO LA ARRUINES!",
+    "starter": "// Tu primera misión: mostrar un mensaje en la terminal.\\n// Escribí tu código acá abajo:\\n\\n",
     "hints": [
-      "Busca el elemento usando document.getElementById('sarge-text').",
-      "Asigna el nuevo contenido a la propiedad .innerHTML.",
-      "Asegúrate de incluir las etiquetas HTML <b> dentro de las comillas."
+      "💡 'console.log()' es como un MEGÁFONO DIGITAL. Lo que pongas adentro aparece en la terminal de abajo.",
+      "💡 Los textos en programación van SIEMPRE entre comillas. Ejemplo: 'HOLA' o \\\"HOLA\\\".",
+      "💡 La respuesta completa es:\\n\\nconsole.log('RECLUTA_LISTO');\\n\\n¡Copialo y dale a EJECUTAR!"
     ],
-    "solution": "document.getElementById('sarge-text').innerHTML = '<b>ENLACE_ESTABLECIDO</b>';",
-    "validate": () => document.getElementById('sarge-text').innerHTML.includes('ENLACE_ESTABLECIDO')
+    "solution": "console.log('RECLUTA_LISTO');",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('console.log') && code.includes('RECLUTA_LISTO'); }
   },
   {
     "id": 2,
     "type": "JS",
     "timer": null,
-    "title": "Velo de Plasma: Cortafuegos Solar",
-    "sarge": "¡RADIACIÓN GAMMA DETECTADA! El escudo térmico tiene una fisura. Marca el sector 'hud-fuel' con un 'borderColor' rojo para que el equipo de soldadura sepa dónde intervenir. ¡CIERRA ESA BRECHA!",
-    "starter": "// Marcando sector de error en el firewall...\n",
+    "phase": "BOOTCAMP",
+    "title": "Variables: Tu Caja de Datos",
+    "sarge": "¡BIEN, RECLUTA! Ahora necesito que guardes información. En programación usamos VARIABLES, que son como CAJAS con un nombre. Creá una variable llamada 'piloto' usando 'let' y guardá tu nombre adentro (entre comillas). ¡NECESITO SABER QUIÉN ESTÁ EN MI ESTACIÓN!",
+    "starter": "// Las variables guardan datos. Se crean así:\\n// let nombreDeLaCaja = 'valor';\\n\\n// Creá tu variable 'piloto' acá:\\n\\n",
     "hints": [
-      "Accede a los estilos del elemento con .style.",
-      "La propiedad específica es .borderColor.",
-      "El color debe ser la cadena 'red'."
+      "💡 'let' es la palabra mágica para CREAR una variable (una caja de datos).",
+      "💡 El formato es: let nombre = 'valor';  No te olvides del punto y coma (;).",
+      "💡 La respuesta es:\\n\\nlet piloto = 'TU_NOMBRE';\\n\\nReemplazá TU_NOMBRE por tu nombre real."
     ],
-    "solution": "document.getElementById('hud-fuel').style.borderColor = 'red';",
-    "validate": () => document.getElementById('hud-fuel').style.borderColor === 'red'
+    "solution": "let piloto = 'Stark';",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('let piloto') && code.includes('='); }
   },
   {
     "id": 3,
     "type": "JS",
-    "timer": 120,
-    "title": "Salto al Vacío: Motor Warp",
-    "sarge": "¡FLOTA ENEMIGA EN EL RADAR! Necesitamos saltar al Hiperespacio. Alinea el 'hud-warp' moviéndolo al '80%' de su eje lateral (left). ¡SI FALLAS, SEREMOS CHATARRA ESPACIAL!",
-    "starter": "// Ajustando posición del módulo Warp...\n",
+    "timer": null,
+    "phase": "BOOTCAMP",
+    "title": "Números: El Combustible",
+    "sarge": "¡LA ESTACIÓN NECESITA CÁLCULOS! Los números NO llevan comillas. Creá una variable 'combustible' con el valor 100, y otra 'consumo' con valor 25. Después mostrá cuánto queda restando: console.log(combustible - consumo). ¡NECESITO SABER SI LLEGAMOS A MARTE!",
+    "starter": "// Los números NO llevan comillas.\\n// Ejemplo: let edad = 15;\\n\\n// Creá tus variables acá:\\n\\n\\n// Mostrá el resultado de la resta:\\n\\n",
     "hints": [
-      "Selecciona 'hud-warp' y accede a .style.",
-      "Cambia el valor de la propiedad .left.",
-      "Recuerda que el valor debe ser un porcentaje: '80%'."
+      "💡 Los números van SIN comillas: let combustible = 100; (no '100').",
+      "💡 Podés hacer cuentas directamente: console.log(combustible - consumo);",
+      "💡 La respuesta completa es:\\n\\nlet combustible = 100;\\nlet consumo = 25;\\nconsole.log(combustible - consumo);"
     ],
-    "solution": "document.getElementById('hud-warp').style.left = '80%';",
-    "validate": () => document.getElementById('hud-warp').style.left === '80%'
+    "solution": "let combustible = 100;\\nlet consumo = 25;\\nconsole.log(combustible - consumo);",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('combustible') && code.includes('consumo') && code.includes('console.log'); }
   },
   {
     "id": 4,
     "type": "JS",
-    "timer": 120,
-    "title": "Sigilo: Capa de Invisibilidad",
-    "sarge": "¡NOS ESTÁN ESCANEANDO! Reduce la opacidad del 'user-rank' a un tenue 0.2. Debemos ser invisibles entre las estrellas para que no detecten nuestra jerarquía militar.",
-    "starter": "// Aplicando máscara de datos al rango...\n",
+    "timer": null,
+    "phase": "BOOTCAMP",
+    "title": "Textos: Unir Mensajes",
+    "sarge": "¡COMUNICACIONES ACTIVAS! En programación podemos UNIR textos con el signo +. Creá una variable 'rango' con el valor 'RECLUTA', y después mostrá un mensaje unido: console.log('Soy un ' + rango). ¡QUIERO VER TU PRESENTACIÓN EN LA TERMINAL!",
+    "starter": "// Unir textos se llama CONCATENAR.\\n// Se usa el signo + entre textos.\\n// Ejemplo: 'Hola ' + 'Mundo' = 'Hola Mundo'\\n\\n// Creá la variable 'rango':\\n\\n\\n// Mostrá el mensaje unido:\\n\\n",
     "hints": [
-      "Localiza 'user-rank' en el DOM.",
-      "Usa .style.opacity para el efecto de transparencia.",
-      "Asigna el valor numérico 0.2 (o '0.2')."
+      "💡 Concatenar = unir textos con +. Ejemplo: 'Mi nombre es ' + nombre",
+      "💡 Cuidado con los espacios. 'Soy un ' tiene un espacio al final a propósito.",
+      "💡 La respuesta es:\\n\\nlet rango = 'RECLUTA';\\nconsole.log('Soy un ' + rango);"
     ],
-    "solution": "document.getElementById('user-rank').style.opacity = '0.2';",
-    "validate": () => document.getElementById('user-rank').style.opacity === '0.2'
+    "solution": "let rango = 'RECLUTA';\\nconsole.log('Soy un ' + rango);",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('rango') && code.includes('+') && code.includes('console.log'); }
   },
   {
     "id": 5,
     "type": "JS",
-    "timer": 60,
-    "title": "SOBRECARGA DEL KERNEL",
-    "sarge": "¡LA OSCURIDAD SE ACERCA! Un pulso de energía nos golpea. Ejecuta el protocolo 'activarAlerta()' y reduce el ancho ('width') de 'hud-fuel' a '50px' para concentrar energía en los escudos.",
-    "starter": "// ¡DEPURACIÓN DE EMERGENCIA!...\n",
+    "timer": null,
+    "phase": "BOOTCAMP",
+    "title": "Decisiones: ¿Sí o No?",
+    "sarge": "¡HORA DE DECIDIR, RECLUTA! En programación usamos 'if' para tomar decisiones. Es como preguntar: ¿ESTO ES VERDAD? Si sí, hacé algo. Tenés una variable 'oxigeno' con valor 30. Si el oxígeno es MENOR a 50, mostrá 'ALERTA_CRITICA' en la consola. ¡LA TRIPULACIÓN DEPENDE DE VOS!",
+    "starter": "// 'if' pregunta si algo es verdad.\\n// Dentro de los paréntesis va la PREGUNTA.\\n// Dentro de las llaves {} va LO QUE HACE si es verdad.\\n\\nlet oxigeno = 30;\\n\\n// Completá el if:\\n// if (oxigeno < 50) {\\n//   console.log('ALERTA_CRITICA');\\n// }\\n\\n",
     "hints": [
-      "Primero escribe activarAlerta(); en una línea sola.",
-      "Luego busca 'hud-fuel' y accede a .style.width.",
-      "Establece el ancho como '50px'."
+      "💡 'if' funciona así: if (pregunta) { lo que hace }. El signo < significa 'menor que'.",
+      "💡 30 es menor que 50, así que la condición ES VERDADERA y el código de adentro se ejecuta.",
+      "💡 La respuesta es:\\n\\nif (oxigeno < 50) {\\n  console.log('ALERTA_CRITICA');\\n}\\n\\n¡Sacá las barras // para descomentar!"
     ],
-    "solution": "activarAlerta();\ndocument.getElementById('hud-fuel').style.width = '50px';",
-    "validate": () => document.getElementById('hud-fuel').style.width === '50px'
+    "solution": "if (oxigeno < 50) {\\n  console.log('ALERTA_CRITICA');\\n}",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('if') && code.includes('oxigeno') && code.includes('ALERTA_CRITICA'); }
   },
   {
     "id": 6,
     "type": "JS",
     "timer": null,
-    "title": "Telemetría del Casco",
-    "sarge": "¡IMPACTO DE ASTEROIDES! Dos meteoros golpearon el casco. Suma ambos impactos (50+50) y actualiza el 'innerText' del 'hud-hull' para que los ingenieros sepan la magnitud del daño.",
-    "starter": "// Normalizando sensores de integridad...\n",
+    "phase": "BOOTCAMP",
+    "title": "If / Else: Dos Caminos",
+    "sarge": "¡AHORA CON DOS CAMINOS! A veces necesitás hacer una cosa SI se cumple la condición, y OTRA COSA si no se cumple. Eso es 'else'. Si la 'temperatura' es mayor a 100, mostrá 'PELIGRO'. Si no, mostrá 'ESTABLE'. ¡DECIDÍ EL DESTINO DEL REACTOR!",
+    "starter": "// if / else = SI pasa esto... SI NO, hace esto otro.\\n\\nlet temperatura = 150;\\n\\n// Completá:\\n// if (temperatura > 100) {\\n//   console.log('PELIGRO');\\n// } else {\\n//   console.log('ESTABLE');\\n// }\\n\\n",
     "hints": [
-      "Usa document.getElementById('hud-hull').",
-      "Usa la propiedad .innerText para cambiar el texto visible.",
-      "Asigna el valor de la operación 50 + 50."
+      "💡 'else' significa 'si no'. Se escribe justo después de la llave } del if.",
+      "💡 El signo > significa 'mayor que'. 150 > 100 es VERDADERO.",
+      "💡 La respuesta es:\\n\\nif (temperatura > 100) {\\n  console.log('PELIGRO');\\n} else {\\n  console.log('ESTABLE');\\n}"
     ],
-    "solution": "document.getElementById('hud-hull').innerText = 50 + 50;",
-    "validate": () => document.getElementById('hud-hull').innerText === '100'
+    "solution": "if (temperatura > 100) {\\n  console.log('PELIGRO');\\n} else {\\n  console.log('ESTABLE');\\n}",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('if') && code.includes('else') && code.includes('PELIGRO'); }
   },
   {
     "id": 7,
     "type": "JS",
     "timer": null,
-    "title": "Refactorización de Interfaz",
-    "sarge": "¡EL VISOR ESTÁ DESACTUALIZADO! Cambia el 'borderRadius' de 'sarge-wrapper' al '50%' para activar el Modo Lente. ¡QUIERO VER EL UNIVERSO CON CLARIDAD!",
-    "starter": "// Puliendo la UI del intercomunicador...\n",
+    "phase": "BOOTCAMP",
+    "title": "Funciones: Tu Primer Robot",
+    "sarge": "¡AUTOMATIZACIÓN! Las FUNCIONES son como pequeños robots: les das un nombre, les enseñás qué hacer, y después las podés usar las veces que quieras. Creá una función llamada 'saludar' que muestre 'SISTEMA_OPERATIVO' en la consola. Después, ¡LLAMALA para que se ejecute!",
+    "starter": "// Una función se CREA así:\\n// function nombre() {\\n//   lo que hace adentro\\n// }\\n//\\n// Y se LLAMA así:\\n// nombre();\\n\\n// Creá la función 'saludar':\\n\\n\\n// Llamala para que se ejecute:\\n\\n",
     "hints": [
-      "Accede a 'sarge-wrapper' en el DOM.",
-      "La propiedad de estilo es .style.borderRadius.",
-      "Usa el valor '50%' para hacerlo circular."
+      "💡 CREAR la función: function saludar() { ... }. LLAMARLA: saludar();",
+      "💡 Adentro de la función poné el console.log('SISTEMA_OPERATIVO');",
+      "💡 Respuesta completa:\\n\\nfunction saludar() {\\n  console.log('SISTEMA_OPERATIVO');\\n}\\nsaludar();"
     ],
-    "solution": "document.getElementById('sarge-wrapper').style.borderRadius = '50%';",
-    "validate": () => document.getElementById('sarge-wrapper').style.borderRadius === '50%'
+    "solution": "function saludar() {\\n  console.log('SISTEMA_OPERATIVO');\\n}\\nsaludar();",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('function saludar') && code.includes('SISTEMA_OPERATIVO') && code.includes('saludar()'); }
   },
   {
     "id": 8,
     "type": "JS",
     "timer": null,
-    "title": "Variables y Scope de Memoria",
-    "sarge": "¡FUGA EN EL SECTOR 7! El nivel de oxígeno es crítico (30). Crea un sensor que detecte si es menor a 50 y lo reasigne a 100 usando los tanques de reserva. ¡SALVA A LA TRIPULACIÓN!",
-    "starter": "// Optimizando búffer de soporte vital...\nlet oxigeno = 30;\n",
+    "phase": "BOOTCAMP",
+    "title": "Arrays: Lista de Tripulación",
+    "sarge": "¡INVENTARIO! Un ARRAY es una LISTA de cosas. Se escribe con corchetes [] y cada elemento se separa con comas. Creá un array llamado 'tripulacion' con 3 nombres: 'STARK', 'NOVA', 'TITAN'. Después mostrá el PRIMERO con console.log(tripulacion[0]). ¡OJO: las listas empiezan en 0, no en 1!",
+    "starter": "// Un array es una LISTA.\\n// Se crea con corchetes: ['cosa1', 'cosa2', 'cosa3']\\n// Se accede por POSICIÓN: lista[0] = primero, lista[1] = segundo...\\n\\n// Creá el array 'tripulacion':\\n\\n\\n// Mostrá el primer elemento:\\n\\n",
     "hints": [
-      "Usa un condicional: if (oxigeno < 50).",
-      "Dentro del bloque { }, cambia el valor: oxigeno = 100;",
-      "Esto simula una recarga automática de los tanques."
+      "💡 Los arrays usan corchetes []. Cada elemento va entre comillas y separado por comas.",
+      "💡 ¡CUIDADO! En programación contamos desde 0. tripulacion[0] = 'STARK', tripulacion[1] = 'NOVA'...",
+      "💡 Respuesta:\\n\\nlet tripulacion = ['STARK', 'NOVA', 'TITAN'];\\nconsole.log(tripulacion[0]);"
     ],
-    "solution": "if (oxigeno < 50) {\n  oxigeno = 100;\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('if') && code.includes('oxigeno = 100'); }
+    "solution": "let tripulacion = ['STARK', 'NOVA', 'TITAN'];\\nconsole.log(tripulacion[0]);",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('tripulacion') && code.includes('[') && code.includes('STARK'); }
   },
   {
     "id": 9,
     "type": "JS",
     "timer": null,
-    "title": "Event Listener de Consola",
-    "sarge": "¡CONFIGURACIÓN DE ATAQUE! Agrega un listener de 'click' al botón 'btn-next-level'. Cuando se pulse, debe imprimir 'SISTEMA_OK' en la consola. ¡ES EL BOTÓN DE PÁNICO!",
-    "starter": "// Conectando periféricos de entrada...\n",
+    "phase": "BOOTCAMP",
+    "title": "Bucle For: Repetir Tareas",
+    "sarge": "¡ESCANEO DE SECTORES! Un 'for' repite código varias veces automáticamente. Es como decir: 'hacé esto 3 veces'. Tenés un array de 'sectores'. Usá un for para mostrar CADA sector en la consola. ¡NO PODEMOS DEJAR NI UN SECTOR SIN REVISAR!",
+    "starter": "// El bucle FOR repite código.\\n// for (let i = 0; i < 3; i++) { lo que repite }\\n// 'i' empieza en 0, y sube de 1 en 1 hasta llegar a 3.\\n\\nlet sectores = ['MOTOR', 'PUENTE', 'HANGAR'];\\n\\n// Recorré el array con un for:\\n// for (let i = 0; i < sectores.length; i++) {\\n//   console.log(sectores[i]);\\n// }\\n\\n",
     "hints": [
-      "Usa document.getElementById('btn-next-level').",
-      "Llama al método .addEventListener('click', () => { ... }).",
-      "Dentro de la función, escribe console.log('SISTEMA_OK');"
+      "💡 'sectores.length' te dice cuántos elementos tiene la lista (en este caso 3).",
+      "💡 'sectores[i]' accede al elemento en la posición 'i'. Como i va de 0 a 2, muestra los 3.",
+      "💡 Respuesta:\\n\\nfor (let i = 0; i < sectores.length; i++) {\\n  console.log(sectores[i]);\\n}\\n\\n¡Sacá las barras (//) para descomentar el for!"
     ],
-    "solution": "document.getElementById('btn-next-level').addEventListener('click', () => {\n  console.log('SISTEMA_OK');\n});",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('addEventListener') && code.includes('SISTEMA_OK'); }
+    "solution": "for (let i = 0; i < sectores.length; i++) {\\n  console.log(sectores[i]);\\n}",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('for') && code.includes('sectores') && code.includes('console.log'); }
   },
   {
     "id": 10,
     "type": "JS",
-    "timer": 90,
-    "title": "Protocolo: Inyección de Alertas",
-    "sarge": "¡ATAQUE HACKER DETECTADO! Crea un 'div', dale la clase 'hud-warning', ponle el texto 'ERROR_KERNEL' y agrégalo al 'terminal' con 'appendChild'. ¡RÁPIDO O PERDEMOS EL CONTROL!",
-    "starter": "// Defendiendo el terminal...\n",
+    "timer": null,
+    "phase": "BOOTCAMP",
+    "title": "¡Tocá la Pantalla! Tu Primer DOM",
+    "sarge": "¡AHORA SÍ, RECLUTA! Todo lo anterior fue entrenamiento básico. Ahora vas a TOCAR la pantalla real de la estación. Con 'document.getElementById' podés buscar un elemento de la pantalla por su nombre y cambiarle el TEXTO con '.innerText'. Cambiá el texto del visor 'sarge-text' a 'ENLACE_ESTABLECIDO'. ¡QUE SE HAGA LA LUZ!",
+    "starter": "// document.getElementById('nombre') busca un elemento en la pantalla.\\n// .innerText cambia lo que dice ese elemento.\\n// Ejemplo: document.getElementById('algo').innerText = 'nuevo texto';\\n\\n// Buscá 'sarge-text' y cambiá su texto:\\n\\n",
     "hints": [
-      "Crea el elemento: const div = document.createElement('div');",
-      "Cambia su clase: div.className = 'hud-warning';",
-      "Usa .appendChild(...) para insertarlo en el terminal."
+      "💡 document.getElementById('sarge-text') busca el visor del sargento en la pantalla.",
+      "💡 .innerText = 'ENLACE_ESTABLECIDO' le cambia el texto que muestra.",
+      "💡 Respuesta:\\n\\ndocument.getElementById('sarge-text').innerText = 'ENLACE_ESTABLECIDO';"
     ],
-    "solution": "const div = document.createElement('div');\ndiv.className = 'hud-warning';\ndiv.innerText = 'ERROR_KERNEL';\ndocument.getElementById('terminal').appendChild(div);",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('createElement') && code.includes('appendChild') && code.includes('ERROR_KERNEL'); }
+    "solution": "document.getElementById('sarge-text').innerText = 'ENLACE_ESTABLECIDO';",
+    "validate": () => document.getElementById('sarge-text').innerText.includes('ENLACE_ESTABLECIDO')
   },
   {
     "id": 11,
     "type": "JS",
     "timer": null,
-    "title": "Bucle de Escaneo de Sectores",
-    "sarge": "¡BARRIDO DE SENSORES! Recorre el array de 'sectores' con un bucle 'for' y muestra cada uno en la terminal. ¡NO PODEMOS DEJAR NI UN RADICAL SIN DETECTAR!",
-    "starter": "const sectores = ['MOTOR', 'HANGAR', 'PUENTE'];\n",
+    "title": "Velo de Plasma: Cortafuegos Solar",
+    "sarge": "¡RADIACIÓN GAMMA DETECTADA! El escudo térmico tiene una fisura. Marcá el sector 'hud-fuel' con un 'borderColor' rojo para que el equipo de soldadura sepa dónde intervenir. ¡CIERRA ESA BRECHA!",
+    "starter": "// Recordá: document.getElementById('nombre').style.propiedad = 'valor';\\n\\n",
     "hints": [
-      "Estructura del bucle: for (let i=0; i < sectores.length; i++).",
-      "Para acceder al sector actual, usa sectores[i].",
-      "Imprímelo usando console.log()."
+      "💡 Primero buscá el elemento: document.getElementById('hud-fuel')",
+      "💡 Después accedé a su estilo y propiedad: .style.borderColor",
+      "💡 Respuesta:\\n\\ndocument.getElementById('hud-fuel').style.borderColor = 'red';"
     ],
-    "solution": "for (let i = 0; i < sectores.length; i++) {\n  console.log(sectores[i]);\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('for') && code.includes('sectores[i]'); }
+    "solution": "document.getElementById('hud-fuel').style.borderColor = 'red';",
+    "validate": () => document.getElementById('hud-fuel').style.borderColor === 'red'
   },
   {
     "id": 12,
     "type": "JS",
     "timer": null,
-    "title": "Acceso: Firma de Comandante",
-    "sarge": "¡PROTOCOLOS MULTILINEALES! Crea la función 'validarAcceso(perfil)'. Si el perfil incluye 'ADMIN' Y tiene más de 5 letras, retorna true. ¡QUIERO ORDEN EN EL PUENTE!",
-    "starter": "// Configurando guardia de protocolos...\n",
+    "title": "Salto al Vacío: Motor Warp",
+    "sarge": "¡FLOTA ENEMIGA EN EL RADAR! Necesitamos saltar al Hiperespacio. Alineá el 'hud-warp' moviéndolo al '80%' de su eje lateral (left). ¡SI FALLAS, SEREMOS CHATARRA ESPACIAL!",
+    "starter": "// Ajustando posición del módulo Warp...\\n// Usá .style.left para mover un elemento.\\n\\n",
     "hints": [
-      "Define la función: function validarAcceso(perfil) { ... }.",
-      "Usa includes('ADMIN') y .length > 5 en el condicional.",
-      "Retorna true si se cumplen ambas condiciones."
+      "💡 Seleccioná 'hud-warp' y accedé a .style",
+      "💡 Cambiá el valor de la propiedad .left",
+      "💡 Respuesta:\\n\\ndocument.getElementById('hud-warp').style.left = '80%';"
     ],
-    "solution": "function validarAcceso(perfil) {\n  return perfil.includes('ADMIN') && perfil.length > 5;\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('function') && code.includes('ADMIN') && code.includes('length > 5'); }
+    "solution": "document.getElementById('hud-warp').style.left = '80%';",
+    "validate": () => document.getElementById('hud-warp').style.left === '80%'
   },
   {
     "id": 13,
     "type": "JS",
     "timer": null,
-    "title": "Filtro: Residuos de Supernova",
-    "sarge": "¡DATOS CORRUPTOS! Filtra los 'logs' buscando solo los que tengan 'critico: true'. Por cada uno, imprime '¡PELIGRO!' antes de devolverlo. ¡LIMPIA ESE BUFFER!",
-    "starter": "const logs = [{id:1, critico:true}, {id:2, critico:false}, {id:3, critico:true}];\n",
+    "title": "Sigilo: Capa de Invisibilidad",
+    "sarge": "¡NOS ESTÁN ESCANEANDO! Reducí la opacidad del 'user-rank' a un tenue 0.2. Debemos ser invisibles entre las estrellas para que no detecten nuestra jerarquía militar.",
+    "starter": "// .style.opacity controla la transparencia (0 = invisible, 1 = visible)\\n\\n",
     "hints": [
-      "El método .filter() toma una función: logs.filter(l => { ... }).",
-      "Dentro, usa console.log('PELIGRO') si l.critico es verdadero.",
-      "No olvides retornar l.critico para completar el filtro."
+      "💡 Localizá 'user-rank' en el DOM con getElementById.",
+      "💡 Usá .style.opacity para la transparencia.",
+      "💡 Respuesta:\\n\\ndocument.getElementById('user-rank').style.opacity = '0.2';"
     ],
-    "solution": "const f = logs.filter(l => {\n  if (l.critico) {\n    console.log('PELIGRO');\n    return true;\n  }\n  return false;\n});",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('.filter') && code.includes('PELIGRO'); }
+    "solution": "document.getElementById('user-rank').style.opacity = '0.2';",
+    "validate": () => document.getElementById('user-rank').style.opacity === '0.2'
   },
   {
     "id": 14,
     "type": "JS",
     "timer": null,
-    "title": "Misión: El Vórtice de Datos",
-    "sarge": "¡TRANSMISIÓN MULTIDIMENSIONAL! Filtra datos válidos (valid: true) y luego usa '.map' para sumarle 50 a cada valor 'v'. ¡CADA UNIDAD DE ENERGÍA CUENTA!",
-    "starter": "const stream = [{v:10, valid:true}, {v:50, valid:false}, {v:30, valid:true}];\n",
+    "title": "SOBRECARGA DEL KERNEL",
+    "sarge": "¡LA OSCURIDAD SE ACERCA! Un pulso de energía nos golpea. Ejecutá el protocolo 'activarAlerta()' y reducí el ancho ('width') de 'hud-fuel' a '50px' para concentrar energía en los escudos.",
+    "starter": "// ¡DEPURACIÓN DE EMERGENCIA!\\n// Primero llamá a activarAlerta(); y después cambiá el width.\\n\\n",
     "hints": [
-      "Encadena los métodos: stream.filter(s => s.valid).map(s => ...).",
-      "En el .map(), devuelve el valor s.v + 50.",
-      "Esto transformará la lista original en una de nuevos valores."
+      "💡 Primero escribí activarAlerta(); en una línea.",
+      "💡 Luego buscá 'hud-fuel' y accedé a .style.width.",
+      "💡 Respuesta:\\n\\nactivarAlerta();\\ndocument.getElementById('hud-fuel').style.width = '50px';"
     ],
-    "solution": "const result = stream.filter(s => s.valid).map(s => s.v + 50);",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('.filter') && code.includes('.map') && code.includes('+ 50'); }
+    "solution": "activarAlerta();\\ndocument.getElementById('hud-fuel').style.width = '50px';",
+    "validate": () => document.getElementById('hud-fuel').style.width === '50px'
   },
   {
     "id": 15,
     "type": "JS",
-    "timer": 120,
-    "title": "Cápsula: La Caja de Pandora",
-    "sarge": "¡DESCOMPRESIÓN DE DATOS! Desestructura 'lat' y 'long' del GPS. Si la latitud es menor a 0, imprime 'SECTOR_SUR'. ¡IDENTIFICA NUESTRA POSICIÓN!",
-    "starter": "const gps = { lat: -34.6, long: -58.4 };\n",
+    "timer": null,
+    "title": "Telemetría del Casco",
+    "sarge": "¡IMPACTO DE ASTEROIDES! Dos meteoros golpearon el casco. Sumá ambos impactos (50+50) y actualizá el 'innerText' del 'hud-hull' para que los ingenieros sepan la magnitud del daño.",
+    "starter": "// Cambiá el texto de 'hud-hull' al resultado de 50 + 50\\n\\n",
     "hints": [
-      "Sintaxis de desestructuración: const { lat, long } = gps;.",
-      "Luego usa un condicional if (lat < 0).",
-      "Finalmente, llama a console.log('SECTOR_SUR')."
+      "💡 Usá document.getElementById('hud-hull').",
+      "💡 La propiedad .innerText cambia el texto visible.",
+      "💡 Respuesta:\\n\\ndocument.getElementById('hud-hull').innerText = 50 + 50;"
     ],
-    "solution": "const { lat, long } = gps;\nif (lat < 0) {\n  console.log('SECTOR_SUR');\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('{ lat, long }') && code.includes('SECTOR_SUR'); }
+    "solution": "document.getElementById('hud-hull').innerText = 50 + 50;",
+    "validate": () => document.getElementById('hud-hull').innerText === '100'
   },
   {
     "id": 16,
     "type": "JS",
     "timer": null,
-    "title": "Misión: El Árbol de Decisiones",
-    "sarge": "¡RUMBOS GALÁCTICOS! Crea un 'switch' para la variable 'prioridad'. Si es 'ALTA', llama a 'activarAlerta()'. Si es 'BAJA', imprime 'STATUS_VERDE'. ¡DECIDE EL DESTINO!",
-    "starter": "let prioridad = 'ALTA';\n",
+    "title": "Refactorización de Interfaz",
+    "sarge": "¡EL VISOR ESTÁ DESACTUALIZADO! Cambiá el 'borderRadius' de 'sarge-wrapper' al '50%' para activar el Modo Lente. ¡QUIERO VER EL UNIVERSO CON CLARIDAD!",
+    "starter": "// borderRadius redondea las esquinas. '50%' lo hace circular.\\n\\n",
     "hints": [
-      "Estructura: switch(prioridad) { ... }.",
-      "Usa case 'ALTA': activarAlerta(); break;.",
-      "Y case 'BAJA': console.log('STATUS_VERDE'); break;."
+      "💡 Accedé a 'sarge-wrapper' en el DOM.",
+      "💡 La propiedad de estilo es .style.borderRadius.",
+      "💡 Respuesta:\\n\\ndocument.getElementById('sarge-wrapper').style.borderRadius = '50%';"
     ],
-    "solution": "switch(prioridad) {\n  case 'ALTA': activarAlerta(); break;\n  case 'BAJA': console.log('STATUS_VERDE'); break;\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('switch') && code.includes('activarAlerta'); }
+    "solution": "document.getElementById('sarge-wrapper').style.borderRadius = '50%';",
+    "validate": () => document.getElementById('sarge-wrapper').style.borderRadius === '50%'
   },
   {
     "id": 17,
     "type": "JS",
     "timer": null,
-    "title": "Factory: Forja de Nanobots",
-    "sarge": "¡REPARACIÓN AUTÓNOMA! Crea el constructor 'Modulo' con id y status. Incluye un método 'actualizar' que cambie su estado. ¡LA ESTACIÓN DEBE RECONSTRUIRSE SOLA!",
-    "starter": "// Diseñando unidad de reparación...\n",
+    "title": "Event Listener de Consola",
+    "sarge": "¡CONFIGURACIÓN DE ATAQUE! Agregá un listener de 'click' al botón 'btn-next-level'. Cuando se pulse, debe imprimir 'SISTEMA_OK' en la consola. ¡ES EL BOTÓN DE PÁNICO!",
+    "starter": "// addEventListener escucha eventos como clicks.\\n// Ejemplo: elemento.addEventListener('click', () => { ... });\\n\\n",
     "hints": [
-      "Usa la palabra clave function Modulo(id, status) { ... }.",
-      "Dentro, asigna this.id = id; y this.status = status;.",
-      "Añade un método: this.actualizar = (n) => this.status = n;"
+      "💡 Usá document.getElementById('btn-next-level').",
+      "💡 Llamá al método .addEventListener('click', () => { ... }).",
+      "💡 Respuesta:\\n\\ndocument.getElementById('btn-next-level').addEventListener('click', () => {\\n  console.log('SISTEMA_OK');\\n});"
     ],
-    "solution": "function Modulo(id, status) {\n  this.id = id;\n  this.status = status;\n  this.actualizar = (n) => this.status = n;\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('this.status') && code.includes('this.actualizar'); }
+    "solution": "document.getElementById('btn-next-level').addEventListener('click', () => {\\n  console.log('SISTEMA_OK');\\n});",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('addEventListener') && code.includes('SISTEMA_OK'); }
   },
   {
     "id": 18,
     "type": "JS",
     "timer": null,
-    "title": "Mando: El Enjambre Spica",
-    "sarge": "¡DRONES DE DEFENSA! Crea la 'class Dron' con un constructor para el ID y un método 'operar()' que loguee 'DRON_ACTIVO'. ¡SI NOS ABORDAN, NO HABRÁ PIEDAD!",
-    "starter": "// Levantando framework de mando...\n",
+    "title": "Protocolo: Inyección de Alertas",
+    "sarge": "¡ATAQUE HACKER DETECTADO! Creá un 'div' con createElement, dale la clase 'hud-warning', ponele el texto 'ERROR_KERNEL' y agregalo al 'terminal' con 'appendChild'. ¡RÁPIDO O PERDEMOS EL CONTROL!",
+    "starter": "// createElement crea un elemento nuevo.\\n// appendChild lo agrega dentro de otro elemento.\\n\\n",
     "hints": [
-      "Estructura moderna: class Dron { ... }.",
-      "El constructor recibe id: constructor(id) { this.id = id; }.",
-      "El método operar() va fuera del constructor."
+      "💡 Creá el elemento: const div = document.createElement('div');",
+      "💡 Asignale clase y texto: div.className = 'hud-warning'; div.innerText = 'ERROR_KERNEL';",
+      "💡 Respuesta:\\n\\nconst div = document.createElement('div');\\ndiv.className = 'hud-warning';\\ndiv.innerText = 'ERROR_KERNEL';\\ndocument.getElementById('terminal').appendChild(div);"
     ],
-    "solution": "class Dron {\n  constructor(id) { this.id = id; }\n  operar() { console.log('DRON_ACTIVO'); }\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('class') && code.includes('constructor') && code.includes('operar'); }
+    "solution": "const div = document.createElement('div');\\ndiv.className = 'hud-warning';\\ndiv.innerText = 'ERROR_KERNEL';\\ndocument.getElementById('terminal').appendChild(div);",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('createElement') && code.includes('appendChild') && code.includes('ERROR_KERNEL'); }
   },
   {
     "id": 19,
     "type": "JS",
     "timer": null,
-    "title": "Sincro: El Eco de Europa",
-    "sarge": "¡LLAMADA AL ABISMO! Conecta con la API central. Usa 'fetch', procesa el JSON y usa '.catch' para reportar errores. ¡QUE NO SE PIERDA LA SEÑAL!",
-    "starter": "// Sincronizando con la base lunar...\n",
+    "title": "Acceso: Firma de Comandante",
+    "sarge": "¡PROTOCOLOS MULTILINEALES! Creá la función 'validarAcceso(perfil)'. Si el perfil incluye 'ADMIN' Y tiene más de 5 letras, retorná true. ¡QUIERO ORDEN EN EL PUENTE!",
+    "starter": "// Creá una función que reciba un texto y lo valide.\\n// .includes('algo') pregunta si contiene ese texto.\\n// .length te dice cuántas letras tiene.\\n\\n",
     "hints": [
-      "Inicia con fetch('https://api.stark.os').",
-      "Usa .then(r => r.json()) para procesar la respuesta.",
-      "Termina con .catch(e => console.error(e)) para la seguridad."
+      "💡 Definí: function validarAcceso(perfil) { ... }.",
+      "💡 Usá includes('ADMIN') y .length > 5 en el condicional.",
+      "💡 Respuesta:\\n\\nfunction validarAcceso(perfil) {\\n  return perfil.includes('ADMIN') && perfil.length > 5;\\n}"
     ],
-    "solution": "fetch('https://api.stark.os')\n  .then(r => r.json())\n  .catch(e => console.error(e));",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('fetch') && code.includes('.catch'); }
+    "solution": "function validarAcceso(perfil) {\\n  return perfil.includes('ADMIN') && perfil.length > 5;\\n}",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('function') && code.includes('ADMIN') && code.includes('length > 5'); }
   },
   {
     "id": 20,
     "type": "JS",
-    "timer": 150,
-    "title": "Misión: El Aliento de Io",
-    "sarge": "¡TIEMPO DE ESPERA! Crea la función asíncrona 'fetchStatus()'. Usa 'await' para obtener los datos y retorna el campo 'valid'. ¡LA COORDINACIÓN ES VITAL!",
-    "starter": "// Acceso asíncrono al núcleo...\n",
+    "timer": null,
+    "title": "Filtro: Residuos de Supernova",
+    "sarge": "¡DATOS CORRUPTOS! Filtrá los 'logs' buscando solo los que tengan 'critico: true'. Por cada uno, imprimí '¡PELIGRO!' antes de devolverlo. ¡LIMPIÁ ESE BUFFER!",
+    "starter": "const logs = [{id:1, critico:true}, {id:2, critico:false}, {id:3, critico:true}];\\n// .filter() recorre la lista y se queda solo con los que cumplan la condición.\\n\\n",
     "hints": [
-      "Usa las palabras reservadas: async function fetchStatus() { ... }.",
-      "Dentro, usa const res = await fetch('url');.",
-      "Convierte a JSON y retorna el campo específico."
+      "💡 El método .filter() toma una función: logs.filter(l => { ... }).",
+      "💡 Dentro, usá console.log('PELIGRO') si l.critico es verdadero.",
+      "💡 Respuesta:\\n\\nconst f = logs.filter(l => {\\n  if (l.critico) {\\n    console.log('PELIGRO');\\n    return true;\\n  }\\n  return false;\\n});"
     ],
-    "solution": "async function fetchStatus() {\n  const r = await fetch('url');\n  const d = await r.json();\n  return d.valid;\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('async') && code.includes('await'); }
+    "solution": "const f = logs.filter(l => {\\n  if (l.critico) {\\n    console.log('PELIGRO');\\n    return true;\\n  }\\n  return false;\\n});",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('.filter') && code.includes('PELIGRO'); }
   },
   {
     "id": 21,
     "type": "JS",
     "timer": null,
-    "title": "Evento: El Terminal de Phobos",
-    "sarge": "¡INTERACCIÓN CRÍTICA! Escucha clicks en el terminal. Si el objetivo es un 'SPAN', píntalo de 'green'. ¡CADA DATO DEBE DESTACAR EN LA OSCURIDAD!",
-    "starter": "document.getElementById('terminal').addEventListener('click', (e) => {\n  // Filtrando eventos...\n});\n",
+    "title": "Misión: El Vórtice de Datos",
+    "sarge": "¡TRANSMISIÓN MULTIDIMENSIONAL! Filtrá datos válidos (valid: true) y después usá '.map' para sumarle 50 a cada valor 'v'. ¡CADA UNIDAD DE ENERGÍA CUENTA!",
+    "starter": "const stream = [{v:10, valid:true}, {v:50, valid:false}, {v:30, valid:true}];\\n// .filter() filtra, .map() transforma cada elemento.\\n\\n",
     "hints": [
-      "Usa e.target para referirte al elemento clicado.",
-      "Comprueba si e.target.tagName === 'SPAN'.",
-      "Si es cierto, asigna e.target.style.color = 'green';"
+      "💡 Encadená los métodos: stream.filter(s => s.valid).map(s => ...).",
+      "💡 En el .map(), devolvé el valor s.v + 50.",
+      "💡 Respuesta:\\n\\nconst result = stream.filter(s => s.valid).map(s => s.v + 50);"
     ],
-    "solution": "document.getElementById('terminal').addEventListener('click', (e) => {\n  if (e.target.tagName === 'SPAN') {\n    e.target.style.color = 'green';\n  }\n});",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('tagName') && code.includes('SPAN') && code.includes('green'); }
+    "solution": "const result = stream.filter(s => s.valid).map(s => s.v + 50);",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('.filter') && code.includes('.map') && code.includes('+ 50'); }
   },
   {
     "id": 22,
     "type": "JS",
     "timer": null,
-    "title": "Persistencia: El Diario de Deimos",
-    "sarge": "¡MEMORIA ETERNA! Guarda el objeto 'oficial' en localStorage. Usa 'JSON.stringify' para que el kernel pueda leerlo tras un apagón. ¡NADA SE OLVIDA!",
-    "starter": "const oficial = { id: 1, rank: 'GENERAL' };\n",
+    "title": "Cápsula: La Caja de Pandora",
+    "sarge": "¡DESCOMPRESIÓN DE DATOS! Desestructurá 'lat' y 'long' del GPS. Si la latitud es menor a 0, imprimí 'SECTOR_SUR'. ¡IDENTIFICÁ NUESTRA POSICIÓN!",
+    "starter": "const gps = { lat: -34.6, long: -58.4 };\\n// Desestructuración: sacar propiedades de un objeto a variables.\\n// const { prop1, prop2 } = objeto;\\n\\n",
     "hints": [
-      "Llama al método localStorage.setItem(clave, valor).",
-      "La clave es la cadena 'oficial'.",
-      "El valor debe ser transformado con JSON.stringify(oficial)."
+      "💡 Sintaxis de desestructuración: const { lat, long } = gps;",
+      "💡 Después usá un condicional if (lat < 0).",
+      "💡 Respuesta:\\n\\nconst { lat, long } = gps;\\nif (lat < 0) {\\n  console.log('SECTOR_SUR');\\n}"
     ],
-    "solution": "localStorage.setItem('oficial', JSON.stringify(oficial));",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('localStorage') && code.includes('stringify'); }
+    "solution": "const { lat, long } = gps;\\nif (lat < 0) {\\n  console.log('SECTOR_SUR');\\n}",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('{ lat, long }') && code.includes('SECTOR_SUR'); }
   },
   {
     "id": 23,
     "type": "JS",
     "timer": null,
-    "title": "Misión: El Código Enigma",
-    "sarge": "¡SEGURIDAD REGEX! El código debe empezar por 'STARK-', tener 4 dígitos y acabar en '!'. ¡SI UN SOLO BIT FALLA, ES UN TRAIDOR INFILTRADO!",
-    "starter": "const regex = /^STARK-\\d{4}!$/;\n",
+    "title": "Misión: El Árbol de Decisiones",
+    "sarge": "¡RUMBOS GALÁCTICOS! Creá un 'switch' para la variable 'prioridad'. Si es 'ALTA', llamá a 'activarAlerta()'. Si es 'BAJA', imprimí 'STATUS_VERDE'. ¡DECIDÍ EL DESTINO!",
+    "starter": "let prioridad = 'ALTA';\\n// switch es como varios if/else juntos.\\n// switch(variable) { case 'valor': ... break; }\\n\\n",
     "hints": [
-      "Usa el método .test() de la expresión regular.",
-      "Prueba con una cadena válida como 'STARK-1234!'.",
-      "Puedes loguear el resultado con console.log()."
+      "💡 Estructura: switch(prioridad) { ... }.",
+      "💡 Usá case 'ALTA': activarAlerta(); break;",
+      "💡 Respuesta:\\n\\nswitch(prioridad) {\\n  case 'ALTA': activarAlerta(); break;\\n  case 'BAJA': console.log('STATUS_VERDE'); break;\\n}"
     ],
-    "solution": "console.log(regex.test('STARK-1234!'));",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('.test') && code.includes('/^STARK'); }
+    "solution": "switch(prioridad) {\\n  case 'ALTA': activarAlerta(); break;\\n  case 'BAJA': console.log('STATUS_VERDE'); break;\\n}",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('switch') && code.includes('activarAlerta'); }
   },
   {
     "id": 24,
     "type": "JS",
     "timer": null,
-    "title": "Cápsula: El Secreto de Saturno",
-    "sarge": "¡ENCAPSULAMIENTO TOTAL! Crea 'crearContador' usando Closures para proteger 'count'. Debe retornar un objeto con 'sumar' y 'ver'. ¡PRIVACIDAD MILITAR!",
-    "starter": "function crearContador() {\n  let count = 0;\n  // Tu lógica aquí...\n}\n",
+    "title": "Sincro: El Eco de Europa",
+    "sarge": "¡LLAMADA AL ABISMO! Conectá con la API central. Usá 'fetch', procesá el JSON con '.then' y usá '.catch' para reportar errores. ¡QUE NO SE PIERDA LA SEÑAL!",
+    "starter": "// fetch() pide datos a un servidor.\\n// .then() procesa la respuesta.\\n// .catch() atrapa errores.\\n\\n",
     "hints": [
-      "Debes devolver un objeto literal { ... }.",
-      "Incluye sumar: () => count++.",
-      "E incluye ver: () => count."
+      "💡 Iniciá con fetch('https://api.stark.os').",
+      "💡 Usá .then(r => r.json()) para procesar la respuesta.",
+      "💡 Respuesta:\\n\\nfetch('https://api.stark.os')\\n  .then(r => r.json())\\n  .catch(e => console.error(e));"
     ],
-    "solution": "function crearContador() {\n  let count = 0;\n  return {\n    sumar: () => count++,\n    ver: () => count\n  };\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('return {') && code.includes('count++'); }
+    "solution": "fetch('https://api.stark.os')\\n  .then(r => r.json())\\n  .catch(e => console.error(e));",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('fetch') && code.includes('.catch'); }
   },
   {
     "id": 25,
     "type": "JS",
-    "timer": 120,
-    "title": "Pulsar: El Latido Infinito",
-    "sarge": "¡GENERADORES ACTIVOS! Crea un generador que emita códigos 'X-0', 'X-1'... infinitamente usando 'yield'. ¡EL FLUJO DE ENERGÍA NO PUEDE PARAR!",
-    "starter": "function* pulsar() {\n  let i = 0;\n  // Generando...\n}\n",
+    "timer": null,
+    "title": "Persistencia: El Diario de Deimos",
+    "sarge": "¡MEMORIA ETERNA! Guardá el objeto 'oficial' en localStorage. Usá 'JSON.stringify' para que el kernel pueda leerlo tras un apagón. ¡NADA SE OLVIDA!",
+    "starter": "const oficial = { id: 1, rank: 'GENERAL' };\\n// localStorage guarda datos que sobreviven al cerrar la página.\\n// JSON.stringify convierte un objeto a texto.\\n\\n",
     "hints": [
-      "Usa un bucle infinito: while(true) { ... }.",
-      "Dentro del bucle, usa yield 'X-' + i++;.",
-      "El asterisco en function* es fundamental."
+      "💡 Llamá al método localStorage.setItem(clave, valor).",
+      "💡 La clave es 'oficial' y el valor debe ser JSON.stringify(oficial).",
+      "💡 Respuesta:\\n\\nlocalStorage.setItem('oficial', JSON.stringify(oficial));"
     ],
-    "solution": "function* pulsar() {\n  let i = 0;\n  while(true) {\n    yield 'X-' + i++;\n  }\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('function*') && code.includes('yield'); }
+    "solution": "localStorage.setItem('oficial', JSON.stringify(oficial));",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('localStorage') && code.includes('stringify'); }
   },
   {
     "id": 26,
-    "type": "JS",
-    "timer": null,
-    "title": "Caché: El Eco de Neptuno",
-    "sarge": "¡RECUPERACIÓN DE DATOS! Parsea la telemetría de la caché (localStorage). Si detectas un 'vortex', activa la alerta de inmediato. ¡RÁPIDO, PILOTO!",
-    "starter": "const raw = localStorage.getItem('telemetry');\n",
-    "hints": [
-      "Convierte la cadena JSON en objeto: const data = JSON.parse(raw);.",
-      "Comprueba si existe: if (data && data.vortex).",
-      "Si la condición se cumple, llama a activarAlerta();."
-    ],
-    "solution": "const data = JSON.parse(raw);\nif (data && data.vortex) {\n  activarAlerta();\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('JSON.parse') && code.includes('activarAlerta'); }
-  },
-  {
-    "id": 27,
-    "type": "JS",
-    "timer": null,
-    "title": "Sesión: El Token de Urano",
-    "sarge": "¡SEGURIDAD VOLÁTIL! Guarda la clave 'STARK_ACCESS' en sessionStorage. Si reiniciamos, este secreto debe desaparecer para siempre. ¡REGLAS DE SEGURIDAD!",
-    "starter": "// Datos temporales...\n",
-    "hints": [
-      "Usa sessionStorage.setItem(clave, valor).",
-      "La clave es 'access' y el valor es 'STARK_ACCESS'.",
-      "Esto asegura persistencia solo durante la sesión actual."
-    ],
-    "solution": "sessionStorage.setItem('access', 'STARK_ACCESS');",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('sessionStorage.setItem'); }
-  },
-  {
-    "id": 28,
-    "type": "JS",
-    "timer": null,
-    "title": "Radar: El Ojo de Tritón",
-    "sarge": "¡VIGILANCIA ABSOLUTA! Usa IntersectionObserver. Si el 'sarge-container' está al 100% visible, imprime 'OBJETIVO_FIJADO'. ¡NO LES QUITES EL OJO!",
-    "starter": "const radar = new IntersectionObserver((entries) => {\n  // Vigilando...\n});\n",
-    "hints": [
-      "Dentro de la función, usa if (entries[0].intersectionRatio === 1).",
-      "Haz el console.log('OBJETIVO_FIJADO') ahí dentro.",
-      "No olvides iniciar el radar: radar.observe(document.getElementById('sarge-container'));"
-    ],
-    "solution": "const radar = new IntersectionObserver((entries) => {\n  if (entries[0].intersectionRatio === 1) {\n    console.log('OBJETIVO_FIJADO');\n  }\n});\nradar.observe(document.getElementById('sarge-container'));",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('IntersectionObserver') && code.includes('observe'); }
-  },
-  {
-    "id": 29,
-    "type": "JS",
-    "timer": null,
-    "title": "Navegación: El Mapa de Plutón",
-    "sarge": "¡COORDENADAS OCULTAS! Extrae el parámetro 'coord' de la URL usando URLSearchParams. ¡NECESITAMOS SABER NUESTRA POSICIÓN EXACTA!",
-    "starter": "const params = new URLSearchParams(window.location.search);\n",
-    "hints": [
-      "Usa el método params.get('coord').",
-      "Asigna el resultado a una constante para validarlo.",
-      "Esto lee datos directamente de la URL del terminal."
-    ],
-    "solution": "const coord = params.get('coord');\nconsole.log(coord);",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('URLSearchParams') && code.includes('get('); }
-  },
-  {
-    "id": 30,
-    "type": "JS",
-    "timer": null,
-    "title": "Proxy: El Escudo de Eris",
-    "sarge": "¡INTERCEPCIÓN TÁCTICA! Usa un Proxy para que la potencia del escudo nunca baje de 50. ¡PROTECCIÓN TOTAL INQUEBRANTABLE!",
-    "starter": "const target = { power: 100 };\nconst proxy = new Proxy(target, {\n  // Tu trampa de seguridad...\n});\n",
-    "hints": [
-      "El 'handler' del Proxy debe tener un método 'set'.",
-      "Sintaxis: set(objeto, propiedad, valor) { ... }.",
-      "Si el valor es < 50, fuérzalo a 50 antes de asignarlo."
-    ],
-    "solution": "const proxy = new Proxy(target, {\n  set: (t, p, v) => {\n    if (v < 50) v = 50;\n    t[p] = v;\n    return true;\n  }\n});",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('new Proxy') && code.includes('set:'); }
-  },
-  {
-    "id": 31,
-    "type": "JS",
-    "timer": null,
-    "title": "Aborto: La Señal de Ceres",
-    "sarge": "¡MISIÓN ABORTADA! Si la señal tarda demasiado, usa AbortController para cancelar el fetch. ¡NO ARRIESGUES LA INTEGRIDAD DE LA ESTACIÓN!",
-    "starter": "const url = 'https://api.stark.os/vortex';\nconst controller = new AbortController();\n// Inicia el fetch con signal...\n",
-    "hints": [
-      "Pasa el objeto de opciones como segundo argumento a fetch.",
-      "La propiedad es { signal: controller.signal }.",
-      "Esto vincula el fetch con el controlador de aborto."
-    ],
-    "solution": "fetch(url, { signal: controller.signal });",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('AbortController') && code.includes('signal'); }
-  },
-  {
-    "id": 32,
-    "type": "JS",
-    "timer": null,
-    "title": "Blob: El Manifiesto Haumea",
-    "sarge": "¡LOGS FÍSICOS! Crea un Blob con el reporte 'STARK_OK' y genera su URL. ¡NECESITAMOS UN REGISTRO TANGIBLE DE ESTA BATALLA!",
-    "starter": "const data = 'REPORTE_OFICIAL_STARK_OS';\n",
-    "hints": [
-      "Crea el Blob: const b = new Blob([data], { type: 'text/plain' });.",
-      "Usa URL.createObjectURL(b) para obtener la dirección.",
-      "No olvides envolver la data en un array [data]."
-    ],
-    "solution": "const blob = new Blob([data], { type: 'text/plain' });\nconst url = URL.createObjectURL(blob);",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('new Blob') && code.includes('createObjectURL'); }
-  },
-  {
-    "id": 33,
-    "type": "JS",
-    "timer": null,
-    "title": "Espía: El Sensor Makemake",
-    "sarge": "¡ALERTA DE SEGURIDAD! Usa MutationObserver para detectar si alguien borra un log del terminal. ¡VIGILA CADA CAMBIO EN EL REGISTRO!",
-    "starter": "const obs = new MutationObserver((list) => {\n  console.log('CAMBIO_DETECTADO');\n});\n",
-    "hints": [
-      "Debes 'observar' el elemento del terminal.",
-      "Usa obs.observe(document.getElementById('terminal'), { ... }).",
-      "La opción necesaria es { childList: true }."
-    ],
-    "solution": "obs.observe(document.getElementById('terminal'), { childList: true });",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('MutationObserver') && code.includes('childList'); }
-  },
-  {
-    "id": 34,
-    "type": "JS",
-    "timer": null,
-    "title": "Clon: El Espejo de Vega",
-    "sarge": "¡REPLICACIÓN PERFECTA! Crea una copia profunda de los 'planos' usando 'structuredClone'. ¡UN ERROR DE COPIA SIGNIFICA EL FIN!",
-    "starter": "const planos = { core: 101, sub: { id: 2 } };\n",
-    "hints": [
-      "A diferencia de la copia simple, structuredClone copia sub-objetos.",
-      "Solo necesitas una línea: const clone = structuredClone(planos);.",
-      "Prueba imprimiendo el clon en consola."
-    ],
-    "solution": "const clone = structuredClone(planos);",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('structuredClone'); }
-  },
-  {
-    "id": 35,
-    "type": "JS",
-    "timer": 300,
-    "title": "CORE: El Corazón del Hércules",
-    "sarge": "¡MULTITAREA GALÁCTICA! Despierta al Worker de seguridad 'sec.js' y envíale el mensaje 'OPERAR'. ¡APROVECHA CADA CICLO DE CPU!",
-    "starter": "// Iniciando trabajador externo...\n",
-    "hints": [
-      "Crea el trabajador: const w = new Worker('sec.js');.",
-      "Usa w.postMessage('OPERAR') para darle órdenes.",
-      "Los workers liberan carga del hilo principal de la nave."
-    ],
-    "solution": "const worker = new Worker('sec.js');\nworker.postMessage('OPERAR');",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('new Worker') && code.includes('postMessage'); }
-  },
-  {
-    "id": 36,
     "type": "TS",
     "timer": null,
     "title": "TS: El Rigor de Sirio",
-    "sarge": "¡BLINDAJE DE TIPOS! Asigna 'string' y 'number' a las constantes de acceso en TypeScript. ¡LA DISCIPLINA ES NUESTRA SALVACIÓN!",
-    "starter": "let id = 'SEC-01';\nlet val = 100;\n",
+    "sarge": "¡BLINDAJE DE TIPOS! En TypeScript le decimos al código QUÉ TIPO de dato tiene cada variable. Asigná 'string' y 'number' a las constantes de acceso. ¡LA DISCIPLINA ES NUESTRA SALVACIÓN!",
+    "starter": "// En TypeScript, agregamos : tipo después del nombre.\\n// Ejemplo: let nombre: string = 'Stark';\\n\\nlet id = 'SEC-01';\\nlet val = 100;\\n// Agregales los tipos :string y :number\\n",
     "hints": [
-      "Debes añadir los tipos después de los nombres.",
-      "Usa ': string' para id.",
-      "Usa ': number' para val."
+      "💡 Agregá ': string' después de 'id' y ': number' después de 'val'.",
+      "💡 Quedaría: let id: string = 'SEC-01';",
+      "💡 Respuesta:\\n\\nlet id: string = 'SEC-01';\\nlet val: number = 100;"
     ],
-    "solution": "let id: string = 'SEC-01';\nlet val: number = 100;",
-    "validate": () => { 
-      const code = STATE.editor.getValue(); 
-      // Validamos que existan los tipos en el código fuente
-      return code.includes('id: string') && code.includes('val: number'); 
-    }
+    "solution": "let id: string = 'SEC-01';\\nlet val: number = 100;",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('id: string') && code.includes('val: number'); }
   },
   {
-    "id": 37,
+    "id": 27,
     "type": "TS",
     "timer": null,
     "title": "TS: El Contrato de Vega",
-    "sarge": "¡ESTRICTA INTERFAZ! Define 'Station' con nombre (string) y capacidad (number). ¡TODO COMPONENTE DEBE CUMPLIR EL PLANO!",
-    "starter": "interface Station {\n  // Planos estructurales...\n}\n",
+    "sarge": "¡ESTRICTA INTERFAZ! Definí 'Station' con nombre (string) y capacidad (number). Una interface es como un PLANO: dice qué forma debe tener un objeto. ¡TODO COMPONENTE DEBE CUMPLIR EL PLANO!",
+    "starter": "// Una interface define la FORMA de un objeto.\\n// interface NombreDelPlano {\\n//   propiedad: tipo;\\n// }\\n\\ninterface Station {\\n  // Completá las propiedades...\\n}\\n",
     "hints": [
-      "Crea la propiedad 'name: string'.",
-      "Crea la propiedad 'capacity: number'.",
-      "Las interfaces no se terminan con igual (=)."
+      "💡 Dentro de la interface escribí las propiedades con sus tipos.",
+      "💡 Formato: name: string; y capacity: number;",
+      "💡 Respuesta:\\n\\ninterface Station {\\n  name: string;\\n  capacity: number;\\n}"
     ],
-    "solution": "interface Station {\n  name: string;\n  capacity: number;\n}",
-    "validate": () => { 
-      const code = STATE.editor.getValue().replace(/\s+/g, ''); 
-      return code.includes('interface') && code.includes('name:string'); 
-    }
+    "solution": "interface Station {\\n  name: string;\\n  capacity: number;\\n}",
+    "validate": () => { const code = STATE.editor.getValue().replace(/\\s+/g, ''); return code.includes('interface') && code.includes('name:string'); }
   },
   {
-    "id": 38,
+    "id": 28,
     "type": "TS",
     "timer": null,
     "title": "TS: El Sello de Betelgeuse",
-    "sarge": "¡DATOS INAMOVIBLES! Usa 'readonly' en la temperatura del reactor. ¡NI EL GENERAL PUEDE CAMBIAR LO QUE LA TELEMETRÍA REGISTRÓ!",
-    "starter": "interface CoreData {\n  // temperatura inmutable...\n}\n",
+    "sarge": "¡DATOS INAMOVIBLES! Usá 'readonly' en la temperatura del reactor. ¡NI EL GENERAL PUEDE CAMBIAR LO QUE LA TELEMETRÍA REGISTRÓ!",
+    "starter": "// 'readonly' impide que una propiedad se modifique después de crearse.\\n\\ninterface CoreData {\\n  // Agregá readonly antes de temp: number;\\n}\\n",
     "hints": [
-      "La sintaxis es 'readonly nombre: tipo;'.",
-      "Usa readonly temp: number;.",
-      "Esto impide reasignar el valor una vez creado."
+      "💡 La sintaxis es 'readonly nombre: tipo;'.",
+      "💡 Usá readonly temp: number;",
+      "💡 Respuesta:\\n\\ninterface CoreData {\\n  readonly temp: number;\\n}"
     ],
-    "solution": "interface CoreData {\n  readonly temp: number;\n}",
+    "solution": "interface CoreData {\\n  readonly temp: number;\\n}",
     "validate": () => { const code = STATE.editor.getValue(); return code.includes('readonly'); }
   },
   {
-    "id": 39,
+    "id": 29,
     "type": "TS",
     "timer": null,
     "title": "TS: El Código de Rigel",
-    "sarge": "¡ENUMERACIÓN TÁCTICA! Define los niveles de alerta: LOW, MEDIUM, CRITICAL. ¡ASIGNA EL NIVEL MÁXIMO A TU ESTADO ACTUAL!",
-    "starter": "enum Warning { LOW, MEDIUM, CRITICAL }\n",
+    "sarge": "¡ENUMERACIÓN TÁCTICA! Un 'enum' define opciones fijas como niveles de alerta: LOW, MEDIUM, CRITICAL. ¡ASIGNÁ EL NIVEL MÁXIMO A TU ESTADO ACTUAL!",
+    "starter": "// Un enum es una lista de opciones fijas.\\n\\nenum Warning { LOW, MEDIUM, CRITICAL }\\n\\n// Creá una variable 'status' y asignale Warning.CRITICAL\\n",
     "hints": [
-      "Crea una variable: let status = ...;.",
-      "Asigna el valor del enum: Warning.CRITICAL;.",
-      "Los enums son excelentes para estados finitos."
+      "💡 Creá una variable: let status = ...;",
+      "💡 Asigná el valor del enum: Warning.CRITICAL;",
+      "💡 Respuesta:\\n\\nlet status = Warning.CRITICAL;"
     ],
     "solution": "let status = Warning.CRITICAL;",
     "validate": () => { const code = STATE.editor.getValue(); return code.includes('enum') && code.includes('Warning.CRITICAL'); }
   },
   {
-    "id": 40,
+    "id": 30,
     "type": "TS",
-    "timer": 120,
+    "timer": null,
     "title": "TS: La Conjunción Deneb",
-    "sarge": "¡INTERSECCIÓN DE PODER! Une 'Armor' y 'Shield' con el operador '&'. ¡JUNTOS SOMOS INVULNERABLES ANTE CUALQUIER ATAQUE!",
-    "starter": "type Armor = { v: number };\ntype Shield = { p: number };\n",
+    "sarge": "¡INTERSECCIÓN DE PODER! Uní 'Armor' y 'Shield' con el operador '&'. Eso crea un tipo que tiene TODO de ambos. ¡JUNTOS SOMOS INVULNERABLES!",
+    "starter": "// El operador & une dos tipos en uno solo.\\n\\ntype Armor = { v: number };\\ntype Shield = { p: number };\\n\\n// Creá un tipo FullDef que combine ambos con &\\n",
     "hints": [
-      "Crea un nuevo tipo: type FullDef = Armor & Shield;.",
-      "El símbolo & es el operador de intersección.",
-      "Esto crea un tipo que tiene propiedades de ambos."
+      "💡 Creá un nuevo tipo: type FullDef = Armor & Shield;",
+      "💡 El símbolo & es el operador de intersección.",
+      "💡 Respuesta:\\n\\ntype FullDef = Armor & Shield;"
     ],
     "solution": "type FullDef = Armor & Shield;",
     "validate": () => { const code = STATE.editor.getValue(); return code.includes('&'); }
   },
   {
-    "id": 41,
-    "type": "TS",
-    "timer": null,
-    "title": "TS: El Secreto de Arcturus",
-    "sarge": "¡PRIVACIDAD ABSOLUTA! Crea la clase RadioClient con una propiedad 'private' para la frecuencia. ¡SI DESCUBREN EL CANAL, LA GUERRA TERMINA!",
-    "starter": "class RadioClient {\n  // Clave privada...\n}\n",
-    "hints": [
-      "Usa el modificador de acceso 'private'.",
-      "Sintaxis: private freq: string;.",
-      "Las propiedades privadas solo existen dentro de la clase."
-    ],
-    "solution": "class RadioClient {\n  private freq: string;\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('private'); }
-  },
-  {
-    "id": 42,
+    "id": 31,
     "type": "TS",
     "timer": null,
     "title": "TS: El Recipiente Spica",
-    "sarge": "¡INGENIERÍA ADAPTATIVA! Crea una Interface 'Box<T>' que acepte cualquier carga genérica. ¡LA FLEXIBILIDAD ES NUESTRA MEJOR ARMA!",
-    "starter": "// Generics de flota...\n",
+    "sarge": "¡INGENIERÍA ADAPTATIVA! Creá una Interface 'Box<T>' que acepte cualquier carga genérica. La T se reemplaza por el tipo real cuando la usás. ¡FLEXIBILIDAD TOTAL!",
+    "starter": "// Genéricos: <T> es un comodín de tipo.\\n// Se define al crear y se reemplaza al usar.\\n\\n// Creá la interface Box<T> con una propiedad data: T\\n",
     "hints": [
-      "Usa los corchetes angulares para el genérico: Box<T>.",
-      "Define una propiedad que use ese tipo: data: T;.",
-      "Esto permite que la caja guarde cualquier cosa."
+      "💡 Usá los corchetes angulares para el genérico: Box<T>.",
+      "💡 Definí una propiedad que use ese tipo: data: T;",
+      "💡 Respuesta:\\n\\ninterface Box<T> {\\n  data: T;\\n}"
     ],
-    "solution": "interface Box<T> {\n  data: T;\n}",
+    "solution": "interface Box<T> {\\n  data: T;\\n}",
     "validate": () => { const code = STATE.editor.getValue(); return code.includes('<T>'); }
   },
   {
-    "id": 43,
-    "type": "TS",
-    "timer": null,
-    "title": "TS: El Linaje de Antares",
-    "sarge": "¡HERENCIA DE FUERZA! PulseLaser extiende Laser y sobrecarga 'fire()' llamando a 'super.fire()'. ¡CONCENTRA TODA LA POTENCIA!",
-    "starter": "class Laser { fire() { console.log('PIU'); } }\n",
-    "hints": [
-      "Usa la sintaxis extends Laser.",
-      "Declara el método fire() { ... }.",
-      "Dentro de fire, escribe super.fire();."
-    ],
-    "solution": "class PulseLaser extends Laser {\n  fire() {\n    super.fire();\n  }\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('extends') && code.includes('super'); }
-  },
-  {
-    "id": 44,
+    "id": 32,
     "type": "TS",
     "timer": null,
     "title": "TS: El Filtro de Fomalhaut",
-    "sarge": "¡DISCRIMINACIÓN TÁCTICA! Usa un 'Type Guard' para comprobar si un valor es 'number'. ¡NO DEJES QUE EL RUIDO INTERFIERA CON LOS DATOS!",
-    "starter": "function verify(val: string | number) {\n  // Type Guard...\n}\n",
+    "sarge": "¡DISCRIMINACIÓN TÁCTICA! Usá un 'Type Guard' para comprobar si un valor es 'number'. Un typeof dentro de un if le dice a TypeScript qué tipo es. ¡NO DEJES QUE EL RUIDO INTERFIERA!",
+    "starter": "// typeof revisa el tipo de una variable en tiempo real.\\n\\nfunction verify(val: string | number) {\\n  // Usá typeof val === 'number' dentro de un if\\n}\\n",
     "hints": [
-      "Usa if (typeof val === 'number') { ... }.",
-      "Esto filtra el tipo específico en tiempo de ejecución.",
-      "Es vital para manejar tipos 'union'."
+      "💡 Usá if (typeof val === 'number') { ... }.",
+      "💡 Esto filtra el tipo específico en tiempo de ejecución.",
+      "💡 Respuesta:\\n\\nfunction verify(val: string | number) {\\n  if (typeof val === 'number') {\\n    return true;\\n  }\\n  return false;\\n}"
     ],
-    "solution": "function verify(val: string | number) {\n  if (typeof val === 'number') {\n    return true;\n  }\n  return false;\n}",
+    "solution": "function verify(val: string | number) {\\n  if (typeof val === 'number') {\\n    return true;\\n  }\\n  return false;\\n}",
     "validate": () => { const code = STATE.editor.getValue(); return code.includes('typeof') && code.includes('number'); }
   },
   {
-    "id": 45,
+    "id": 33,
     "type": "TS",
-    "timer": 150,
+    "timer": null,
     "title": "TS: El Vórtice Pollux",
-    "sarge": "¡RANGO DE COMANDO! Crea una función que reciba (...args: string[]) y los una. ¡QUIERO UNIDAD TOTAL EN LAS COMUNICACIONES!",
-    "starter": "function processAll(...args: string[]) {\n  // Spread de comandos...\n}\n",
+    "sarge": "¡RANGO DE COMANDO! Creá una función que reciba (...args: string[]) y los una con .join(', '). Los tres puntos recogen TODOS los argumentos en un array. ¡UNIDAD TOTAL!",
+    "starter": "// Los '...' se llaman REST parameters.\\n// Recogen todos los argumentos en un array.\\n\\nfunction processAll(...args: string[]) {\\n  // Uní todos los args con .join(', ')\\n}\\n",
     "hints": [
-      "Usa el método .join(', ') para unir el array.",
-      "Los parámetros rest recogen todos los argumentos en una lista.",
-      "Retorna el resultado de la unión."
+      "💡 Usá el método .join(', ') para unir el array.",
+      "💡 Retorná el resultado de la unión.",
+      "💡 Respuesta:\\n\\nfunction processAll(...args: string[]) {\\n  return args.join(', ');\\n}"
     ],
-    "solution": "function processAll(...args: string[]) {\n  return args.join(', ');\n}",
+    "solution": "function processAll(...args: string[]) {\\n  return args.join(', ');\\n}",
     "validate": () => { const code = STATE.editor.getValue(); return code.includes('...') && code.includes('string[]'); }
   },
   {
-    "id": 46,
-    "type": "TS",
-    "timer": null,
-    "title": "TS: El Módulo Canopus",
-    "sarge": "¡EXPORTACIÓN TÁCTICA! Exporta la clase 'Navigator' por defecto. ¡TODOS EN LA FLOTA DEBEN TENER NUESTRAS TABLAS DE NAVEGACIÓN!",
-    "starter": "// Compartiendo protocolos...\n",
-    "hints": [
-      "Usa la sintaxis export default class Navigator { ... }.",
-      "Esto permite importar la clase sin llaves.",
-      "Es el estándar para módulos principales."
-    ],
-    "solution": "export default class Navigator {} ",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('export default'); }
-  },
-  {
-    "id": 47,
-    "type": "TS",
-    "timer": null,
-    "title": "TS: El Límite de Castor",
-    "sarge": "¡GENÉRICOS CONTROLADOS! Tu función solo debe aceptar tipos que tengan una propiedad 'id: number'. ¡GARANTIZA EL ORDEN JERÁRQUICO!",
-    "starter": "function sync<T extends {id: number}>(obj: T) {\n  //...\n}\n",
-    "hints": [
-      "Usa la cláusula extends en el genérico.",
-      "Sintaxis: <T extends {id: number}>.",
-      "Esto asegura que el objeto tenga al menos esa propiedad id."
-    ],
-    "solution": "function sync<T extends {id: number}>(obj: T) {\n  return obj.id;\n}",
-    "validate": () => { 
-      const code = STATE.editor.getValue().replace(/\s+/g, ''); 
-      return code.includes('extends') && code.includes('id:number'); 
-    }
-  },
-  {
-    "id": 48,
-    "type": "TS",
-    "timer": null,
-    "title": "TS: El Seguro Procyon",
-    "sarge": "¡BLOQUEO DE PARÁMETROS! Crea un Mapped Type que haga todas las propiedades 'readonly'. ¡INMUTABILIDAD ABSOLUTA EN LOS PLANOS!",
-    "starter": "// Mapeo de seguridad...\n",
-    "hints": [
-      "Usa la sintaxis: type Safe<T> = { readonly [P in keyof T]: T[P] }.",
-      "Esto itera sobre todas las claves del tipo T.",
-      "Añade readonly antes para proteger cada propiedad."
-    ],
-    "solution": "type Safe<T> = {\n  readonly [P in keyof T]: T[P]\n};",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('readonly') && code.includes('keyof'); }
-  },
-  {
-    "id": 49,
-    "type": "TS",
-    "timer": null,
-    "title": "TS: El Vigía de Capella",
-    "sarge": "¡VIGILANCIA DECORADA! Usa el decorador '@Log' en la clase. Debe informar de cada instancia creada. ¡NADA ESCAPA A MI MANDO!",
-    "starter": "function Log(target: any) {}\n",
-    "hints": [
-      "Coloca @Log justo encima de la clase Pilot.",
-      "Sintaxis: @Log class Pilot { ... }.",
-      "Los decoradores son una forma avanzada de envolver clases."
-    ],
-    "solution": "function Log(target: any) {}\n\n@Log\nclass Pilot {}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('@Log'); }
-  },
-  {
-    "id": 50,
-    "type": "TS",
-    "timer": 1200,
-    "title": "TS: El Núcleo Unificado",
-    "sarge": "¡ARQUITECTURA SUPREMA! Crea el Singleton 'MasterKernel' con instancia estática y constructor privado. ¡SÓLO PUEDE HABER UN LÍDER!",
-    "starter": "class MasterKernel {\n  // Singleton...\n}\n",
-    "hints": [
-      "Usa private static instance: MasterKernel;.",
-      "Define el constructor como private para evitar 'new'.",
-      "Crea un método static getInstance() para obtener la instancia única."
-    ],
-    "solution": "class MasterKernel {\n  private static instance: MasterKernel;\n  private constructor() {}\n  public static getInstance() {\n    if (!this.instance) this.instance = new MasterKernel();\n    return this.instance;\n  }\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('static instance') && code.includes('constructor'); }
-  },
-  {
-    "id": 51,
+    "id": 34,
     "type": "TS",
     "timer": null,
     "title": "TS: El Parche Centauri",
-    "sarge": "¡REPARACIÓN FRAGMENTADA! Usa 'Partial<Hull>' para aceptar actualizaciones parciales del casco. ¡AGILIDAD EN EL FRENTE DE BATALLA!",
-    "starter": "interface Hull { dmg: number; sensor: boolean; }\n",
+    "sarge": "¡REPARACIÓN FRAGMENTADA! Usá 'Partial<Hull>' para aceptar actualizaciones parciales del casco. Partial hace que TODAS las propiedades sean opcionales. ¡AGILIDAD EN BATALLA!",
+    "starter": "// Partial<T> hace todas las propiedades opcionales.\\n// Ideal para funciones que actualizan PARTE de un objeto.\\n\\ninterface Hull { dmg: number; sensor: boolean; }\\n\\n// Creá una función updateHull que reciba Partial<Hull>\\n",
     "hints": [
-      "La función debería verse así: update(p: Partial<Hull>).",
-      "Partial<T> hace que todas las propiedades de T sean opcionales.",
-      "Ideal para parches y actualizaciones parciales de estado."
+      "💡 La función: function updateHull(p: Partial<Hull>) { ... }",
+      "💡 Partial<T> hace que no sea obligatorio pasar todas las propiedades.",
+      "💡 Respuesta:\\n\\nfunction updateHull(p: Partial<Hull>) {\\n  // Actualización parcial...\\n}"
     ],
-    "solution": "function updateHull(p: Partial<Hull>) {\n  // Actualización parcial...\n}",
-    "validate": () => { 
-      const code = STATE.editor.getValue().replace(/\s+/g, ''); 
-      return code.includes('Partial<'); 
-    }
+    "solution": "function updateHull(p: Partial<Hull>) {\\n  // Actualización parcial...\\n}",
+    "validate": () => { const code = STATE.editor.getValue().replace(/\\s+/g, ''); return code.includes('Partial<'); }
   },
   {
-    "id": 52,
+    "id": 35,
     "type": "TS",
     "timer": null,
     "title": "TS: El Filtro Bellatrix",
-    "sarge": "¡EXTRACCIÓN TÁCTICA! Usa 'Pick' para capturar solo 'lat' y 'long' de los planos terrestres. ¡NO PIERDAS TIEMPO CON DATOS BASURA!",
-    "starter": "interface Map { lat: number; long: number; bio: string; }\n",
+    "sarge": "¡EXTRACCIÓN TÁCTICA! Usá 'Pick' para capturar solo 'lat' y 'long' de los planos terrestres. Pick recorta una interface y se queda solo con lo que necesitás. ¡NO PIERDAS TIEMPO CON DATOS BASURA!",
+    "starter": "// Pick<Tipo, 'prop1' | 'prop2'> extrae solo esas propiedades.\\n\\ninterface Map { lat: number; long: number; bio: string; }\\n\\n// Creá un tipo MinMap con solo lat y long\\n",
     "hints": [
-      "Define un nuevo tipo: type MinMap = Pick<Map, 'lat' | 'long'>;.",
-      "Pasa el tipo base y las claves separadas por '|'.",
-      "Esto 'recorta' las interfaces para que sean más ligeras."
+      "💡 Definí: type MinMap = Pick<Map, 'lat' | 'long'>;",
+      "💡 Pasá el tipo base y las claves separadas por '|'.",
+      "💡 Respuesta:\\n\\ntype MinMap = Pick<Map, 'lat' | 'long'>;"
     ],
     "solution": "type MinMap = Pick<Map, 'lat' | 'long'>;",
     "validate": () => { const code = STATE.editor.getValue(); return code.includes('Pick<'); }
   },
   {
-    "id": 53,
+    "id": 36,
     "type": "TS",
     "timer": null,
     "title": "TS: El Olvido de Polaris",
-    "sarge": "¡BORRADO DE SEÑAL! Usa 'Omit' para eliminar 'password' de los datos públicos. ¡EL ENEMIGO NO DEBE SABER CÓMO ENTRAMOS!",
-    "starter": "interface User { id: number; password: string; }\n",
+    "sarge": "¡BORRADO DE SEÑAL! Usá 'Omit' para eliminar 'password' de los datos públicos. Omit es lo contrario de Pick: QUITA propiedades. ¡EL ENEMIGO NO DEBE SABER CÓMO ENTRAMOS!",
+    "starter": "// Omit<Tipo, 'prop'> crea una copia SIN esa propiedad.\\n\\ninterface User { id: number; password: string; }\\n\\n// Creá un tipo PublicUser sin el password\\n",
     "hints": [
-      "Define el tipo: type PublicUser = Omit<User, 'password'>;.",
-      "Omit es lo contrario de Pick (excluye propiedades).",
-      "Esencial para seguridad y privacidad de datos."
+      "💡 Definí: type PublicUser = Omit<User, 'password'>;",
+      "💡 Omit es lo contrario de Pick (excluye propiedades).",
+      "💡 Respuesta:\\n\\ntype PublicUser = Omit<User, 'password'>;"
     ],
     "solution": "type PublicUser = Omit<User, 'password'>;",
     "validate": () => { const code = STATE.editor.getValue(); return code.includes('Omit<'); }
   },
   {
-    "id": 54,
+    "id": 37,
     "type": "TS",
     "timer": null,
     "title": "TS: El Diccionario Regulus",
-    "sarge": "¡MAPEO DE PODER! Usa 'Record' para asociar rangos (string) con niveles (number). ¡QUIERO EL ORGANIGRAMA COMPLETO AHORA!",
-    "starter": "// Mapeo militar...\n",
+    "sarge": "¡MAPEO DE PODER! Usá 'Record' para asociar rangos (string) con niveles (number). Record crea diccionarios tipados. ¡QUIERO EL ORGANIGRAMA COMPLETO!",
+    "starter": "// Record<TipoClave, TipoValor> crea un diccionario tipado.\\n\\n// Creá una variable military con Record<string, number>\\n",
     "hints": [
-      "Sintaxis: let m: Record<string, number> = { ... }.",
-      "Define una cadena de mando coherente.",
-      "Ideal para diccionarios tipados dinámicamente."
+      "💡 Sintaxis: let m: Record<string, number> = { ... };",
+      "💡 Definí una cadena de mando: Record<string, number>.",
+      "💡 Respuesta:\\n\\nlet military: Record<string, number> = {\\n  'GENERAL': 100\\n};"
     ],
-    "solution": "let military: Record<string, number> = {\n  'GENERAL': 100\n};",
+    "solution": "let military: Record<string, number> = {\\n  'GENERAL': 100\\n};",
     "validate": () => { const code = STATE.editor.getValue(); return code.includes('Record<'); }
   },
   {
-    "id": 55,
+    "id": 38,
     "type": "TS",
     "timer": null,
     "title": "TS: La Unión Draco",
-    "sarge": "¡IDENTIDADES COMPLEJAS! Define 'Resp' como éxito {ok:true, data:string} o fallo {ok:false, error:string}. ¡FLUJOS SIN FISURAS!",
-    "starter": "// Union Types...\n",
+    "sarge": "¡IDENTIDADES COMPLEJAS! Definí 'Resp' como éxito {ok:true, data:string} o fallo {ok:false, error:string}. El | permite que un tipo tenga DOS formas posibles. ¡FLUJOS SIN FISURAS!",
+    "starter": "// Union Types: Tipo1 | Tipo2\\n// Una variable puede ser UNA u OTRA forma.\\n\\n// Creá el tipo Resp con dos formas posibles\\n",
     "hints": [
-      "Usa el símbolo | para unir las dos definiciones.",
-      "Sintaxis: type Resp = { ... } | { ... }.;",
-      "Esto permite que la variable cambie su forma según el estado."
+      "💡 Usá el símbolo | para unir las dos definiciones.",
+      "💡 Sintaxis: type Resp = { ... } | { ... };",
+      "💡 Respuesta:\\n\\ntype Resp = { ok: true, data: string } | { ok: false, error: string };"
     ],
     "solution": "type Resp = { ok: true, data: string } | { ok: false, error: string };",
     "validate": () => { const code = STATE.editor.getValue(); return code.includes('|'); }
   },
   {
-    "id": 56,
-    "type": "TS",
-    "timer": null,
-    "title": "TS: Los Colores de Lyra",
-    "sarge": "¡ESTANDARIZACIÓN VISUAL! Tipo literal que empiece por '#HEX-'. ¡ORDEN Y ESTÉTICA EN LA PINTURA DE LOS CAZAS!",
-    "starter": "type ShipColor = `#HEX-${string}`;\n",
-    "hints": [
-      "Usa las comillas invertidas (``) para definir el formato literario.",
-      "Usa la interpolación de tipos: ${string};.",
-      "Esto valida que cualquier cadena empiece por esa marca."
-    ],
-    "solution": "type ShipColor = `#HEX-${string}`;",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('#HEX-'); }
-  },
-  {
-    "id": 57,
+    "id": 39,
     "type": "TS",
     "timer": null,
     "title": "TS: El Cristal de Aquila",
-    "sarge": "¡ESTRUCTURAS PETRIFICADAS! Declara 'ENGINE_SPECS' como 'as const'. ¡QUE NI UN ÁTOMO SE MUEVA SIN MI AUTORIZACIÓN!",
-    "starter": "const ENGINE_SPECS = { id: 'MK-1', thrust: 9000 };\n",
+    "sarge": "¡ESTRUCTURAS PETRIFICADAS! Declará 'ENGINE_SPECS' como 'as const'. Eso congela el objeto para siempre. ¡QUE NI UN ÁTOMO SE MUEVA SIN MI AUTORIZACIÓN!",
+    "starter": "// 'as const' congela un objeto completamente.\\n// Más potente que readonly para objetos.\\n\\nconst ENGINE_SPECS = { id: 'MK-1', thrust: 9000 };\\n// Agregá 'as const' al final\\n",
     "hints": [
-      "Añade 'as const' al final de la declaración del objeto.",
-      "Esto congela el objeto haciéndolo inmutable a nivel de TS.",
-      "Es más potente que readonly para objetos anidados."
+      "💡 Agregá 'as const' al final de la declaración del objeto.",
+      "💡 Esto hace inmutable TODO el objeto, no solo sus propiedades.",
+      "💡 Respuesta:\\n\\nconst ENGINE_SPECS = { id: 'MK-1', thrust: 9000 } as const;"
     ],
     "solution": "const ENGINE_SPECS = { id: 'MK-1', thrust: 9000 } as const;",
     "validate": () => { const code = STATE.editor.getValue(); return code.includes('as const'); }
   },
   {
-    "id": 58,
+    "id": 40,
     "type": "TS",
-    "timer": null,
-    "title": "TS: El Índice Fomalhaut",
-    "sarge": "¡DICCIONARIO DINÁMICO! Interface con 'Index Signature' para claves string y valores boolean. ¡CAPTURA TODOS LOS ECOS DEL RADAR!",
-    "starter": "interface SensorLog {\n  // Índice dinámico...\n}\n",
-    "hints": [
-      "Usa la sintaxis: [key: string]: boolean;.",
-      "Esto permite que la interfaz acepte cualquier clave de texto.",
-      "Útil para sistemas que generan nombres de claves al azar."
-    ],
-    "solution": "interface SensorLog {\n  [key: string]: boolean;\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('[key:'); }
-  },
-  {
-    "id": 59,
-    "type": "TS",
-    "timer": null,
-    "title": "TS: La Llave Aquila",
-    "sarge": "¡PRECISIÓN ABSOLUTA! Función genérica con <T, K extends keyof T>. ¡SI ACCEDES A LOS SECRETOS, LA CLAVE DEBE SER REAL!",
-    "starter": "function getParam<T, K extends keyof T>(o: T, k: K) {\n  //...\n}\n",
-    "hints": [
-      "Simplemente retorna o[k];.",
-      "TypeScript garantiza que 'k' es una llave válida de 'o'.",
-      "Esto elimina errores de 'propiedad no encontrada'."
-    ],
-    "solution": "function getParam<T, K extends keyof T>(o: T, k: K) {\n  return o[k];\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('keyof'); }
-  },
-  {
-    "id": 60,
-    "type": "TS",
-    "timer": 1500,
+    "timer": 300,
     "title": "TS FINAL: EL ALFA Y EL OMEGA",
-    "sarge": "¡PUESTO DE GENERAL! Singleton + Interface + Genéricos + Async. Crea el SupremeKernel. ¡HAZLO POR EL HÉRCULES Y POR LA HUMANIDAD!",
-    "starter": "// EL FINAL DE TU ENTRENAMIENTO MILITAR SUPREMO...\n",
+    "sarge": "¡ÚLTIMA MISIÓN, PILOTO! Demostrá todo lo que aprendiste. Creá una interface 'ISystem' con un método 'init()' que devuelva Promise<string>. Después creá una función async 'bootSystem' que retorne 'HERCULES_ONLINE'. ¡HACELO POR LA HUMANIDAD!",
+    "starter": "// MISIÓN FINAL: Combiná interface + async/await\\n// Demostrá que sos un verdadero ingeniero estelar.\\n\\n// 1. Creá la interface ISystem con init(): Promise<string>\\n// 2. Creá la función async bootSystem que retorne 'HERCULES_ONLINE'\\n\\n",
     "hints": [
-      "Implementa la interface IKernel con implements IKernel.",
-      "Crea el Singleton con static instance y constructor privado.",
-      "La función init() debe ser asíncrona: async init() { ... }."
+      "💡 Interface: interface ISystem { init(): Promise<string>; }",
+      "💡 Función async: async function bootSystem(): Promise<string> { return 'HERCULES_ONLINE'; }",
+      "💡 Respuesta:\\n\\ninterface ISystem {\\n  init(): Promise<string>;\\n}\\n\\nasync function bootSystem(): Promise<string> {\\n  return 'HERCULES_ONLINE';\\n}"
     ],
-    "solution": "interface IKernel { init(): Promise<void>; }\n\nclass SupremeKernel implements IKernel {\n  private static instance: SupremeKernel;\n  private constructor() {}\n  async init() { console.log('READY'); }\n  static getInstance() {\n    return this.instance || (this.instance = new SupremeKernel());\n  }\n}",
-    "validate": () => { const code = STATE.editor.getValue(); return code.includes('implements') && code.includes('static') && code.includes('async'); }
+    "solution": "interface ISystem {\\n  init(): Promise<string>;\\n}\\n\\nasync function bootSystem(): Promise<string> {\\n  return 'HERCULES_ONLINE';\\n}",
+    "validate": () => { const code = STATE.editor.getValue(); return code.includes('interface') && code.includes('async') && code.includes('HERCULES_ONLINE'); }
   }
 ]
+
+    function runInitialCinematic() {
+      // PREPARAR HUD PARA EL ALMIRANTE
+      setSargePose('pose-idle');
+      const msg = ">>> [ALMIRANTE STARK]: ¡BIENVENIDO A LA FLOTA HÉRCULES, RECLUTA! ANTES DE ASIGNARTE UNA ESTACIÓN DE COMBATE, NECESITO TU IDENTIFICACIÓN MILITAR. ¡IDENTIFÍQUESE INMEDIATAMENTE!";
+      
+      // ESPERAR UN MOMENTO PARA QUE EL CRT EFECTO SE ESTABILICE
+      setTimeout(() => {
+        typeWriter(msg, 'sarge-text', 20, () => {
+          // AL TERMINAR EL DIALOGO Y VOLVER AL SIDEBAR (1.8s después del fin en typeWriter)
+          setTimeout(() => {
+            const area = document.getElementById('id-input-area');
+            if (area) {
+              area.style.display = 'block';
+              area.style.animation = 'fadeIn 1s forwards';
+              document.getElementById('user-name-input').focus();
+            }
+          }, 2000);
+        });
+      }, 1000);
+    }
 
     function typeWriter(t, id, speed = 25, callback) {
       const el = document.getElementById(id);
       if (!el) return;
       if (STATE.typewriterTimer) clearTimeout(STATE.typewriterTimer);
       el.innerHTML = ''; let i = 0;
-      function step() { if (i < t.length) { el.innerHTML = t.substring(0, i + 1); i++; STATE.typewriterTimer = setTimeout(step, speed); } else if (callback) callback(); }
+
+      const isSarge = id === 'sarge-text';
+      const sargeContainer = document.getElementById('sarge-container');
+      if (isSarge && sargeContainer) {
+        sargeContainer.classList.add('cinematic');
+        document.getElementById('dialogue-overlay').classList.add('active');
+      }
+
+      function step() { 
+        if (i < t.length) { 
+          el.innerHTML = t.substring(0, i + 1); 
+          i++; 
+          STATE.typewriterTimer = setTimeout(step, speed); 
+        } else {
+          if (callback) callback();
+          if (isSarge && sargeContainer) {
+            setTimeout(() => {
+              sargeContainer.classList.remove('cinematic');
+              document.getElementById('dialogue-overlay').classList.remove('active');
+            }, 1800);
+          }
+        }
+      }
       step();
     }
 
@@ -977,12 +717,14 @@ const missions = [
             "STATUS: ACCESO CONCEDIDO."
         ] : [
             `INICIALIZANDO PROTOCOLOS ESTELARES...`,
-            `PILOTO ${STATE.name.toUpperCase()} RECONOCIDO POR EL GENERAL STARK.`, 
-            "ESTADO: ENTRENAMIENTO DE ÉLITE ACTIVO.", 
-            "60 PROTOCOLOS DE SEGURIDAD CARGADOS EN EL KERNEL.",
-            "¡RECUERDA: CADA ÉXITO RECARGA TU ENERGÍA!"
+            `40 PROTOCOLOS DE SEGURIDAD CARGADOS EN EL KERNEL...`,
+            "¡LISTO PARA EL DESPEGUE!"
         ];
         
+        const sargeGreeting = isRecovery 
+          ? `¡BIENVENIDO DE VUELTA, ${STATE.name.toUpperCase()}! LA ESTACIÓN TE NECESITA.`
+          : `¡ATENCIÓN! PILOTO ${STATE.name.toUpperCase()} RECONOCIDO POR EL ALMIRANTE STARK. ESTÁS EN EL ÁREA DE OPERACIONES. ¡DEMOSTRÁ TU VALOR!`;
+
         let lineIdx = 0;
         function nextLine() {
             if (lineIdx < lines.length) {
@@ -990,12 +732,18 @@ const missions = [
                     setTimeout(() => {
                         lineIdx++;
                         nextLine();
-                    }, 1200);
+                    }, 1000);
                 });
             } else {
                 setTimeout(() => {
                     document.getElementById('welcome-overlay').classList.add('hidden');
-                    loadLevel(startLevel);
+                    // GREETING CINEMATIC
+                    setSargePose('pose-point');
+                    typeWriter(sargeGreeting, 'sarge-text', 20, () => {
+                      setTimeout(() => {
+                        loadLevel(startLevel);
+                      }, 2000);
+                    });
                 }, 1000);
             }
         }
@@ -1008,7 +756,7 @@ const missions = [
       const m = missions.find(x => x.id === STATE.level);
       if (!m) return;
 
-      STATE.energy -= 5;
+      STATE.energy -= (STATE.level <= 10) ? 3 : 5;
       document.getElementById('hud-fuel').innerText = STATE.energy + "%";
       document.getElementById('hud-fuel').style.width = STATE.energy + "%";
 
@@ -1024,7 +772,7 @@ const missions = [
       const idx = Math.min(STATE.hintCount - 1, maxIdx);
       
       const isLast = idx === maxIdx;
-      const hintPrefix = isLast ? ">>> [GENERAL] TRANSMISIÓN FINAL: " : `>>> [GENERAL] PISTA TÁCTICA ${idx + 1}/${allHints.length}: `;
+      const hintPrefix = isLast ? ">>> [ALMIRANTE] TRANSMISIÓN FINAL: " : `>>> [ALMIRANTE] PISTA TÁCTICA ${idx + 1}/${allHints.length}: `;
       
       setSargePose('pose-radio');
       typeWriter(hintPrefix + allHints[idx], 'sarge-text', 15, () => {
@@ -1103,7 +851,6 @@ const missions = [
         'TENIENTE': 'Teniente, proceda con el protocolo: ',
         'CAPITÁN': 'Capitán, el éxito de la flota depende de usted: ',
         'COMANDANTE': 'Comandante, lidere el camino hacia la victoria: ',
-        'GENERAL': 'General, la estación Hércules espera sus órdenes directas: ',
         'ALMIRANTE': 'Almirante, el destino del universo está en sus manos: '
       };
       return tones[rank] || '¡PILOTO! - ';
@@ -1133,9 +880,7 @@ const missions = [
       if (m.timer) startTimer(m.timer); else stopTimer();
 
       // INICIALIZACIÓN DE ENTORNO ESPECIAL
-      if (id === 26) {
-        localStorage.setItem('telemetry', JSON.stringify({ vortex: true }));
-      }
+      // No special env needed
 
       const tone = getSargeTone();
       typeWriter(tone + m.sarge, 'sarge-text', 20);
@@ -1230,7 +975,7 @@ const missions = [
             document.getElementById('app-body').classList.add('success-alarm-active');
             
             const congrats = [
-                "¡MISIÓN CUMPLIDA! El General Stark está impresionado.",
+                "¡MISIÓN CUMPLIDA! El Almirante Stark está impresionado.",
                 "SISTEMA NOMINAL. Has salvado la estación, Piloto.",
                 "CÓDIGO INTEGRADO. Recompensa de energía enviada.",
                 "DATOS ENVIADOS. Siguiente sector desbloqueado.",
@@ -1238,7 +983,7 @@ const missions = [
             ];
             let msg = congrats[Math.floor(Math.random() * congrats.length)];
             
-            if (STATE.level === 60) {
+            if (STATE.level === 40) {
                 msg = "¡BIEN HECHO SOLDADO! HAS SALVADO LA ESTACIÓN Y A LA HUMANIDAD. YA PUEDES JUBILARTE EN PAZ. OPERACIÓN HÉRCULES COMPLETADA.";
             }
             
@@ -1263,9 +1008,9 @@ const missions = [
             }
 
             setSargePose('pose-radio');
-            typeWriter(`>>> [GENERAL STARK]: ${msg}`, 'sarge-text', 15, () => {
+            typeWriter(`>>> [ALMIRANTE STARK]: ${msg}`, 'sarge-text', 15, () => {
                 setTimeout(() => {
-                    if (STATE.level === 60) {
+                    if (STATE.level === 40) {
                         document.getElementById('victory-overlay').classList.remove('hidden');
                         setSargePose('pose-point');
                     } else if (!isPromoted) {
@@ -1277,7 +1022,7 @@ const missions = [
                         setSargePose('pose-point');
                         document.getElementById('terminal').innerHTML += `<br><span style="color:var(--success); font-size:14px; font-weight:800;">>>> [ALERTA DE SISTEMA]: ¡FELICITACIONES, PILOTO! HAS ASCENDIDO A ${STATE.rank}! <<<</span><br>`;
                     }
-                    if (STATE.level !== 60 && !isPromoted) setSargePose('pose-idle');
+                    if (STATE.level !== 40 && !isPromoted) setSargePose('pose-idle');
                 }, 1000);
             });
         } else {
@@ -1318,7 +1063,7 @@ const missions = [
         STATE = {
             name: '', level: 1, unlocked: 1, completed: [],
             energy: 100, rank: 'RECLUTA',
-            rankProgress: ['RECLUTA', 'CABO', 'SARGENTO', 'TENIENTE', 'CAPITÁN', 'COMANDANTE', 'GENERAL', 'ALMIRANTE']
+            rankProgress: ['RECLUTA', 'CABO', 'SARGENTO', 'TENIENTE', 'CAPITÁN', 'COMANDANTE', 'ALMIRANTE']
         };
     }
 
@@ -1334,7 +1079,7 @@ const missions = [
         item.className = `mission-item ${locked ? 'locked' : ''} ${m.id === STATE.level ? 'active' : ''}`;
         item.innerHTML = `${m.id}. ${m.title} ${STATE.completed.includes(m.id) ? '✓' : ''}`;
         if (!locked) item.onclick = () => loadLevel(m.id);
-        if (m.type === 'JS') jsList.appendChild(item); else tsList.appendChild(item);
+        if (m.phase === 'BOOTCAMP' || m.type === 'JS') jsList.appendChild(item); else tsList.appendChild(item);
       });
       renderMissionHub();
     }
@@ -1388,10 +1133,11 @@ const missions = [
         grid.appendChild(h);
       };
 
-      addHeader("FRENTE I: INGENIERÍA JS");
+      addHeader("FASE 0: BOOTCAMP DEL RECLUTA");
 
       missions.forEach((m, idx) => {
-        if (m.id === 36) addHeader("FRENTE II: ARQUITECTURA TS");
+        if (m.id === 11) addHeader("FASE I: INGENIERÍA JS");
+        if (m.id === 26) addHeader("FASE II: ARQUITECTURA TS");
 
         const locked = m.id > STATE.unlocked;
         const completed = STATE.completed.includes(m.id);
@@ -1409,4 +1155,8 @@ const missions = [
       });
     }
 
-    window.onload = () => { if (typeof lucide !== 'undefined') lucide.createIcons(); initEditor(); };
+    window.onload = () => { 
+      if (typeof lucide !== 'undefined') lucide.createIcons(); 
+      initEditor(); 
+      runInitialCinematic();
+    };

@@ -186,6 +186,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
     }
 
     .sarge-visor {
@@ -197,6 +198,7 @@
       position: relative;
       overflow: hidden;
       box-shadow: inset 0 0 20px var(--accent-glow);
+      transition: all 0.4s ease;
     }
 
     .sarge-visor img {
@@ -225,6 +227,67 @@
       text-align: center;
       width: 100%;
       min-height: 60px;
+      transition: all 0.4s ease;
+    }
+
+    /* --- CINEMATIC DIALOGUE --- */
+    #sarge-container.cinematic {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      z-index: 200000;
+      background: rgba(0, 5, 0, 0.98);
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 100px rgba(34, 197, 94, 0.4);
+      padding: 40px;
+      border-radius: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      clip-path: polygon(0 0, 100% 0, 100% 92%, 92% 100%, 0 100%);
+    }
+
+    #sarge-container.cinematic .sarge-visor {
+      width: 250px;
+      height: 250px;
+      border-width: 3px;
+      box-shadow: 0 0 30px var(--accent-glow);
+    }
+
+    #sarge-container.cinematic .sarge-bubble {
+      font-size: 20px;
+      background: none;
+      border: none;
+      color: #fff;
+      text-shadow: 0 0 10px var(--accent-glow);
+      padding: 0;
+      margin: 0;
+    }
+
+    #sarge-container.cinematic .btn-help {
+      display: none;
+    }
+
+    .dialogue-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 150000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .dialogue-overlay.active {
+      opacity: 1;
+      pointer-events: all;
     }
 
     /* --- OVERLAYS --- */
@@ -443,24 +506,33 @@
     .hub-title { font-size: 10px; font-weight: 800; color: var(--text-bright); text-transform: uppercase; }
 
     .btn-help {
-        background: rgba(251, 191, 36, 0.1);
-        border: 1px solid #fbbf24;
+        background: rgba(251, 191, 36, 0.15);
+        border: 2px solid #fbbf24;
         color: #fbbf24;
-        margin-top: 10px;
-        font-size: 9px;
-        padding: 5px;
+        margin-top: 12px;
+        font-size: 12px;
+        padding: 12px 10px;
         width: 100%;
         cursor: pointer;
         font-family: inherit;
         text-transform: uppercase;
         font-weight: 800;
-        transition: 0.2s;
+        transition: 0.3s;
+        letter-spacing: 1px;
+        animation: hintPulse 3s infinite;
+    }
+
+    @keyframes hintPulse {
+      0% { box-shadow: 0 0 5px rgba(251, 191, 36, 0.2); }
+      50% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.5); border-color: #fcd34d; }
+      100% { box-shadow: 0 0 5px rgba(251, 191, 36, 0.2); }
     }
 
     .btn-help:hover {
         background: #fbbf24;
         color: #000;
-        box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+        box-shadow: 0 0 25px rgba(251, 191, 36, 0.6);
+        transform: scale(1.02);
     }
 
     .mission-item {
@@ -673,6 +745,11 @@
       box-shadow: 0 0 30px var(--accent-glow);
       letter-spacing: 8px;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 
@@ -683,6 +760,7 @@
   </div>
 
   <div id="alarm-overlay"></div>
+  <div id="dialogue-overlay" class="dialogue-overlay"></div>
   <div id="success-pulse"></div>
 
   <!-- Welcome Overlay -->
@@ -692,7 +770,7 @@
       <p id="welcome-text" style="margin-bottom:30px; line-height:1.7; font-size:14px; min-height: 80px; color:var(--text-bright);">
         [LECTURA BIOMÉTRICA]...<br>INICIANDO PROTOCOLO DE HANDSHAKE.
       </p>
-      <div id="id-input-area">
+      <div id="id-input-area" style="display: none;">
         <input type="text" id="user-name-input"
           style="width:100%; padding:15px; background:#000; border:1px solid var(--accent); color:var(--accent); text-align:center; margin-bottom:10px; font-family:inherit;"
           placeholder="ID DE PERSONAL MILITAR">
@@ -764,7 +842,7 @@
           <img src="sarge_point.png" id="pose-point">
         </div>
         <div class="sarge-bubble" id="sarge-text">[SISTEMA LISTO]</div>
-        <button class="btn-help" onclick="showHint()">AUXILIO DEL SARGENTO (-5% E)</button>
+        <button class="btn-help" onclick="showHint()">🆘 PEDIR AYUDA AL SARGENTO 🆘</button>
       </div>
 
       <div style="padding:15px 20px; display:flex; flex-direction:column; gap:10px;">
@@ -772,9 +850,9 @@
         <button class="btn" style="width:100%; font-size:9px; border-color:var(--secondary); color:var(--secondary);" onclick="copyRecoveryToken()">GENERAR_TOKEN_SALVADO</button>
       </div>
 
-      <div class="mission-section-title">INGENIERÍA JS</div>
+      <div class="mission-section-title">🎮 BOOTCAMP + JS</div>
       <div id="js-list"></div>
-      <div class="mission-section-title">ARQUITECTURA TS</div>
+      <div class="mission-section-title">🛡️ TYPESCRIPT</div>
       <div id="ts-list"></div>
     </aside>
 
@@ -802,196 +880,177 @@
       <button class="btn" onclick="toggleManual()">CERRAR</button>
     </div>
 
-    <!-- Group 1: Sintaxis y Lógica Núcleo -->
-    <details>
-      <summary><i data-lucide="brain"></i> [SINTAXIS_Y_LÓGICA_NÚCLEO]</summary>
+    <!-- Group 1: BOOTCAMP - Primeros Pasos -->
+    <details open>
+      <summary>🎮 [BOOTCAMP: PRIMEROS PASOS]</summary>
       <div class="folder-content">
         <div class="manual-sec">
-          <h3>MOD 1: VARIABLES (Cajas de Datos)</h3>
-          <p>Usa <code>const</code> para nombres que no cambian y <code>let</code> para valores que sí (como energía).</p>
-          <code>const NOMBRE = 'Hércules';<br>let energia = 100;</code>
+          <h3>⚡ CONSOLE.LOG (Tu Megáfono)</h3>
+          <p>Muestra mensajes en la terminal. Es lo primero que vas a aprender. ¡Así te comunicás con la estación!</p>
+          <code>console.log('Hola Estación!');<br>// Esto aparece en la terminal de abajo</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 2: CONDICIONALES (Interruptores)</h3>
-          <p>Como un guardia: Deja pasar solo si se cumple la condición.</p>
-          <code>if (energia > 50) {<br>&nbsp;&nbsp;console.log('SISTEMA_OK');<br>} else {<br>&nbsp;&nbsp;console.log('ALERTA');<br>}</code>
+          <h3>📦 VARIABLES (Cajas de Datos)</h3>
+          <p>Guardá información para usarla después. Usá <code>let</code> para valores que cambian y <code>const</code> para los que no.</p>
+          <code>let energia = 100;  // puede cambiar<br>const NOMBRE = 'Hércules'; // no cambia</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 3: BUCLE FOR (Contador)</h3>
-          <p>Úsalo cuando sepas exactamente cuántas veces quieres repetir algo (ej. 5 veces).</p>
-          <code>for (let i=0; i < 5; i++) {<br>&nbsp;&nbsp;console.log('Escaneando...');<br>}</code>
+          <h3>🔢 NÚMEROS vs TEXTOS</h3>
+          <p>Los <b>números</b> van sin comillas. Los <b>textos</b> (strings) van SIEMPRE entre comillas.</p>
+          <code>let nivel = 5;           // número<br>let nombre = 'STARK';    // texto<br>console.log(nombre + ' nivel ' + nivel);</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 4: BUCLE WHILE (Condición)</h3>
-          <p>Úsalo cuando no sepas el número exacto, sino que dependas de una condición (ej. mientras haya energía).</p>
-          <code>while (energia > 0) {<br>&nbsp;&nbsp;descender(); // Se repite hasta que la condición sea falsa.<br>}</code>
+          <h3>❓ IF / ELSE (Decisiones)</h3>
+          <p>Como un guardia: SI se cumple la condición, hacé algo. SI NO, hacé otra cosa.</p>
+          <code>if (energia > 50) {<br>&nbsp;&nbsp;console.log('SISTEMA_OK');<br>} else {<br>&nbsp;&nbsp;console.log('¡ALERTA!');<br>}</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 5: FUNCIONES (Pequeños Robots)</h3>
-          <p>Paquetes de órdenes que guardas para usar después.</p>
-          <code>// ROBOT ESTÁNDAR (NOMBRADA):<br>function activarEscudo() { ... }<br><br>// ROBOT RÁPIDO (FLECHA):<br>const alertar = () => { ... };</code>
+          <h3>🤖 FUNCIONES (Robots)</h3>
+          <p>Un bloque de código con nombre. Lo creás una vez y lo usás las veces que quieras.</p>
+          <code>function saludar() {<br>&nbsp;&nbsp;console.log('¡HOLA!');<br>}<br>saludar(); // la ejecutás así</code>
+        </div>
+        <div class="manual-sec">
+          <h3>📋 ARRAYS (Listas)</h3>
+          <p>Una lista ordenada. Se crea con corchetes. ¡OJO: empiezan en posición 0!</p>
+          <code>let armas = ['Láser', 'Misil', 'Escudo'];<br>console.log(armas[0]); // 'Láser'<br>console.log(armas.length); // 3</code>
+        </div>
+        <div class="manual-sec">
+          <h3>🔄 BUCLE FOR (Repetir)</h3>
+          <p>Repetí código automáticamente. Perfecto para recorrer listas.</p>
+          <code>for (let i = 0; i < 3; i++) {<br>&nbsp;&nbsp;console.log('Escaneo ' + i);<br>}</code>
         </div>
       </div>
     </details>
 
-    <!-- Group 2: Estructuras de Datos -->
+    <!-- Group 2: DOM - Tocar la Pantalla -->
     <details>
-      <summary><i data-lucide="database"></i> [ESTRUCTURAS_Y_DATA]</summary>
+      <summary>🖥️ [INTERACCIÓN CON LA PANTALLA]</summary>
       <div class="folder-content">
         <div class="manual-sec">
-          <h3>MOD 6: ARRAYS (Listas de Inventario)</h3>
-          <p>Una lista de cosas guardadas por posición (empezando en 0).</p>
-          <code>const armas = ['Láser', 'Misil'];<br>console.log(armas[0]); // 'Láser'</code>
+          <h3>🔍 getElementById (Buscar Elementos)</h3>
+          <p>Buscá cualquier elemento de la pantalla por su nombre (ID) para modificarlo.</p>
+          <code>const visor = document.getElementById('sarge-text');</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 7: OBJETOS (Planos Técnicos)</h3>
-          <p>Un conjunto de datos con etiquetas (propiedades).</p>
-          <code>const nave = { motor: 'Warp', hp: 100 };<br>console.log(nave.motor); // 'Warp'</code>
+          <h3>✏️ innerText / innerHTML (Cambiar Texto)</h3>
+          <p>Cambiá lo que dice un elemento en la pantalla.</p>
+          <code>visor.innerText = 'NUEVO MENSAJE';<br>visor.innerHTML = '&lt;b&gt;CON FORMATO&lt;/b&gt;';</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 8: MÉTODOS PRO (Filtros de Datos)</h3>
-          <p>Herramientas modernas para limpiar tus listas.</p>
-          <code>const vivos = crew.filter(c => c.hp > 0);</code>
+          <h3>🎨 .style (Cambiar Apariencia)</h3>
+          <p>Modificá colores, tamaños, bordes, y más desde el código.</p>
+          <code>elemento.style.borderColor = 'red';<br>elemento.style.opacity = '0.5';<br>elemento.style.width = '200px';</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 9: DESESTRUCTURACIÓN (Extracción)</h3>
-          <p>Saca solo lo que necesitas de un objeto gigante.</p>
-          <code>const { lat, lon } = gps_data;</code>
+          <h3>👆 addEventListener (Detectar Clicks)</h3>
+          <p>Hacé que algo pase cuando el usuario toca un botón.</p>
+          <code>boton.addEventListener('click', () => {<br>&nbsp;&nbsp;console.log('¡CLICK!');<br>});</code>
+        </div>
+        <div class="manual-sec">
+          <h3>➕ createElement + appendChild (Crear Elementos)</h3>
+          <p>Creá nuevos elementos HTML y agregalos a la página.</p>
+          <code>const div = document.createElement('div');<br>div.innerText = 'ALERTA';<br>document.getElementById('terminal').appendChild(div);</code>
         </div>
       </div>
     </details>
 
-    <!-- Group 3: Interacción con la Estación (DOM) -->
+    <!-- Group 3: JavaScript Intermedio -->
     <details>
-      <summary><i data-lucide="terminal"></i> [INTERACCIÓN_STARK_OS]</summary>
+      <summary>⚙️ [JS INTERMEDIO: MÉTODOS Y DATOS]</summary>
       <div class="folder-content">
         <div class="manual-sec">
-          <h3>MOD 10: SELECTORES (Brazos Robóticos)</h3>
-          <p>Conecta tu código con partes reales de la pantalla.</p>
-          <code>const fuel = document.getElementById('hud-fuel');</code>
+          <h3>🧹 .filter() (Filtrar Listas)</h3>
+          <p>Creá una nueva lista quedándote solo con los elementos que cumplan una condición.</p>
+          <code>const criticos = logs.filter(l => l.critico === true);</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 11: EVENTOS (Sensores de Click)</h3>
-          <p>Detecta cuando el usuario toca un botón o tecla.</p>
-          <code>btn.addEventListener('click', () => { ... });</code>
+          <h3>🔄 .map() (Transformar Listas)</h3>
+          <p>Creá una nueva lista transformando cada elemento.</p>
+          <code>const dobles = numeros.map(n => n * 2);</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 12: ESTILOS (Personalización)</h3>
-          <p>Cambia el aspecto visual de un componente al instante.</p>
-          <code>box.style.backgroundColor = 'red';</code>
+          <h3>📦 Desestructuración (Extraer Datos)</h3>
+          <p>Sacá propiedades de un objeto directamente a variables.</p>
+          <code>const { lat, long } = coordenadas;</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 13: CONTENIDO (Texto Biométrico)</h3>
-          <p>Escribe mensajes directamente en la pantalla HUD.</p>
-          <code>visor.innerText = '¡BIENVENIDO!';</code>
+          <h3>🔀 Switch (Múltiples Opciones)</h3>
+          <p>Como varios if/else juntos. Ideal para menús o estados.</p>
+          <code>switch(alerta) {<br>&nbsp;&nbsp;case 'ALTA': activar(); break;<br>&nbsp;&nbsp;case 'BAJA': reposo(); break;<br>}</code>
+        </div>
+        <div class="manual-sec">
+          <h3>🌐 Fetch (Pedir Datos)</h3>
+          <p>Conectate a servidores y pedí información.</p>
+          <code>fetch('https://api.datos.com')<br>&nbsp;&nbsp;.then(r => r.json())<br>&nbsp;&nbsp;.catch(e => console.error(e));</code>
+        </div>
+        <div class="manual-sec">
+          <h3>💾 localStorage (Guardar Datos)</h3>
+          <p>Guardá datos que sobrevivan al cerrar la página.</p>
+          <code>localStorage.setItem('score', '100');<br>const score = localStorage.getItem('score');</code>
         </div>
       </div>
     </details>
 
-    <!-- Group 4: Telecomunicaciones (Async) -->
+    <!-- Group 4: TypeScript Básico -->
     <details>
-      <summary><i data-lucide="radio"></i> [PROTOCOLOS_DE_TIEMPO]</summary>
+      <summary>🛡️ [TYPESCRIPT: BLINDAJE DE DATOS]</summary>
       <div class="folder-content">
         <div class="manual-sec">
-          <h3>MOD 14: TEMPORIZADORES (Relojes)</h3>
-          <p>Haz que algo pase después de unos segundos.</p>
-          <code>setTimeout(() => { alert('¡BOOM!'); }, 2000);</code>
+          <h3>🏷️ Tipos Básicos</h3>
+          <p>TypeScript le pone "etiquetas" a tus datos para evitar errores.</p>
+          <code>let id: string = 'SEC-01';<br>let nivel: number = 100;<br>let activo: boolean = true;</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 15: PROMESAS (Pactos Digitales)</h3>
-          <p>Algo que pasará en el futuro (si todo va bien).</p>
-          <code>fetch(api).then(res => res.json());</code>
+          <h3>📐 Interface (Planos)</h3>
+          <p>Define la forma EXACTA que debe tener un objeto.</p>
+          <code>interface Piloto {<br>&nbsp;&nbsp;nombre: string;<br>&nbsp;&nbsp;rango: number;<br>}</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 16: ASYNC/AWAIT (Espera Activa)</h3>
-          <p>Maneja el tiempo como si fuera una lista de tareas lineal.</p>
-          <code>const data = await getSectorState();</code>
+          <h3>🔒 Readonly (Inmutable)</h3>
+          <p>Marcá propiedades que NADIE puede cambiar después de crearlas.</p>
+          <code>interface Config {<br>&nbsp;&nbsp;readonly id: string;<br>}</code>
+        </div>
+        <div class="manual-sec">
+          <h3>📊 Enum (Opciones Fijas)</h3>
+          <p>Una lista cerrada de valores posibles. Perfecto para estados.</p>
+          <code>enum Alerta { BAJA, MEDIA, CRITICA }<br>let estado = Alerta.CRITICA;</code>
+        </div>
+        <div class="manual-sec">
+          <h3>🔗 Union (|) e Intersección (&amp;)</h3>
+          <p>Union: puede ser UNA cosa u OTRA. Intersección: tiene TODO de ambos.</p>
+          <code>type Resp = string | number; // una u otra<br>type Full = Base &amp; Extra; // tiene ambas</code>
         </div>
       </div>
     </details>
 
-    <!-- Group 5: Maatría en Objetos (POO) -->
+    <!-- Group 5: TypeScript Avanzado -->
     <details>
-      <summary><i data-lucide="box"></i> [PROGRAMACIÓN_ORIENTADA_A_OBJETOS]</summary>
+      <summary>🧬 [TS AVANZADO: HERRAMIENTAS PRO]</summary>
       <div class="folder-content">
         <div class="manual-sec">
-          <h3>MOD 22: CONSTRUCTORES (Plantillas)</h3>
-          <p>Usa funciones para crear muchos objetos iguales con <code>this</code>.</p>
-          <code>function Dron(id) { this.id = id; }<br>const d1 = new Dron(101);</code>
+          <h3>🎁 Genéricos &lt;T&gt; (Comodines)</h3>
+          <p>Creá funciones e interfaces que trabajen con CUALQUIER tipo.</p>
+          <code>interface Caja&lt;T&gt; {<br>&nbsp;&nbsp;contenido: T;<br>}<br>// Caja&lt;string&gt;, Caja&lt;number&gt;...</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 23: CLASES (Modernidad)</h3>
-          <p>La forma oficial de agrupar datos y funciones (métodos).</p>
-          <code>class Dron { constructor(id) { this.id = id; } operar() { ... } }</code>
+          <h3>🔎 typeof (Detective de Tipos)</h3>
+          <p>Preguntá qué tipo tiene una variable en tiempo real.</p>
+          <code>if (typeof valor === 'number') {<br>&nbsp;&nbsp;// Acá TS sabe que es número<br>}</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 24: HERENCIA (Evolución)</h3>
-          <p>Crea una clase basada en otra usando <code>extends</code> y <code>super</code>.</p>
-          <code>class SuperDron extends Dron { constructor(id) { super(id); } }</code>
-        </div>
-      </div>
-    </details>
-
-    <!-- Group 6: Blindaje y APIs Pro -->
-    <details>
-      <summary><i data-lucide="shield-check"></i> [BLINDAJE_Y_APIS_PRO]</summary>
-      <div class="folder-content">
-        <div class="manual-sec">
-          <h3>MOD 17: TYPESCRIPT (Blindaje de Datos)</h3>
-          <p>Evita que entre "basura" en tus variables fijando su tipo.</p>
-          <code>let id: string = 'SEC-01'; // Solo texto.</code>
+          <h3>🧩 Partial, Pick, Omit, Record</h3>
+          <p>Herramientas para modificar interfaces rápidamente.</p>
+          <code>Partial&lt;T&gt; // todo opcional<br>Pick&lt;T, 'a' | 'b'&gt; // solo estas props<br>Omit&lt;T, 'pass'&gt; // sin esta prop<br>Record&lt;string, number&gt; // diccionario</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 18: INTERFACES (Contratos)</h3>
-          <p>Define exactamente cómo debe verse un objeto de datos.</p>
-          <code>interface Pilot { name: string; rank: number; }</code>
+          <h3>❄️ as const (Congelar)</h3>
+          <p>Hace que un objeto sea 100% inmutable. Más potente que readonly.</p>
+          <code>const CONFIG = { v: 1 } as const;</code>
         </div>
         <div class="manual-sec">
-          <h3>MOD 19: GENÉRICOS (Adaptadores)</h3>
-          <p>Funciones que funcionan con cualquier tipo de dato.</p>
-          <code>function log<T>(val: T) { console.log(val); }</code>
-        </div>
-        <div class="manual-sec">
-          <h3>MOD 20: STORAGE (Caja Negra)</h3>
-          <p>Guarda información que no se borre al cerrar la página.</p>
-          <code>localStorage.setItem('score', '100');</code>
-        </div>
-        <div class="manual-sec">
-          <h3>MOD 21: OBSERVERS (Vigilantes)</h3>
-          <p>Detecta cambios en la pantalla automáticamente.</p>
-          <code>new MutationObserver(callback).observe(node);</code>
-        </div>
-      </div>
-    </details>
-
-    <!-- Group 7: TypeScript Avanzado -->
-    <details>
-      <summary><i data-lucide="cpu"></i> [TYPESCRIPT_AVANZADO]</summary>
-      <div class="folder-content">
-        <div class="manual-sec">
-          <h3>MOD 25: AS CONST (Petrificación)</h3>
-          <p>Congela un objeto por completo para que nunca pueda cambiar.</p>
-          <code>const SPECS = { min: 0 } as const;</code>
-        </div>
-        <div class="manual-sec">
-          <h3>MOD 26: KEYOF (Llaves Maestras)</h3>
-          <p>Extrae todos los nombres de las propiedades de un tipo.</p>
-          <code>type K = keyof Station; // 'name' | 'capacity'</code>
-        </div>
-        <div class="manual-sec">
-          <h3>MOD 27: PARTIAL & PICK</h3>
-          <p>Herramientas para adaptar tipos. Partial hace todo opcional, Pick extrae solo lo necesario.</p>
-          <code>type M = Pick&lt;Map, 'lat'&gt;;<br>type P = Partial&lt;Hull&gt;;</code>
-        </div>
-        <div class="manual-sec">
-          <h3>MOD 28: ENUM (Estados Fijos)</h3>
-          <p>Crea una lista estricta de opciones (ej. Niveles de Alerta).</p>
-          <code>enum Warning { LOW, CRITICAL }</code>
-        </div>
-        <div class="manual-sec">
-          <h3>MOD 29: OMIT & RECORD</h3>
-          <p>Omit borra propiedades de un tipo. Record crea diccionarios rápidos.</p>
-          <code>type SafeUser = Omit&lt;User, 'pass'&gt;;<br>let dict: Record&lt;string, number&gt;;</code>
+          <h3>⚡ Async / Await + Tipos</h3>
+          <p>Funciones asíncronas con tipos estrictos para mayor seguridad.</p>
+          <code>async function cargar(): Promise&lt;string&gt; {<br>&nbsp;&nbsp;return 'LISTO';<br>}</code>
         </div>
       </div>
     </details>
