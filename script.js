@@ -1,4 +1,82 @@
 
+    // --- CONTROLADOR DE AUDIO RETRO-SINTETIZADO ---
+    const AUDIO = (function() {
+      let ctx = null;
+      let alarmOsc = null;
+      let alarmGain = null;
+
+      function init() {
+        try {
+          if (!ctx) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (AudioContext) {
+              ctx = new AudioContext();
+            }
+          }
+          if (ctx && ctx.state === 'suspended') {
+            ctx.resume();
+          }
+        } catch (e) {
+          console.warn("AudioContext failed:", e);
+        }
+      }
+
+      function beep(freq, type, duration, vol) {
+        try {
+          init();
+          if (!ctx) return;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, ctx.currentTime);
+          gain.gain.setValueAtTime(vol, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + duration);
+        } catch (e) { /* Silencio total ante error */ }
+      }
+
+      return {
+        play: (type) => {
+          try {
+            if (type === 'type') beep(400 + Math.random() * 50, 'square', 0.05, 0.05);
+            if (type === 'success') {
+              beep(600, 'sine', 0.1, 0.1);
+              setTimeout(() => beep(800, 'sine', 0.2, 0.1), 100);
+            }
+            if (type === 'fail') beep(150, 'sawtooth', 0.4, 0.1);
+          } catch (e) {}
+        },
+        startAlarm: () => {
+          try {
+            init();
+            if (!ctx || alarmOsc) return;
+            alarmOsc = ctx.createOscillator();
+            alarmGain = ctx.createGain();
+            alarmOsc.type = 'sawtooth';
+            alarmOsc.frequency.setValueAtTime(200, ctx.currentTime);
+            alarmOsc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.5);
+            alarmOsc.frequency.setTargetAtTime(200, ctx.currentTime + 0.5, 0.5);
+            alarmGain.gain.setValueAtTime(0.05, ctx.currentTime);
+            alarmOsc.connect(alarmGain);
+            alarmGain.connect(ctx.destination);
+            alarmOsc.start();
+            alarmOsc.loop = true;
+          } catch (e) {}
+        },
+        stopAlarm: () => {
+          try {
+            if (alarmOsc) {
+              alarmOsc.stop();
+              alarmOsc = null;
+            }
+          } catch(e){}
+        }
+      };
+    })();
+
     const STATE = {
       name: 'Piloto', rank: 'RECLUTA',
       level: 1, unlocked: 1, completed: [],
