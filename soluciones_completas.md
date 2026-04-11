@@ -1,327 +1,241 @@
-# Manual de Soluciones: STARK_OS (Operación Hércules)
+# 🚩 SOLUCIONES COMPLETAS: STARK_OS (35 PROTOCOLOS)
 
-Este manual contiene los 40 protocolos técnicos necesarios para salvar la Estación Hércules. Úsalos con sabiduría, Piloto.
+Este manual contiene la secuencia de comandos necesaria para restablecer el Kernel Stark y salvar al Almirante. **JS ONLY - WEB FOCUS.**
 
 ---
 
-## 🎮 FASE 0: BOOTCAMP DEL RECLUTA (1-10)
+## 🎖️ FASE 0: BOOTCAMP DEL RECLUTA (Almirante Stark)
 
-### 1. Tu Primera Orden: ¡Habla!
-Tu primer mensaje en la terminal.
+### 1. Protocolo de Enlace
 ```javascript
-console.log('RECLUTA_LISTO');
+console.log('CONEXIÓN_ESTABLECIDA');
 ```
 
-### 2. Variables: Tu Caja de Datos
-Crear una variable con tu nombre. **⚠️ El nombre puede ser cualquiera.**
+### 2. Identificación de Personal
 ```javascript
-let piloto = 'CUALQUIER_NOMBRE_QUE_QUIERAS';
+let piloto = 'TU_NOMBRE';
 ```
 
-### 3. Números: El Combustible
-Variables numéricas y operaciones matemáticas.
+### 3. Telemetría Numérica
 ```javascript
-let combustible = 100;
-let consumo = 25;
-console.log(combustible - consumo);
+let energia = 100 - 20;
 ```
 
-### 4. Textos: Unir Mensajes
-Concatenar textos con el signo +. **⚠️ El texto de 'rango' puede ser cualquiera.**
+### 4. Reporte de Estado
 ```javascript
-let rango = 'LO_QUE_QUIERAS';
-console.log('Soy un ' + rango);
+let status = 'OK';
+console.log('Estado: ' + status);
 ```
 
-### 5. Decisiones: ¿Sí o No?
-Condicional simple con if.
+### 5. Manifiesto de Carga
 ```javascript
-if (oxigeno < 50) {
-  console.log('ALERTA_CRITICA');
-}
+const nave = { id: 1, clase: 'FRAGATA' };
 ```
 
-### 6. If / Else: Dos Caminos
-Condicional con dos ramas.
+### 6. Lista de Escuadrones
 ```javascript
-if (temperatura > 100) {
-  console.log('PELIGRO');
-} else {
-  console.log('ESTABLE');
-}
+const escuadrones = ['Alfa', 'Beta', 'Gamma'];
 ```
 
-### 7. Funciones: Tu Primer Robot
-Crear y llamar una función.
+### 7. Acceso al Visor
 ```javascript
-function saludar() {
-  console.log('SISTEMA_OPERATIVO');
-}
-saludar();
+const visor = document.getElementById('sarge-text');
 ```
 
-### 8. Arrays: Lista de Tripulación
-Crear un array y acceder por posición. **⚠️ El primer nombre DEBE ser 'STARK' (lo valida el sistema), los otros son libres.**
+### 8. Inyección de Datos
 ```javascript
-let tripulacion = ['STARK', 'PEPITO', 'MARIA'];
-console.log(tripulacion[0]);
+document.getElementById('sarge-text').innerText = 'SISTEMA_LISTO';
 ```
 
-### 9. Bucle For: Repetir Tareas
-Recorrer un array con for.
+### 9. Pintura Estelar
 ```javascript
-for (let i = 0; i < sectores.length; i++) {
-  console.log(sectores[i]);
-}
+document.getElementById('sarge-text').style.color = 'lime';
 ```
 
-### 10. ¡Tocá la Pantalla! Tu Primer DOM
-Cambiar el texto de un elemento de la pantalla.
+### 10. Enlace HUD
 ```javascript
-document.getElementById('sarge-text').innerText = 'ENLACE_ESTABLECIDO';
+document.getElementById('ship-display').src = 'assets/stark.png';
 ```
 
 ---
 
-## 🛰️ FASE I: INGENIERÍA JAVASCRIPT (11-25)
+## 🕸️ EVENTO: LA EMBOSCADA (Entidad del Vacío)
 
-### 11. Velo de Plasma: Cortafuegos Solar
-Cambiar el color del borde de un elemento.
+### 11. ¡ALERTA ROJA!
 ```javascript
-document.getElementById('hud-fuel').style.borderColor = 'red';
+const el = document.getElementById('stark-bio');
+el.id = 'almirante-perdido';
 ```
 
-### 12. Salto al Vacío: Motor Warp
-Mover un elemento cambiando su posición.
+---
+
+## 🛰️ FASE I: INGENIERÍA JS (Teniente Nova)
+
+### 12. Soporte Vital
 ```javascript
-document.getElementById('hud-warp').style.left = '80%';
+if (oxigeno < 50) { activarAlerta(); }
 ```
 
-### 13. Sigilo: Capa de Invisibilidad
-Cambiar la transparencia de un elemento.
+### 13. Navegación de Emergencia
 ```javascript
-document.getElementById('user-rank').style.opacity = '0.2';
+switch(prioridad) { 
+  case 'ALTA': activarAlerta(); break; 
+  case 'BAJA': console.log('STATUS_VERDE'); break; 
+}
 ```
 
-### 14. SOBRECARGA DEL KERNEL
-Llamar una función y cambiar un estilo.
+### 14. Barrido de Sectores
 ```javascript
-activarAlerta();
-document.getElementById('hud-fuel').style.width = '50px';
+for (let i=0; i < debris.length; i++) {
+  console.log(debris[i]);
+}
 ```
 
-### 15. Telemetría del Casco
-Operación matemática y cambio de texto.
+### 15. Sincronía del Escudo
 ```javascript
-document.getElementById('hud-hull').innerText = 50 + 50;
+while (energia < 100 && calor < 50) { 
+  energia++; 
+  calor += 2; 
+}
 ```
 
-### 16. Refactorización de Interfaz
-Redondear un elemento con borderRadius.
+### 16. Calculadora de Salto
 ```javascript
-document.getElementById('sarge-wrapper').style.borderRadius = '50%';
+function canJump(fuel, hull) { 
+  return fuel > 80 || hull > 50; 
+}
 ```
 
-### 17. Event Listener de Consola
-Agregar un listener de click.
+### 17. Drones de Respuesta Rápida
 ```javascript
-document.getElementById('btn-next-level').addEventListener('click', () => {
-  console.log('SISTEMA_OK');
+const checkDrone = (d) => d.status === 'READY';
+```
+
+### 18. Protocolo de Pánico (Eventos)
+```javascript
+const btn = document.getElementById('btn-next-level');
+btn.addEventListener('click', () => { 
+  if(STATE.energy < 20) alert('BATERÍA_BAJA'); 
 });
 ```
 
-### 18. Protocolo: Inyección de Alertas
-Crear y agregar un elemento al DOM.
+### 19. Tarjeta de Diagnóstico (DOM)
 ```javascript
-const div = document.createElement('div');
-div.className = 'hud-warning';
-div.innerText = 'ERROR_KERNEL';
-document.getElementById('terminal').appendChild(div);
+const d = document.createElement('div'); 
+d.className = 'hud-card'; 
+d.innerText = 'SISTEMA_OK';
+document.body.appendChild(d);
 ```
 
-### 19. Acceso: Firma de Comandante
-Función con validación de string.
+### 20. Filtro de Objetivos (Array.filter)
 ```javascript
-function validarAcceso(perfil) {
-  return perfil.includes('ADMIN') && perfil.length > 5;
+const hostiles = targets.filter(t => t.hostile);
+```
+
+### 21. Mapeo de Coordenadas (Array.map)
+```javascript
+const mapped = points.map(n => ({ pos: n }));
+```
+
+### 22. Consumo del Panel (Array.reduce)
+```javascript
+const total = modules.reduce((acc, m) => acc + m.power, 0);
+```
+
+### 23. Extracción de Sensores (Destructuring)
+```javascript
+const { x, y, info: { id } } = telemetry;
+```
+
+### 24. Bitácora Dinámica (Template Literals)
+```javascript
+const log = `REPORT_V4: Nave ${name} en Sector ${sec}`;
+```
+
+### 25. Sincronía con Cuartel (Fetch & Catch)
+```javascript
+fetch('https://api.stark.os').then(r => r.json()).catch(e => console.log('FALLO_RED'));
+```
+
+### 26. Secuencia de Arranque (Async/Await)
+```javascript
+async function boot() { 
+  await fetch('https://api.stark.os'); 
+  console.log('KERNEL_LISTO'); 
 }
 ```
 
-### 20. Filtro: Residuos de Supernova
-Filtrar un array de objetos.
+### 27. Caja Negra Persistente (LocalStorage)
 ```javascript
-const f = logs.filter(l => {
-  if (l.critico) {
-    console.log('PELIGRO');
-    return true;
-  }
-  return false;
+localStorage.setItem('ship_pref', JSON.stringify(config));
+```
+
+---
+
+## 🏛️ FASE II: ARQUITECTURA PRO JS (Arquitecto Zero)
+
+### 28. Estado Privado (Closures)
+```javascript
+function createVault() {
+  let secret = 'STARK';
+  return {
+    getData: () => secret,
+    setData: (v) => secret = v
+  };
+}
+```
+
+### 29. Componentes de la Fragata (Classes)
+```javascript
+class UIComponent { 
+  constructor(id) { this.id = id; } 
+  render() { console.log('DIBUJANDO'); } 
+}
+```
+
+### 30. Estado de Widget Seguro (Private Fields)
+```javascript
+class Widget {
+  #state = 'STABLE';
+}
+```
+
+### 31. Utilidades del HUD (Static Methods)
+```javascript
+class DOMUtils {
+  static fixUI(id) { return !!document.getElementById(id); }
+}
+```
+
+### 32. Mapa de Nodos UI (Map)
+```javascript
+const nodes = new Map(); 
+nodes.set('MainHero', 1500);
+```
+
+### 33. Dashboard Reactivo (Proxies)
+```javascript
+const proxy = new Proxy(dashboardState, { 
+  set: (obj, prop, val) => { 
+    console.log('UI_REFRESH'); 
+    obj[prop] = val;
+    return true; 
+  } 
 });
 ```
 
-### 21. Misión: El Vórtice de Datos
-Encadenar filter y map.
+### 34. Error de Renderizado (Custom Error & Throw)
 ```javascript
-const result = stream.filter(s => s.valid).map(s => s.v + 50);
+class RenderError extends Error {}
+if (payload === null) throw new RenderError('FAILED');
 ```
 
-### 22. Cápsula: La Caja de Pandora
-Desestructuración de objetos.
+### 35. El Kernel Maestro Reactivo (Synthesis)
 ```javascript
-const { lat, long } = gps;
-if (lat < 0) {
-  console.log('SECTOR_SUR');
+class MasterDashboard { 
+  async mount() { 
+    await fetch('https://api.stark.os'); 
+    console.log('DASHBOARD_STARK_ONLINE'); 
+  } 
 }
 ```
-
-### 23. Misión: El Árbol de Decisiones
-Estructura switch/case.
-```javascript
-switch(prioridad) {
-  case 'ALTA': activarAlerta(); break;
-  case 'BAJA': console.log('STATUS_VERDE'); break;
-}
-```
-
-### 24. Sincro: El Eco de Europa
-Petición HTTP con fetch.
-```javascript
-fetch('https://api.stark.os')
-  .then(r => r.json())
-  .catch(e => console.error(e));
-```
-
-### 25. Persistencia: El Diario de Deimos
-Guardar datos en localStorage. **⚠️ El cargo DEBE ser 'ALMIRANTE' (lo valida el sistema).**
-```javascript
-localStorage.setItem('oficial', JSON.stringify(oficial));
-```
-
----
-
-## 🏗️ FASE II: ARQUITECTURA TYPESCRIPT (26-40)
-
-### 26. TS: El Rigor de Sirio
-Tipos básicos en TypeScript.
-```typescript
-let id: string = 'SEC-01';
-let val: number = 100;
-```
-
-### 27. TS: El Contrato de Vega
-Definir una interface.
-```typescript
-interface Station {
-  name: string;
-  capacity: number;
-}
-```
-
-### 28. TS: El Sello de Betelgeuse
-Propiedad readonly.
-```typescript
-interface CoreData {
-  readonly temp: number;
-}
-```
-
-### 29. TS: El Código de Rigel
-Enums y asignación.
-```typescript
-enum Warning { LOW, MEDIUM, CRITICAL }
-let status = Warning.CRITICAL;
-```
-
-### 30. TS: La Conjunción Deneb
-Intersección de tipos con &.
-```typescript
-type Armor = { v: number };
-type Shield = { p: number };
-type FullDef = Armor & Shield;
-```
-
-### 31. TS: El Recipiente Spica
-Interface con genéricos.
-```typescript
-interface Box<T> {
-  data: T;
-}
-```
-
-### 32. TS: El Filtro de Fomalhaut
-Type Guard con typeof.
-```typescript
-function verify(val: string | number) {
-  if (typeof val === 'number') {
-    return true;
-  }
-  return false;
-}
-```
-
-### 33. TS: El Vórtice Pollux
-Rest parameters tipados.
-```typescript
-function processAll(...args: string[]) {
-  return args.join(', ');
-}
-```
-
-### 34. TS: El Parche Centauri
-Partial para actualizaciones parciales.
-```typescript
-interface Hull { dmg: number; sensor: boolean; }
-function updateHull(p: Partial<Hull>) {
-  // Actualización parcial...
-}
-```
-
-### 35. TS: El Filtro Bellatrix
-Pick para extraer propiedades.
-```typescript
-interface Map { lat: number; long: number; bio: string; }
-type MinMap = Pick<Map, 'lat' | 'long'>;
-```
-
-### 36. TS: El Olvido de Polaris
-Omit para excluir propiedades.
-```typescript
-interface User { id: number; password: string; }
-type PublicUser = Omit<User, 'password'>;
-```
-
-### 37. TS: El Diccionario Regulus
-Record para diccionarios tipados.
-```typescript
-let military: Record<string, number> = {
-  'ALMIRANTE': 100
-};
-```
-
-### 38. TS: La Unión Draco
-Union types para respuestas polimórficas.
-```typescript
-type Resp = { ok: true, data: string } | { ok: false, error: string };
-```
-
-### 39. TS: El Cristal de Aquila
-as const para inmutabilidad total.
-```typescript
-const ENGINE_SPECS = { id: 'MK-1', thrust: 9000 } as const;
-```
-
-### 40. TS FINAL: EL ALFA Y EL OMEGA
-Interface + async combinados.
-```typescript
-interface ISystem {
-  init(): Promise<string>;
-}
-
-async function bootSystem(): Promise<string> {
-  return 'HERCULES_ONLINE';
-}
-```
-
----
-
-> *Fin del manual. Buena suerte ahí fuera, Piloto. - Mando de Ingeniería STARK.*
