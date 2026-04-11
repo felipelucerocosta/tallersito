@@ -21,7 +21,7 @@ const missions = [
         "sarge": "¡CALCULADORA HUMANA! La batería está al 100% pero el radar consume 20%. Creá la variable 'energia' con el resultado de esa resta (100 - 20). ¡NO NOS DEJES A OSCURAS!",
         "starter": "// Calculando balance energético...\n",
         "hints": ["let energia = 100 - 20;", "Los números van sin comillas."],
-        "validate": "() => { const code = STATE.editor.getValue(); return code.includes('energia') && code.includes('100 - 20'); }"
+        "validate": "() => { const code = STATE.editor.getValue().replace(/\\s/g, ''); return code.includes('energia') && (code.includes('100-20') || code.includes('=80')); }"
     },
     {
         "id": 4, "type": "JS", "timer": null, "character": "stark",
@@ -77,7 +77,7 @@ const missions = [
         "sarge": "¡IDENTIFICACIÓN VISUAL! Cambiá el atributo 'src' del elemento con id 'ship-display' a 'assets/stark.png'. ¡QUIERO VER NUESTRO ACORAZADO!",
         "starter": "// Cargando gráficos de la nave...\n",
         "hints": ["document.getElementById('ship-display').src = 'assets/stark.png';"],
-        "validate": "() => document.getElementById('ship-display').src.includes('stark.png')"
+        "validate": "() => { const el = document.getElementById('ship-display'); return el && el.src.includes('stark.png'); }"
     },
     {
         "id": 11, "type": "JS", "timer": null, "character": "void",
@@ -85,7 +85,7 @@ const missions = [
         "sarge": "¡G-G-GRRR... EL ALMIRANTE S-S-STARK ES MÍO! S-S-SOY LA ENTIDAD DEL VACÍO. Tu realidad es código corrupto. Rápido, recluta, tenta salvarlo... ¡Cambiá el ID del elemento 'stark-bio' por 'almirante-perdido' antes de que el kernel explote!",
         "starter": "const el = document.getElementById('stark-bio');\n// ¡RENAME THE ID NOW!\n",
         "hints": ["el.id = 'almirante-perdido';", "Usá .id directamente."],
-        "validate": "() => !document.getElementById('stark-bio') && document.getElementById('almirante-perdido')"
+        "validate": "() => document.getElementById('almirante-perdido')"
     },
     {
         "id": 12, "type": "JS", "timer": null, "character": "dev",
@@ -117,7 +117,7 @@ const missions = [
         "sarge": "¡SARGENTO NOVA: POTENCIA! Usá un bucle 'while' para aumentar 'energia' de 1 en 1 mientras sea menor a 100 Y el 'calor' sea menor a 50. Por cada paso, sumale 2 al calor. ¡DAME POTENCIA SIN FUNDIR EL NÚCLEO!",
         "starter": "let energia = 80; let calor = 0;\n// Bucle de carga segura...\n",
         "hints": ["while (energia < 100 && calor < 50) { energia++; calor += 2; }"],
-        "validate": "() => { const code = STATE.editor.getValue(); return code.includes('while') && code.includes('calor += 2'); }"
+        "validate": "() => { const code = STATE.editor.getValue().replace(/\\s/g, ''); return code.includes('while') && (code.includes('calor+=2') || code.includes('calor=calor+2')); }"
     },
     {
         "id": 16, "type": "JS", "timer": null, "character": "dev",
@@ -141,7 +141,7 @@ const missions = [
         "sarge": "¡SARGENTO NOVA: EVENTOS! Agregá un 'addEventListener' de 'click' al botón 'btn-next-level'. Si lo clickean, verificá si 'STATE.energy < 20'. Si es así, mostrá el alert 'BATERÍA_BAJA'. ¡CONTROL TOTAL!",
         "starter": "// Conectando sensores...\n",
         "hints": ["btn.addEventListener('click', () => { if(STATE.energy < 20) alert('BATERÍA_BAJA'); });"],
-        "validate": "() => { const code = STATE.editor.getValue(); return code.includes('addEventListener') && code.includes('BATERÍA_BAJA'); }"
+        "validate": "() => { const code = STATE.editor.getValue(); return code.includes('addEventListener') && (code.includes('BATERÍA_BAJA') || code.includes('BATERIA_BAJA')); }"
     },
     {
         "id": 19, "type": "JS", "timer": null, "character": "dev",
@@ -165,7 +165,7 @@ const missions = [
         "sarge": "¡SARGENTO NOVA: CARTOGRAFÍA! Usá '.map()' sobre 'points' para transformar cada número en un objeto: { pos: n }. ¡NECESITO ESTRUCTURA!",
         "starter": "const points = [100, 250, 400];\n",
         "hints": ["const mapped = points.map(n => ({ pos: n }));"],
-        "validate": "() => { const code = STATE.editor.getValue(); return code.includes('.map') && code.includes('{ pos'); }"
+        "validate": "() => { const code = STATE.editor.getValue().replace(/\\s/g, ''); return code.includes('.map(') && code.includes('pos:'); }"
     },
     {
         "id": 22, "type": "JS", "timer": null, "character": "dev",

@@ -18,7 +18,7 @@ let piloto = 'TU_NOMBRE';
 
 ### 3. Telemetría Numérica
 ```javascript
-let energia = 100 - 20;
+let energia = 100 - 20; // También acepta: let energia = 80;
 ```
 
 ### 4. Reporte de Estado
@@ -61,7 +61,7 @@ document.getElementById('ship-display').src = 'assets/stark.png';
 
 ## 🕸️ EVENTO: LA EMBOSCADA (Entidad del Vacío)
 
-### 11. ¡ALERTA ROJA!
+### 11. ¡ALERTA ROJA: EMBOSCADA!
 ```javascript
 const el = document.getElementById('stark-bio');
 el.id = 'almirante-perdido';
@@ -71,7 +71,7 @@ el.id = 'almirante-perdido';
 
 ## 🛰️ FASE I: INGENIERÍA JS (Teniente Nova)
 
-### 12. Soporte Vital
+### 12. Sargento Nova: Nueva Guardia
 ```javascript
 if (oxigeno < 50) { activarAlerta(); }
 ```
@@ -111,7 +111,7 @@ function canJump(fuel, hull) {
 const checkDrone = (d) => d.status === 'READY';
 ```
 
-### 18. Protocolo de Pánico (Eventos)
+### 18. Protocolo de Pánico
 ```javascript
 const btn = document.getElementById('btn-next-level');
 btn.addEventListener('click', () => { 
@@ -119,7 +119,7 @@ btn.addEventListener('click', () => {
 });
 ```
 
-### 19. Tarjeta de Diagnóstico (DOM)
+### 19. Tarjeta de Diagnóstico
 ```javascript
 const d = document.createElement('div'); 
 d.className = 'hud-card'; 
